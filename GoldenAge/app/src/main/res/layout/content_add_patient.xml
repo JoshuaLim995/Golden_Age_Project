@@ -25,6 +25,7 @@
                 android:text="@string/Name" />
 
             <EditText
+                android:id="@+id/item_patient_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -35,6 +36,7 @@
                 android:text="@string/IC" />
 
             <EditText
+                android:id="@+id/item_patient_ic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -45,6 +47,7 @@
                 android:text="Relative Contact" />
 
             <EditText
+                android:id="@+id/item_patient_relative_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -52,9 +55,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Name" />
+                android:text="Relative Name" />
 
             <EditText
+                android:id="@+id/item_patient_relative_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -65,6 +69,7 @@
                 android:text="@string/Birthday" />
 
             <EditText
+                android:id="@+id/item_patient_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -75,26 +80,31 @@
                 android:text="Meals" />
 
             <CheckBox
+                android:id="@+id/cbxPork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pork" />
 
             <CheckBox
+                android:id="@+id/cbxFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fish" />
 
             <CheckBox
+                android:id="@+id/cbxVegetarian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vegetarian" />
 
             <TextView
+                android:id="@+id/cbxOthers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Others" />
 
             <EditText
+                android:id="@+id/item_other_meal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -116,6 +126,7 @@
                 android:text="Photo" />
 
             <Button
+                android:id="@+id/btnAddPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Photo" />
