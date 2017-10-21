@@ -20,7 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_client" />
+    <include layout="@layout/content_main" />
 
 <!--
     <com.github.clans.fab.FloatingActionButton

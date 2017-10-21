@@ -40,27 +40,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Relative Contact-->
+            <!-- Sex -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Relative Contact" />
+                android:text="Sex" />
 
-            <EditText
-                android:id="@+id/item_patient_relative_contact"
+            <RadioGroup
+                android:id="@+id/sex"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Relative Name-->
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Relative Name" />
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/sex_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/sex_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
 
-            <EditText
-                android:id="@+id/item_patient_relative_name"
+            <!-- Patient Blood Type -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood type"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_blood_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                    <!-- Blood types: O+, O-, A+, A-, B+, B-, AB+, AB- -->
+
+            </LinearLayout>
+
 
             <!-- Birthday -->
             <TextView
@@ -73,6 +98,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <!-- Patient Address-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Address" />
+
+            <EditText
+                android:id="@+id/item_patient_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Patient Contact-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Contact" />
+
+            <EditText
+                android:id="@+id/item_patient_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <!-- Meals -->
             <TextView
                 android:layout_width="wrap_content"
@@ -80,31 +127,46 @@
                 android:text="Meals" />
 
             <CheckBox
-                android:id="@+id/cbxPork"
+                android:id="@+id/cbPork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pork" />
+                android:text="Pork"
+                />
 
             <CheckBox
-                android:id="@+id/cbxFish"
+                android:id="@+id/cbFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fish" />
+                android:text="Fish"
+                />
 
             <CheckBox
-                android:id="@+id/cbxVegetarian"
+                android:id="@+id/cbVegetarian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vegetarian" />
+                android:text="Vegetarian"
+                />
 
+
+            <!-- Patient Allergic -->
             <TextView
-                android:id="@+id/cbxOthers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Others" />
+                android:text="Allergic" />
 
             <EditText
-                android:id="@+id/item_other_meal"
+                android:id="@+id/item_patient_allergic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Patient Sickness -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sickness" />
+
+            <EditText
+                android:id="@+id/item_patient_sickness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -115,9 +177,47 @@
                 android:text="Register Date" />
 
             <EditText
-                android:id="@+id/item_date"
+                android:id="@+id/item_register_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:editable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="showDatePickerDialog"/>
+
+            <!-- Relative Name-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Relative Name" />
+
+            <EditText
+                android:id="@+id/item_patient_relative_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <!-- Relative IC-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Relative IC" />
+
+            <EditText
+                android:id="@+id/item_patient_relative_ic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Margin/Deposit -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Margin/Deposit" />
+
+            <EditText
+                android:id="@+id/item_patient_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
 
             <!-- Photo -->
             <TextView

@@ -23,7 +23,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day){
-        EditText etDate = (EditText)getActivity().findViewById(R.id.item_date);
+        EditText etDate = (EditText)getActivity().findViewById(R.id.item_register_date);
         Calendar c = Calendar.getInstance();
         c.set(year, month, day);
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");

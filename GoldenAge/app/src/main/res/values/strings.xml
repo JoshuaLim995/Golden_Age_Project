@@ -8,4 +8,17 @@
     <string name="IC">IC</string>
     <string name="Birthday">Birthday</string>
 
+    <string name="Blood_Type">Blood Type</string>
+    <!-- Blood types: O+, O-, A+, A-, B+, B-, AB+, AB- -->
+    <string-array name="blood_types">
+        <item>O+</item>
+        <item>O-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
 </resources>

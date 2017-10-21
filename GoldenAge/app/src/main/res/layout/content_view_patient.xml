@@ -8,29 +8,123 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.joshua_lsj.goldenage.ViewPatientActivity">
 
-    <!-- Nurse able to input medical info of the patient during checkup -->
+    <!-- Display Patient Photo -->
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <!-- Display Patient Name -->
     <TextView
+        android:id="@+id/view_patient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name" />
 
+    <!-- Display Patient Contact-->
+    <TextView
+        android:id="@+id/view_patient_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Contact" />
+
+    <!-- Display Patient Emergency Contact-->
+    <TextView
+        android:id="@+id/view_patient_emergency_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emergency Contact" />
+
+    <!-- Display Patient IC -->
+    <TextView
+        android:id="@+id/view_patient_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IC" />
+
+    <!-- Display Patient Sex -->
+    <TextView
+        android:id="@+id/view_patient_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sex" />
+
     <!-- Display Patient Age -->
     <TextView
+        android:id="@+id/view_patient_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Age" />
 
+    <!-- Display Patient Birthday -->
+    <TextView
+        android:id="@+id/view_patient_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Birthday" />
+
+    <!-- Display Patient Blood Type -->
+    <TextView
+        android:id="@+id/view_patient_blood_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blood type"
+        />
+
+    <!-- Display Patient Sickness -->
+    <TextView
+        android:id="@+id/view_patient_sickness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sickness" />
+
     <!-- Display Patient Meals -->
     <TextView
+        android:id="@+id/view_patient_meals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Meals" />
 
+    <!-- Display Patient Allergic -->
+    <TextView
+        android:id="@+id/view_patient_allergic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allergic" />
+
+
+    <!-- Display Register date -->
+    <TextView
+        android:id="@+id/view_patient_reg_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register Date" />
+
+    <!-- Display Register type -->
+    <TextView
+        android:id="@+id/view_patient_reg_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register Type" />
+
+
+    <!-- Margin/Deposit -->
+    <TextView
+        android:id="@+id/view_patient_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Margin/Deposit" />
+
+
+    <!-- Relative Name-->
+    <TextView
+        android:id="@+id/view_patient_rela_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Relative Name" />
+
+
+
+    <!-- Nurse able to input medical info of the patient during checkup -->
     <!-- Display Patient Sugar Level -->
     <TextView
         android:layout_width="wrap_content"

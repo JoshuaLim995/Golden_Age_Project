@@ -1,0 +1,19 @@
+User registeration type
+A - admin
+N - nurse
+D - driver
+C - client
+P - patient
+
+
+
+Admin can access all type of data
+
+Nurse can view patient information and record
+
+Driver only can know the schedule
+
+Client can only view their own patient details
+
+
+photo for both client and patient
