@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.TestLooperManager;
 import android.support.annotation.InterpolatorRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by limsh on 10/21/2017.
@@ -15,7 +18,8 @@ import android.widget.TextView;
 
 public class ViewPatientActivity extends AppCompatActivity {
 
-    private static final String EXTRA_ID = "Patient.ID";
+    private static final String PATIENT = "Patient";
+    private static final String ID = "Patient.ID";
     private static DatabaseContract.PatientContract patientContract;
 
     private Patient patient;
@@ -25,15 +29,26 @@ public class ViewPatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_patient);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Initialize();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), PatientMedicalActivity.class);
+                intent.putExtra(PATIENT, patient);
+                startActivity(intent);
+            }
+        });
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void Initialize() {
 
         Intent intent = getIntent();
-        long id = intent.getLongExtra(EXTRA_ID, 0);
+        long id = intent.getLongExtra(ID, 0);
 
         Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
 

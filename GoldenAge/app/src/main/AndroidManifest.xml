@@ -26,7 +26,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".ViewPatientActivity"
-            android:label="Add Patient"
+            android:label="View Patient"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -38,6 +38,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".PatientMedicalActivity"
+            android:label="Patient Medical Checkup"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ViewPatientActivity" />
         </activity>
     </application>
 

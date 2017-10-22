@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.joshua_lsj.goldenage.ViewPatientActivity">
+    tools:context="com.joshua_lsj.goldenage.ViewPatientActivity"
+    android:padding="20dp">
 
     <!-- Display Patient Photo -->
     <ImageView

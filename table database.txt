@@ -1,0 +1,12 @@
+patient table
+nurse table
+client table
+driver table
+
+
+
+
+
+
+patient table - the register_type can combine whith the _ID to make a unique Patient_ID
+same goes for the other table

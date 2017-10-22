@@ -18,6 +18,7 @@ public class ListViewPatientFragment extends Fragment {
 
     View myView;
     ListView listView;
+    private static final String ID = "Patient.ID";
 
     @Nullable
     @Override
@@ -33,7 +34,7 @@ public class ListViewPatientFragment extends Fragment {
                 Cursor cursor = (Cursor)adapterView.getItemAtPosition(position);
 
                 Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
-                intent.putExtra(MainActivity.EXTRA_ID, cursor.getLong(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)));
+                intent.putExtra(ID, cursor.getLong(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)));
                 ListViewPatientFragment.this.startActivity(intent);
             }
         });

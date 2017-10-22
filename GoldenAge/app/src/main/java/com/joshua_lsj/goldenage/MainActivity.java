@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
-    private FloatingActionMenu fam;
-    public static final String EXTRA_ID = "Patient.ID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,49 +56,27 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame, new ListViewPatientFragment())
                 .commit();
         getSupportActionBar().setTitle("Patients");
-//        listView = (ListView)findViewById(R.id.list_view_patient);
- /*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Cursor cursor = (Cursor)adapterView.getItemAtPosition(position);
 
-                Intent intent = new Intent(MainActivity.this, ViewPatientActivity.class);
-                intent.putExtra(EXTRA_ID, cursor.getLong(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)));
-                MainActivity.this.startActivity(intent);
-            }
-        });
-*/
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddPatientActivity.class);
-                startActivity(intent);
-            }
-        });
-*/
-        fam = (FloatingActionMenu) findViewById(R.id.fam);
-        FloatingActionButton newPatient = (FloatingActionButton) findViewById(R.id.menu_add_patient);
-        newPatient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddPatientActivity.class);
-                startActivity(intent);
-                fam.close(true);
-            }
-        });
 
-        FloatingActionButton newNurse = (FloatingActionButton) findViewById(R.id.menu_add_nurse);
-        newNurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddNurseActivity.class);
+    }
+
+    public void onFloatingActionButtonClicked(View view){
+        Intent intent;
+        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
+        switch (view.getId()){
+            case R.id.menu_add_patient:
+                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.menu_add_nurse:
+                intent = new Intent(getApplicationContext(), AddNurseActivity.class);
+                startActivity(intent);
+                break;
+
+            default:
                 fam.close(true);
-            }
-        });
+        }
+        fam.close(true);
     }
 
     @Override
@@ -162,4 +139,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
