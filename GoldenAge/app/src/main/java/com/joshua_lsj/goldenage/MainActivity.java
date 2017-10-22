@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     private ListView listView;
     private FloatingActionMenu fam;
-    private static final String EXTRA_ID = "Patient.ID";
+    public static final String EXTRA_ID = "Patient.ID";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +50,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.setCheckedItem(R.id.nav_patient_listView);
 
 
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, new ListViewPatientFragment())
+                .commit();
+        getSupportActionBar().setTitle("Patients");
 //        listView = (ListView)findViewById(R.id.list_view_patient);
  /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,36 +124,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    // List View for patient list
-/*
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        Queries dbq = new Queries(new DatabaseHelper(getApplicationContext()));
-
-        String[] columns = {
-                DatabaseContract.PatientContract._ID,
-                DatabaseContract.PatientContract.NAME
-        };
-        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.PatientContract._ID + " ASC");
-
-        PatientCursorAdapter adapter = new PatientCursorAdapter(this, cursor, 0);
-
-        listView.setAdapter(adapter);
-    }
-*/
-
-// List View for Nurse list
-
-
-
-
-
-
-
-
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -167,14 +142,14 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         if (id == R.id.nav_patient_listView) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame
-                            , new ListViewPatientFragment())
+                    .replace(R.id.content_frame, new ListViewPatientFragment())
                     .commit();
+            getSupportActionBar().setTitle("Patients");
         } else if (id == R.id.nav_nurse_listView) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame
-                            , new ListViewNurseFragment())
+                    .replace(R.id.content_frame, new ListViewNurseFragment())
                     .commit();
+            getSupportActionBar().setTitle("Nurses");
         } else if (id == R.id.nav_slideshow) {
             Toast.makeText(getApplicationContext(), "nav_slideshow", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_manage) {
