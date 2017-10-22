@@ -28,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
         listView = (ListView)findViewById(R.id.list_view_patient);
+ /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
-
+*/
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // List View for patient list
+/*
     @Override
     public void onResume(){
         super.onResume();
@@ -104,12 +110,30 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseContract.PatientContract._ID,
                 DatabaseContract.PatientContract.NAME
         };
-        Cursor cursor = dbq.query(columns, null, null, null, null, DatabaseContract.PatientContract._ID + " ASC");
+        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.PatientContract._ID + " ASC");
 
         PatientCursorAdapter adapter = new PatientCursorAdapter(this, cursor, 0);
 
         listView.setAdapter(adapter);
     }
+*/
 
+// List View for Nurse list
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Queries dbq = new Queries(new DatabaseHelper(getApplicationContext()));
+
+        String[] columns = {
+                DatabaseContract.NurseContract._ID,
+                DatabaseContract.NurseContract.NAME
+        };
+        Cursor cursor = dbq.query(DatabaseContract.NurseContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.NurseContract._ID + " ASC");
+
+        NurseCursorAdapter adapter = new NurseCursorAdapter(this, cursor, 0);
+
+        listView.setAdapter(adapter);
+    }
 }

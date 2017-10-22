@@ -17,11 +17,11 @@ public class Queries {
         this.helper = helper;
     }
 
-    public Cursor query(String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy){
+    public Cursor query(String tableName, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy){
         SQLiteDatabase db = helper.getReadableDatabase();
 
         return db.query(
-                DatabaseContract.PatientContract.TABLE_NAME,
+                tableName,
                 columns,
                 selection,
                 selectionArgs,

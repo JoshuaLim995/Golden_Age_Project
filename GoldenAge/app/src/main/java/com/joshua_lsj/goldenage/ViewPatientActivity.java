@@ -57,7 +57,7 @@ public class ViewPatientActivity extends AppCompatActivity {
         String selection = DatabaseContract.PatientContract._ID + " = ?";
         String[] selectionArgs = {Long.toString(id)};
 
-        Cursor cursor = queries.query(columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = queries.query(patientContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
 
 
         if (cursor.moveToNext()) {
