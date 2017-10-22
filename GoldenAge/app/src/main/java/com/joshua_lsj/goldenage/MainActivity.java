@@ -1,5 +1,7 @@
 package com.joshua_lsj.goldenage;
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,11 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,7 +51,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        listView = (ListView)findViewById(R.id.list_view_patient);
+
+//        listView = (ListView)findViewById(R.id.list_view_patient);
  /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -134,22 +141,13 @@ public class MainActivity extends AppCompatActivity
 
 // List View for Nurse list
 
-    @Override
-    public void onResume(){
-        super.onResume();
 
-        Queries dbq = new Queries(new DatabaseHelper(getApplicationContext()));
 
-        String[] columns = {
-                DatabaseContract.NurseContract._ID,
-                DatabaseContract.NurseContract.NAME
-        };
-        Cursor cursor = dbq.query(DatabaseContract.NurseContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.NurseContract._ID + " ASC");
 
-        NurseCursorAdapter adapter = new NurseCursorAdapter(this, cursor, 0);
 
-        listView.setAdapter(adapter);
-    }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -166,19 +164,23 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            Toast.makeText(getApplicationContext(), "nav_camera", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(getApplicationContext(), "nav_gallery", Toast.LENGTH_SHORT).show();
+        FragmentManager fragmentManager = getFragmentManager();
+        if (id == R.id.nav_patient_listView) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame
+                            , new ListViewPatientFragment())
+                    .commit();
+        } else if (id == R.id.nav_nurse_listView) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame
+                            , new ListViewNurseFragment())
+                    .commit();
         } else if (id == R.id.nav_slideshow) {
             Toast.makeText(getApplicationContext(), "nav_slideshow", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_manage) {
             Toast.makeText(getApplicationContext(), "nav_manage", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_share) {
-            Toast.makeText(getApplicationContext(), "nav_share", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_send) {
-            Toast.makeText(getApplicationContext(), "nav_send", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_logout) {
+            Toast.makeText(getApplicationContext(), "nav_logout", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
