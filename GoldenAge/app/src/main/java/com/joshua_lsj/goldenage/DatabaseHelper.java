@@ -12,9 +12,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     private static DatabaseContract.PatientContract patientContract;
+    private static DatabaseContract.NurseContract nurseContract;
 
 
-    private static final String SQL_CREATE_ENTRIES =
+    private static final String SQL_CREATE_PATIENT_ENTRIES =
             "CREATE TABLE " + patientContract.TABLE_NAME + " (" +
                     patientContract._ID + " INTEGER PRIMARY KEY," +
                     patientContract.NAME + " TEXT," +
@@ -33,14 +34,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 //                    patientContract.PHOTO + " BLOB" +
 //                    patientContract.CLIENT_ID + " INT" +
 
-
+    private static final String SQL_CREATE_NURSE_ENTRIES =
+            "CREATE TABLE " + nurseContract.TABLE_NAME + " (" +
+                    nurseContract._ID + " INTEGER PRIMARY KEY," +
+                    nurseContract.NAME + " TEXT," +
+                    nurseContract.IC + " TEXT," +
+                    nurseContract.BIRTH_DATE + " TEXT," +
+                    nurseContract.SEX + " TEXT," +
+                    nurseContract.ADDRESS + " TEXT, " +
+                    nurseContract.CONTACT +" TEXT, " +
+                    nurseContract.REG_TYPE + " TEXT, " +
+                    nurseContract.REG_DATE + " TEXT)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_PATIENT_ENTRIES);
+        db.execSQL(SQL_CREATE_NURSE_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}

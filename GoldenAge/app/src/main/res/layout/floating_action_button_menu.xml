@@ -1,7 +1,7 @@
 <com.github.clans.fab.FloatingActionMenu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/menu"
+    android:id="@+id/fam"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -48,36 +48,35 @@
     fab:menu_shadowYOffset="3dp"
     fab:menu_showShadow="true">
 
+    <!-- Icon source -->
+    <!-- android:src="@drawable/attachment" -->
+
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_item"
+        android:id="@+id/menu_add_patient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/attachment"
-        fab:fab_label="Attachment"
+        fab:fab_label="Add Patient"
         fab:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_item1"
+        android:id="@+id/menu_add_nurse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/audio"
-        fab:fab_label="Audio"
+        fab:fab_label="Add Nurse"
         fab:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_item2"
+        android:id="@+id/menu_add_driver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/camera"
-        fab:fab_label="Camera"
+        fab:fab_label="Add Driver"
         fab:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_item3"
+        android:id="@+id/menu_add_client"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/location"
-        fab:fab_label="Location"
+        fab:fab_label="Add Client"
         fab:fab_size="mini" />
 
 </com.github.clans.fab.FloatingActionMenu>

@@ -9,15 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.design.widget.FloatingActionButton;
+
 import android.widget.AdapterView;
 import android.widget.ListView;
-//import com.github.clans.fab.FloatingActionButton;
-
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+//import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
+    private FloatingActionMenu fam;
     private static final String EXTRA_ID = "Patient.ID";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +49,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+*/
+        fam = (FloatingActionMenu) findViewById(R.id.fam);
+        FloatingActionButton newPatient = (FloatingActionButton) findViewById(R.id.menu_add_patient);
+        newPatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddPatientActivity.class);
+                startActivity(intent);
+                fam.close(true);
+            }
+        });
 
+        FloatingActionButton newNurse = (FloatingActionButton) findViewById(R.id.menu_add_nurse);
+        newNurse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddNurseActivity.class);
+                startActivity(intent);
+                fam.close(true);
+            }
+        });
     }
 
     @Override
@@ -88,4 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
     }
+
+
 }

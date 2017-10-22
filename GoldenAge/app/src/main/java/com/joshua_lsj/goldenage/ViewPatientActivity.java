@@ -78,23 +78,7 @@ public class ViewPatientActivity extends AppCompatActivity {
                     cursor.getDouble(cursor.getColumnIndex(patientContract.MARGIN))
             );
 
-/*
-            patient = new Patient();
-            patient.setName(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setIc(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setSex(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setBlood_type(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setBirthday(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setAddress(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setContact(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setMeals(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setAllergic(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setSickness(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-            patient.setRegister_date(cursor.getString(cursor.getColumnIndex(patientContract.NAME)));
-      //      patient.setMargin(cursor.getDouble(cursor.getColumnIndex(patientContract.MARGIN)));
-
-*/
-
+            TextView tvId = (TextView) findViewById(R.id.view_patient_id);
             TextView tvName = (TextView) findViewById(R.id.view_patient_name);
             TextView tvContact = (TextView) findViewById(R.id.view_patient_contact);
             TextView tvEmergencyContact = (TextView) findViewById(R.id.view_patient_emergency_contact);
@@ -110,6 +94,7 @@ public class ViewPatientActivity extends AppCompatActivity {
             TextView tvRegType = (TextView) findViewById(R.id.view_patient_reg_type);
             TextView tvMargin = (TextView) findViewById(R.id.view_patient_margin);
 
+            tvId.setText(patient.getId().toString());
             tvName.setText(patient.getName());
             tvContact.setText(patient.getContact());
 //            tvEmergencyContact.setText(patient.());

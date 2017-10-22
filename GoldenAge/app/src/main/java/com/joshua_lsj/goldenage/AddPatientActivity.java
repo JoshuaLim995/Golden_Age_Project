@@ -72,9 +72,7 @@ public class AddPatientActivity extends AppCompatActivity {
         etRelativeIC = (EditText) findViewById(R.id.item_patient_relative_ic);
         etMargin = (EditText) findViewById(R.id.item_patient_margin);
 
-        rdSex = (RadioGroup) findViewById(R.id.sex);
-        rdSex_male = (RadioButton) findViewById(R.id.sex_male);
-        rdSex_female = (RadioButton) findViewById(R.id.sex_female);
+
 
         cbVege = (CheckBox) findViewById(R.id.cbVegetarian);
         cbFish = (CheckBox) findViewById(R.id.cbFish);

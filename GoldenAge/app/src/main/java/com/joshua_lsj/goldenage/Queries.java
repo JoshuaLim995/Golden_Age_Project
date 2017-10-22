@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class Queries {
     DatabaseHelper helper;
     private static DatabaseContract.PatientContract patientContract;
+    private static DatabaseContract.NurseContract nurseContract;
 
     public Queries(DatabaseHelper helper){
         this.helper = helper;
@@ -51,9 +52,30 @@ public class Queries {
 //TODO: LATER NEED TO ADD MORE THINGS HERE
 
 
-
         Long id = db.insert(patientContract.TABLE_NAME, null, values);
         patient.setId(id);
+
+        return id;
+    }
+
+    //INSERT DATA INTO PATIENT
+    public Long insert(Nurse nurse){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(nurseContract.NAME, nurse.getName());
+        values.put(nurseContract.IC, nurse.getIc());
+        values.put(nurseContract.BIRTH_DATE, nurse.getBirthday());
+        values.put(nurseContract.SEX, nurse.getSex());
+        values.put(nurseContract.ADDRESS, nurse.getAddress());
+        values.put(nurseContract.CONTACT, nurse.getContact());
+        values.put(nurseContract.REG_TYPE, nurse.getRegister_type());
+        values.put(nurseContract.REG_DATE, nurse.getRegister_date());
+//TODO: LATER NEED TO ADD MORE THINGS HERE
+
+
+        Long id = db.insert(nurseContract.TABLE_NAME, null, values);
+        nurse.setId(id);
 
         return id;
     }
