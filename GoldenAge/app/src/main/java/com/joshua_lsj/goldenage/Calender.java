@@ -16,7 +16,7 @@ public class Calender {
         TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
         Calendar calendar = Calendar.getInstance(timeZone);
         SimpleDateFormat simpleDateFormat =
-                new SimpleDateFormat("EE MMM dd yyyy");
+                new SimpleDateFormat("EE, MMM dd yyyy");
         simpleDateFormat.setTimeZone(timeZone);
         String today = simpleDateFormat.format(calendar.getTime());
 

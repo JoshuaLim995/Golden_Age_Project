@@ -21,7 +21,9 @@ public class Nurse implements Serializable {
     //Check it later
     private String password;
 
-    public Nurse(){}
+    public Nurse(){
+        this.register_type = "N";
+    }
     public Nurse(String name, String ic, String birthday, String sex,
                  String address, String contact, String register_date){
         this.id = 0;

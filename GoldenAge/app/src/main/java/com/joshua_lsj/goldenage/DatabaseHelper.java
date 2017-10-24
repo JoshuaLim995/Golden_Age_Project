@@ -13,6 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static DatabaseContract.PatientContract patientContract;
     private static DatabaseContract.NurseContract nurseContract;
+    private static DatabaseContract.DailyRecordContract dailyRecordContract;
 
 
     private static final String SQL_CREATE_PATIENT_ENTRIES =
@@ -46,6 +47,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     nurseContract.REG_TYPE + " TEXT, " +
                     nurseContract.REG_DATE + " TEXT)";
 
+
+    private static final String SQL_CREATE_DAILY_RECORD_ENTRIES =
+            "CREATE TABLE " + dailyRecordContract.TABLE_NAME + " (" +
+                    dailyRecordContract._ID + " INTEGER PRIMARY KEY," +
+                    dailyRecordContract.PATIENT_ID + " TEXT," +
+                    dailyRecordContract.PATIENT_NAME + " TEXT," +
+                    dailyRecordContract.DATE + " TEXT," +
+                    dailyRecordContract.BLOOD_PRESSURE + " TEXT," +
+                    dailyRecordContract.SUGAR_LEVEL + " TEXT, " +
+                    dailyRecordContract.HEART_RATE +" TEXT, " +
+                    dailyRecordContract.TEMPERATURE + " TEXT, " +
+                    dailyRecordContract.NURSE_ID + " TEXT, " +
+                    dailyRecordContract.NURSE_NAME + " TEXT)";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -53,6 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_PATIENT_ENTRIES);
         db.execSQL(SQL_CREATE_NURSE_ENTRIES);
+        db.execSQL(SQL_CREATE_DAILY_RECORD_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}

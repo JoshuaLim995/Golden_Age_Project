@@ -42,6 +42,8 @@ public class ViewPatientActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

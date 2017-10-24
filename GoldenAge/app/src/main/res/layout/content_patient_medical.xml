@@ -65,6 +65,18 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"/>
 
+    <!-- Heart Rate -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heart Rate"/>
+
+    <EditText
+        android:id="@+id/item_heartRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"/>
+
     <!-- Temperature -->
     <TextView
         android:layout_width="wrap_content"

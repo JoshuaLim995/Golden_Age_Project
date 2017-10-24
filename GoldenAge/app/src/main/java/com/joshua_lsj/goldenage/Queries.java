@@ -12,6 +12,7 @@ public class Queries {
     DatabaseHelper helper;
     private static DatabaseContract.PatientContract patientContract;
     private static DatabaseContract.NurseContract nurseContract;
+    private static DatabaseContract.DailyRecordContract dailyRecordContract;
 
     public Queries(DatabaseHelper helper){
         this.helper = helper;
@@ -58,7 +59,7 @@ public class Queries {
         return id;
     }
 
-    //INSERT DATA INTO PATIENT
+    //INSERT DATA INTO NURSE
     public Long insert(Nurse nurse){
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -76,6 +77,29 @@ public class Queries {
 
         Long id = db.insert(nurseContract.TABLE_NAME, null, values);
         nurse.setId(id);
+
+        return id;
+    }
+
+    //INSERT DATA INTO DAILY RECORD
+    public Long insert(DailyRecord dailyRecord){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(dailyRecordContract.PATIENT_ID, dailyRecord.getPatient_id());
+        values.put(dailyRecordContract.PATIENT_NAME, dailyRecord.getPatient_name());
+        values.put(dailyRecordContract.DATE, dailyRecord.getDate());
+        values.put(dailyRecordContract.BLOOD_PRESSURE, dailyRecord.getBlood_pressure());
+        values.put(dailyRecordContract.SUGAR_LEVEL, dailyRecord.getSugar_level());
+        values.put(dailyRecordContract.HEART_RATE, dailyRecord.getHeart_rate());
+        values.put(dailyRecordContract.TEMPERATURE, dailyRecord.getTemperature());
+        values.put(dailyRecordContract.NURSE_ID, dailyRecord.getNurse_id());
+        values.put(dailyRecordContract.NURSE_NAME, dailyRecord.getNurse_name());
+//TODO: LATER NEED TO ADD MORE THINGS HERE
+
+
+        Long id = db.insert(dailyRecordContract.TABLE_NAME, null, values);
+        dailyRecord.setId(id);
 
         return id;
     }

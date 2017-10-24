@@ -1,6 +1,7 @@
 package com.joshua_lsj.goldenage;
 
 import android.provider.BaseColumns;
+import android.util.StringBuilderPrinter;
 
 /**
  * Created by limsh on 10/21/2017.
@@ -36,5 +37,18 @@ public class DatabaseContract {
         public static final String CONTACT = "contact";
         public static final String REG_TYPE = "reg_type";
         public static final String REG_DATE = "reg_date";
+    }
+
+    public class DailyRecordContract implements BaseColumns {
+        public static final String TABLE_NAME = "DailyRecord";
+        public static final String PATIENT_ID = "patient_id";
+        public static final String PATIENT_NAME = "patient_name";
+        public static final String DATE = "date";
+        public static final String BLOOD_PRESSURE = "blood_pressure";
+        public static final String SUGAR_LEVEL = "sugar_level";
+        public static final String HEART_RATE = "heart_rate";
+        public static final String TEMPERATURE = "temperature";
+        public static final String NURSE_ID = "nurse_id";
+        public static final String NURSE_NAME = "nurse_name";
     }
 }
