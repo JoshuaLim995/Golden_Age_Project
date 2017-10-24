@@ -15,9 +15,9 @@
 
             android:title="Slideshow" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_client_listView"
 
-            android:title="Tools" />
+            android:title="Clients" />
 
         <item
             android:id="@+id/nav_logout"

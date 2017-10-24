@@ -25,7 +25,7 @@ public class ListViewPatientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.list_view_fragment, container, false);
 
-        listView = (ListView) myView.findViewById(R.id.list_view);
+        listView = myView.findViewById(R.id.list_view);
         DisplayPatientList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

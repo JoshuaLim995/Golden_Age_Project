@@ -1,6 +1,7 @@
 package com.joshua_lsj.goldenage;
 
 import android.content.Context;
+import android.content.pm.ProviderInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -14,6 +15,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static DatabaseContract.PatientContract patientContract;
     private static DatabaseContract.NurseContract nurseContract;
     private static DatabaseContract.DailyRecordContract dailyRecordContract;
+    private static DatabaseContract.ClientContract clientContract;
+    private static DatabaseContract.DriverContract driverContract;
 
 
     private static final String SQL_CREATE_PATIENT_ENTRIES =
@@ -48,6 +51,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     nurseContract.REG_DATE + " TEXT)";
 
 
+    private static final String SQL_CREATE_DRIVER_ENTRIES =
+            "CREATE TABLE " + driverContract.TABLE_NAME + " (" +
+                    driverContract._ID + " INTEGER PRIMARY KEY," +
+                    driverContract.NAME + " TEXT," +
+                    driverContract.IC + " TEXT," +
+                    driverContract.BIRTH_DATE + " TEXT," +
+                    driverContract.SEX + " TEXT," +
+                    driverContract.ADDRESS + " TEXT, " +
+                    driverContract.CONTACT +" TEXT, " +
+                    driverContract.REG_TYPE + " TEXT, " +
+                    driverContract.REG_DATE + " TEXT)";
+
+
+    private static final String SQL_CREATE_CLIENT_ENTRIES =
+            "CREATE TABLE " + clientContract.TABLE_NAME + " (" +
+                    clientContract._ID + " INTEGER PRIMARY KEY," +
+                    clientContract.NAME + " TEXT," +
+                    clientContract.IC + " TEXT," +
+                    clientContract.BIRTH_DATE + " TEXT," +
+                    clientContract.SEX + " TEXT," +
+                    clientContract.ADDRESS + " TEXT, " +
+                    clientContract.CONTACT +" TEXT, " +
+                    clientContract.REG_TYPE + " TEXT, " +
+                    clientContract.REG_DATE + " TEXT, " +
+                    clientContract.RELATIONSHIP + " TEXT, " +
+                    clientContract.PASSWORD + " TEXT)";
+
     private static final String SQL_CREATE_DAILY_RECORD_ENTRIES =
             "CREATE TABLE " + dailyRecordContract.TABLE_NAME + " (" +
                     dailyRecordContract._ID + " INTEGER PRIMARY KEY," +
@@ -68,7 +98,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_PATIENT_ENTRIES);
         db.execSQL(SQL_CREATE_NURSE_ENTRIES);
+        db.execSQL(SQL_CREATE_CLIENT_ENTRIES);
         db.execSQL(SQL_CREATE_DAILY_RECORD_ENTRIES);
+
     }
 
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}

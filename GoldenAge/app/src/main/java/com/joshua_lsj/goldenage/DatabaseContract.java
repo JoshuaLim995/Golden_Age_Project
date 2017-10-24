@@ -27,8 +27,34 @@ public class DatabaseContract {
         public static final String CLIENT_ID = "client_id";
     }
 
+    public class ClientContract implements BaseColumns {
+        public static final String TABLE_NAME = "client";
+        public static final String NAME = "name";
+        public static final String IC = "ic";
+        public static final String BIRTH_DATE = "birth_date";
+        public static final String SEX = "sex";
+        public static final String ADDRESS = "address";
+        public static final String CONTACT = "contact";
+        public static final String REG_TYPE = "reg_type";
+        public static final String REG_DATE = "reg_date";
+        public static final String RELATIONSHIP = "relationship";
+        public static final String PASSWORD = "password";
+    }
+
     public class NurseContract implements BaseColumns {
         public static final String TABLE_NAME = "nurse";
+        public static final String NAME = "name";
+        public static final String IC = "ic";
+        public static final String BIRTH_DATE = "birth_date";
+        public static final String SEX = "sex";
+        public static final String ADDRESS = "address";
+        public static final String CONTACT = "contact";
+        public static final String REG_TYPE = "reg_type";
+        public static final String REG_DATE = "reg_date";
+    }
+
+    public class DriverContract implements BaseColumns {
+        public static final String TABLE_NAME = "driver";
         public static final String NAME = "name";
         public static final String IC = "ic";
         public static final String BIRTH_DATE = "birth_date";
