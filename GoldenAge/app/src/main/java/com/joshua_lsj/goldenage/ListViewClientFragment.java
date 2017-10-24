@@ -12,7 +12,7 @@ import android.widget.ListView;
 /**
  * Created by user on 12/31/15.
  */
-public class ListViewNurseFragment extends Fragment {
+public class ListViewClientFragment extends Fragment {
 
     View myView;
     ListView listView;
@@ -22,21 +22,21 @@ public class ListViewNurseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.list_view_fragment, container, false);
         listView = myView.findViewById(R.id.list_view);
-        DisplayNurseList();
+        DisplayClientList();
         return myView;
     }
 
-    public void DisplayNurseList() {
+    public void DisplayClientList() {
 
         Queries dbq = new Queries(new DatabaseHelper(getActivity()));
 
         String[] columns = {
-                DatabaseContract.NurseContract._ID,
-                DatabaseContract.NurseContract.NAME
+                DatabaseContract.ClientContract._ID,
+                DatabaseContract.ClientContract.NAME
         };
-        Cursor cursor = dbq.query(DatabaseContract.NurseContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.NurseContract._ID + " ASC");
+        Cursor cursor = dbq.query(DatabaseContract.ClientContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.ClientContract._ID + " ASC");
 
-        NurseCursorAdapter adapter = new NurseCursorAdapter(getActivity(), cursor, 0);
+        ClientCursorAdapter adapter = new ClientCursorAdapter(getActivity(), cursor, 0);
 
         listView.setAdapter(adapter);
     }

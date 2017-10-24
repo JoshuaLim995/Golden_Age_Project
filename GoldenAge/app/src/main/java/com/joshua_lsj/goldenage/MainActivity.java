@@ -72,7 +72,10 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(getApplicationContext(), AddNurseActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.menu_add_client:
+                intent = new Intent(getApplicationContext(), AddClientActivity.class);
+                startActivity(intent);
+                break;
             default:
                 fam.close(true);
         }
@@ -129,8 +132,11 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("Nurses");
         } else if (id == R.id.nav_slideshow) {
             Toast.makeText(getApplicationContext(), "nav_slideshow", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_manage) {
-            Toast.makeText(getApplicationContext(), "nav_manage", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_client_listView) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new ListViewClientFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Clients");
         } else if (id == R.id.nav_logout) {
             Toast.makeText(getApplicationContext(), "nav_logout", Toast.LENGTH_SHORT).show();
         }

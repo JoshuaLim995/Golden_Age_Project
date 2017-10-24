@@ -76,17 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Address-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address" />
-
-            <EditText
-                android:id="@+id/item_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
             <!-- Contact-->
             <TextView
                 android:layout_width="wrap_content"
@@ -95,6 +84,17 @@
 
             <EditText
                 android:id="@+id/item_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Address-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address" />
+
+            <EditText
+                android:id="@+id/item_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -12,6 +12,7 @@ public class Queries {
     DatabaseHelper helper;
     private static DatabaseContract.PatientContract patientContract;
     private static DatabaseContract.NurseContract nurseContract;
+    private static DatabaseContract.ClientContract clientContract;
     private static DatabaseContract.DailyRecordContract dailyRecordContract;
 
     public Queries(DatabaseHelper helper){
@@ -77,6 +78,30 @@ public class Queries {
 
         Long id = db.insert(nurseContract.TABLE_NAME, null, values);
         nurse.setId(id);
+
+        return id;
+    }
+
+    //INSERT DATA INTO CLIENT
+    public Long insert(Client client){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(clientContract.NAME, client.getName());
+        values.put(clientContract.IC, client.getIc());
+        values.put(clientContract.BIRTH_DATE, client.getBirthday());
+        values.put(clientContract.SEX, client.getSex());
+        values.put(clientContract.ADDRESS, client.getAddress());
+        values.put(clientContract.CONTACT, client.getContact());
+        values.put(clientContract.REG_TYPE, client.getRegister_type());
+        values.put(clientContract.REG_DATE, client.getRegister_date());
+        values.put(clientContract.RELATIONSHIP, client.getRelationship());
+        values.put(clientContract.PASSWORD, client.getPassword());
+//TODO: LATER NEED TO ADD MORE THINGS HERE
+
+
+        Long id = db.insert(clientContract.TABLE_NAME, null, values);
+        client.setId(id);
 
         return id;
     }
