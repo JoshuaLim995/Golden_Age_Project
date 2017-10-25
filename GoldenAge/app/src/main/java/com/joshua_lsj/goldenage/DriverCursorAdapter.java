@@ -12,10 +12,10 @@ import android.widget.TextView;
  * Created by limsh on 10/21/2017.
  */
 
-public class NurseCursorAdapter extends CursorAdapter {
+public class DriverCursorAdapter extends CursorAdapter {
     private LayoutInflater inflater;
 
-    public NurseCursorAdapter(Context context, Cursor cursor, int flags){
+    public DriverCursorAdapter(Context context, Cursor cursor, int flags){
         super(context, cursor, flags);
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -25,9 +25,10 @@ public class NurseCursorAdapter extends CursorAdapter {
     }
 
     public void bindView(View view, Context context, Cursor cursor) {
+        //USING NURSE LIST
         TextView tvName = view.findViewById(R.id.user_name);
 
-        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.NurseContract.NAME));
+        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.DriverContract.NAME));
 
         tvName.setText(name);
 

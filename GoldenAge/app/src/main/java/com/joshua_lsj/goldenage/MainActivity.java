@@ -1,5 +1,6 @@
 package com.joshua_lsj.goldenage;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
+    private static final String FRAGMENT_ADD_PATIENT = "com.addPatientFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity
         switch (view.getId()){
             case R.id.menu_add_patient:
                 intent = new Intent(getApplicationContext(), AddPatientActivity.class);
+
+       //         intent = new Intent(getApplicationContext(), AddUserActivity.class);
+      //          intent.putExtra("frgToLoad", FRAGMENT_ADD_PATIENT);
                 startActivity(intent);
                 break;
             case R.id.menu_add_nurse:
@@ -74,6 +79,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.menu_add_client:
                 intent = new Intent(getApplicationContext(), AddClientActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_add_driver:
+                intent = new Intent(getApplicationContext(), AddDriverActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -125,19 +134,26 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.content_frame, new ListViewPatientFragment())
                     .commit();
             getSupportActionBar().setTitle("Patients");
-        } else if (id == R.id.nav_nurse_listView) {
+        }
+        else if (id == R.id.nav_nurse_listView) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewNurseFragment())
                     .commit();
             getSupportActionBar().setTitle("Nurses");
-        } else if (id == R.id.nav_slideshow) {
-            Toast.makeText(getApplicationContext(), "nav_slideshow", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_client_listView) {
+        }
+        else if (id == R.id.nav_driver_listView) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new ListViewDriverFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Drivers");
+        }
+        else if (id == R.id.nav_client_listView) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_logout) {
             Toast.makeText(getApplicationContext(), "nav_logout", Toast.LENGTH_SHORT).show();
         }
 

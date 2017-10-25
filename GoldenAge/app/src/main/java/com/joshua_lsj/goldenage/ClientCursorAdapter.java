@@ -21,11 +21,11 @@ public class ClientCursorAdapter extends CursorAdapter {
     }
 
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return inflater.inflate(R.layout.list_client, parent, false);
+        return inflater.inflate(R.layout.list_name, parent, false);
     }
 
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView tvName = view.findViewById(R.id.client_name);
+        TextView tvName = view.findViewById(R.id.user_name);
 
         String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.NAME));
 

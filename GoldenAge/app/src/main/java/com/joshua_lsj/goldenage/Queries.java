@@ -12,6 +12,7 @@ public class Queries {
     DatabaseHelper helper;
     private static DatabaseContract.PatientContract patientContract;
     private static DatabaseContract.NurseContract nurseContract;
+    private static DatabaseContract.DriverContract driverContract;
     private static DatabaseContract.ClientContract clientContract;
     private static DatabaseContract.DailyRecordContract dailyRecordContract;
 
@@ -78,6 +79,28 @@ public class Queries {
 
         Long id = db.insert(nurseContract.TABLE_NAME, null, values);
         nurse.setId(id);
+
+        return id;
+    }
+
+    //INSERT DATA INTO DRIVER
+    public Long insert(Driver driver){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(driverContract.NAME, driver.getName());
+        values.put(driverContract.IC, driver.getIc());
+        values.put(driverContract.BIRTH_DATE, driver.getBirthday());
+        values.put(driverContract.SEX, driver.getSex());
+        values.put(driverContract.ADDRESS, driver.getAddress());
+        values.put(driverContract.CONTACT, driver.getContact());
+        values.put(driverContract.REG_TYPE, driver.getRegister_type());
+        values.put(driverContract.REG_DATE, driver.getRegister_date());
+//TODO: LATER NEED TO ADD MORE THINGS HERE
+
+
+        Long id = db.insert(driverContract.TABLE_NAME, null, values);
+        driver.setId(id);
 
         return id;
     }

@@ -98,9 +98,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_PATIENT_ENTRIES);
         db.execSQL(SQL_CREATE_NURSE_ENTRIES);
+        db.execSQL(SQL_CREATE_DRIVER_ENTRIES);
         db.execSQL(SQL_CREATE_CLIENT_ENTRIES);
         db.execSQL(SQL_CREATE_DAILY_RECORD_ENTRIES);
-
     }
 
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
