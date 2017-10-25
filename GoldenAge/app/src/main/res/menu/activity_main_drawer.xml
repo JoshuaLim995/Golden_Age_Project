@@ -11,9 +11,9 @@
 
             android:title="Nurses" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_driver_listView"
 
-            android:title="Slideshow" />
+            android:title="Drivers" />
         <item
             android:id="@+id/nav_client_listView"
 
