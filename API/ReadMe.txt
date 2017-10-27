@@ -1,0 +1,1 @@
+This is the API required in the wamp www folder for communication between the app and the mysql database server

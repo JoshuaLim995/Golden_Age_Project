@@ -32,6 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 //import android.support.design.widget.FloatingActionButton;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Hide the Floating Button
         FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
-        fam.setVisibility(View.INVISIBLE);
+      //  fam.setVisibility(View.INVISIBLE);
 
         /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,10 +119,9 @@ public void showAlert(){
         FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
         switch (view.getId()){
             case R.id.menu_add_patient:
-                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
+//                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
+                intent = new Intent(getApplicationContext(),  com.joshua_lsj.goldenage.Experiment.AddPatientActivity.class);
 
-       //         intent = new Intent(getApplicationContext(), AddUserActivity.class);
-      //          intent.putExtra("frgToLoad", FRAGMENT_ADD_PATIENT);
                 startActivity(intent);
                 break;
             case R.id.menu_add_nurse:
