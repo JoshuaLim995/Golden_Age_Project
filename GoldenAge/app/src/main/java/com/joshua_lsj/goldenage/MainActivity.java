@@ -77,13 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_patient_listView);
-        navigationView.setVisibility(View.INVISIBLE);
 
 
-        fam.setVisibility(View.INVISIBLE);
-        toolbar.setVisibility(View.INVISIBLE);
-        navigationView.setVisibility(View.INVISIBLE);
-//        fam.removeAllViews();
     }
 
 
@@ -101,49 +96,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        showAlert();
     }
 
-public void showAlert(){
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-    LayoutInflater li = LayoutInflater.from(this);
-    View promptsView = li.inflate(R.layout.prompts, null);
-
-    alertDialogBuilder.setView(promptsView);
-
-    final EditText userInput = (EditText) promptsView
-            .findViewById(R.id.editTextDialogUserInput);
-
-
-    // set dialog message
-    alertDialogBuilder
-            .setCancelable(false)
-            .setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {
-                            // get user input and set it to result
-                            // edit text
-
-                               // Toast.makeText(getApplicationContext(),    "Login Sucessfull", Toast.LENGTH_LONG).show();
-
-              //                  Login login = new Login("Facehugger", "123123");
-                            Login login = new Login();
-                                login.execute();
-
-
-
-
-                        }
-                    });
-
-
-    // create alert dialog
-    AlertDialog alertDialog = alertDialogBuilder.create();
-
-    // show it
-    alertDialog.show();
-}
 
     public void onFloatingActionButtonClicked(View view){
         Intent intent;
@@ -242,76 +197,6 @@ public void showAlert(){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void check(String result){
-        if(result.equals("0")){
-            fam.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.VISIBLE);
-            navigationView.setVisibility(View.VISIBLE);
-
-
-
-
-        }else
-            Toast.makeText(getApplicationContext(), "EEE", Toast.LENGTH_LONG).show();
-
-    }
-
-    class Login extends AsyncTask<Void, Void, String> {
-
-
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-
-            try{
-                JSONObject obj = new JSONObject(s);
-
-                if(!obj.getBoolean("error")){
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
-
-                    JSONObject userJason = obj.getJSONObject("user");
-
-
-
-                    //Creating a new user object
-                          User user = new User(
-                            userJason.getInt("id"),
-                            userJason.getString("Name"),
-                            userJason.getString("regisType")
-                    );
-
-                    check(user.getRegisType());
-
-                }else{
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
-
-                }
-            }catch (JSONException ex){
-                ex.printStackTrace();
-            }
-
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            //creating request handler object
-            RequestHandler requestHandler = new RequestHandler();
-
-            //creating request parameters
-            HashMap<String, String> params = new HashMap<>();
-            params.put("Name", "Facehugger");
-            params.put("userPass", "123123");
-
-            //returing the response
-            return requestHandler.sendPostRequest(URLs.LOGIN_URL, params);
-        }
-
-
-
     }
 
 }
