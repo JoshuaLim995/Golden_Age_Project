@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -35,44 +36,70 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.joshua_lsj.goldenage.Experiment.Login_v1;
+import com.joshua_lsj.goldenage.Experiment.RequestHandler;
+import com.joshua_lsj.goldenage.Experiment.URLs;
+import com.joshua_lsj.goldenage.Experiment.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 //import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
+    private FloatingActionMenu fam;
+    private Toolbar toolbar;
+    private  DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+
+
     private static final String FRAGMENT_ADD_PATIENT = "com.addPatientFragment";
+
+    private void Initialize(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fam = (FloatingActionMenu) findViewById(R.id.fam);
+
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setCheckedItem(R.id.nav_patient_listView);
+        navigationView.setVisibility(View.INVISIBLE);
+
+
+        fam.setVisibility(View.INVISIBLE);
+        toolbar.setVisibility(View.INVISIBLE);
+        navigationView.setVisibility(View.INVISIBLE);
+//        fam.removeAllViews();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-
-        //Hide the Floating Button
-        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
-      //  fam.setVisibility(View.INVISIBLE);
-
-        /*
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        navigationView.setCheckedItem(R.id.nav_patient_listView);
-
+        Initialize();
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, new ListViewPatientFragment())
                 .commit();
         getSupportActionBar().setTitle("Patients");
-*/
+
+
 
         showAlert();
     }
@@ -97,12 +124,16 @@ public void showAlert(){
                         public void onClick(DialogInterface dialog,int id) {
                             // get user input and set it to result
                             // edit text
-                            if(userInput.getText().toString() == "LOL")
-                                Toast.makeText(getApplicationContext(),
-                                        "Login Sucessfull", Toast.LENGTH_LONG).show();
-                            else
-                                Toast.makeText(getApplicationContext(),
-                                        "NO", Toast.LENGTH_LONG).show();
+
+                               // Toast.makeText(getApplicationContext(),    "Login Sucessfull", Toast.LENGTH_LONG).show();
+
+              //                  Login login = new Login("Facehugger", "123123");
+                            Login login = new Login();
+                                login.execute();
+
+
+
+
                         }
                     });
 
@@ -213,5 +244,74 @@ public void showAlert(){
         return true;
     }
 
+    public void check(String result){
+        if(result.equals("0")){
+            fam.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
+            navigationView.setVisibility(View.VISIBLE);
+
+
+
+
+        }else
+            Toast.makeText(getApplicationContext(), "EEE", Toast.LENGTH_LONG).show();
+
+    }
+
+    class Login extends AsyncTask<Void, Void, String> {
+
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+
+            try{
+                JSONObject obj = new JSONObject(s);
+
+                if(!obj.getBoolean("error")){
+                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+
+                    JSONObject userJason = obj.getJSONObject("user");
+
+
+
+                    //Creating a new user object
+                          User user = new User(
+                            userJason.getInt("id"),
+                            userJason.getString("Name"),
+                            userJason.getString("regisType")
+                    );
+
+                    check(user.getRegisType());
+
+                }else{
+                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+
+                }
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            //creating request handler object
+            RequestHandler requestHandler = new RequestHandler();
+
+            //creating request parameters
+            HashMap<String, String> params = new HashMap<>();
+            params.put("Name", "Facehugger");
+            params.put("userPass", "123123");
+
+            //returing the response
+            return requestHandler.sendPostRequest(URLs.LOGIN_URL, params);
+        }
+
+
+
+    }
 
 }
