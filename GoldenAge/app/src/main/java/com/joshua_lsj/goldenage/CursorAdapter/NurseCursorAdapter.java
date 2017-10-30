@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.CursorAdapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,14 +8,17 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import com.joshua_lsj.goldenage.DatabaseContract;
+import com.joshua_lsj.goldenage.R;
+
 /**
  * Created by limsh on 10/21/2017.
  */
 
-public class DriverCursorAdapter extends CursorAdapter {
+public class NurseCursorAdapter extends CursorAdapter {
     private LayoutInflater inflater;
 
-    public DriverCursorAdapter(Context context, Cursor cursor, int flags){
+    public NurseCursorAdapter(Context context, Cursor cursor, int flags){
         super(context, cursor, flags);
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -25,10 +28,9 @@ public class DriverCursorAdapter extends CursorAdapter {
     }
 
     public void bindView(View view, Context context, Cursor cursor) {
-        //USING NURSE LIST
         TextView tvName = view.findViewById(R.id.user_name);
 
-        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.DriverContract.NAME));
+        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.NurseContract.NAME));
 
         tvName.setText(name);
 

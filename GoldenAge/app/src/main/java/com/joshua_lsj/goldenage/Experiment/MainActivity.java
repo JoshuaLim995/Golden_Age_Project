@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.Experiment;
 
 
 import android.app.FragmentManager;
@@ -10,15 +10,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.github.clans.fab.FloatingActionMenu;
+//import com.joshua_lsj.goldenage.ListViewFragment.ListViewClientFragment;
+//import com.joshua_lsj.goldenage.ListViewFragment.ListViewDriverFragment;
+//import com.joshua_lsj.goldenage.ListViewFragment.ListViewNurseFragment;
+//import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
+import com.joshua_lsj.goldenage.OLD.AddClientActivity;
+import com.joshua_lsj.goldenage.OLD.AddDriverActivity;
+import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,12 +67,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Initialize();
 
+/*
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, new ListViewPatientFragment())
                 .commit();
         getSupportActionBar().setTitle("Patients");
-
-
+*/
+        getSupportActionBar().setTitle("Experiment");
 
     }
 
@@ -79,21 +85,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (view.getId()){
             case R.id.menu_add_patient:
 //                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
-                intent = new Intent(getApplicationContext(),  com.joshua_lsj.goldenage.Experiment.AddPatientActivity.class);
+                intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
 
                 startActivity(intent);
                 break;
             case R.id.menu_add_nurse:
-                intent = new Intent(getApplicationContext(), AddNurseActivity.class);
+                intent = new Intent(getApplicationContext(), AddUserActivity.class);
+         //       intent = new Intent(getApplicationContext(), AddNurseActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menu_add_client:
-                intent = new Intent(getApplicationContext(), AddClientActivity.class);
-                startActivity(intent);
+     //           intent = new Intent(getApplicationContext(), AddClientActivity.class);
+    //            startActivity(intent);
                 break;
             case R.id.menu_add_driver:
-                intent = new Intent(getApplicationContext(), AddDriverActivity.class);
-                startActivity(intent);
+     //           intent = new Intent(getApplicationContext(), AddDriverActivity.class);
+    //            startActivity(intent);
                 break;
             default:
                 fam.close(true);
@@ -140,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
         if (id == R.id.nav_patient_listView) {
+
+            Toast.makeText(getApplicationContext(), "Experiment Main", Toast.LENGTH_SHORT).show();
+            /*
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewPatientFragment())
                     .commit();
@@ -162,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
+            */
         }
         else if (id == R.id.nav_logout) {
             Toast.makeText(getApplicationContext(), "nav_logout", Toast.LENGTH_SHORT).show();

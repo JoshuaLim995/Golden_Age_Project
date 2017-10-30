@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.joshua_lsj.goldenage.DatabaseHelper;
-import com.joshua_lsj.goldenage.DatePickerFragment;
+import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.Patient;
 import com.joshua_lsj.goldenage.Queries;
 import com.joshua_lsj.goldenage.R;
@@ -185,7 +185,7 @@ public class AddPatientActivity extends AppCompatActivity {
 */
            //     Toast.makeText(getApplicationContext(), "llll", Toast.LENGTH_SHORT).show();
 
-                return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);
+                return requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params);
 
 
             }
@@ -234,7 +234,7 @@ public class AddPatientActivity extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View view){
-        DialogFragment fragment = new DatePickerFragment();
+        DialogFragment fragment = new RegisterDatePickerFragment();
         fragment.show(getSupportFragmentManager(), "datePicker");
     }
 

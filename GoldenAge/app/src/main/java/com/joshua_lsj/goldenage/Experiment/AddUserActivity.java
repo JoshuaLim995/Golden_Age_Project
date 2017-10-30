@@ -1,5 +1,6 @@
 package com.joshua_lsj.goldenage.Experiment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -10,11 +11,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.joshua_lsj.goldenage.BirthDatePickerFragment;
 import com.joshua_lsj.goldenage.DatabaseHelper;
-import com.joshua_lsj.goldenage.DatePickerFragment;
+import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.Nurse;
 import com.joshua_lsj.goldenage.Queries;
 import com.joshua_lsj.goldenage.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by limsh on 10/29/2017.
@@ -31,7 +38,7 @@ public class AddUserActivity extends AppCompatActivity {
 
     private String sex;
 
-    private Nurse nurse;
+   // private Nurse nurse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,25 +58,78 @@ public class AddUserActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = etName.getText().toString();
-                String ic = etIC.getText().toString();
-                String birthday = etBirthday.getText().toString();
-                String address = etAddress.getText().toString();
-                String contact = etContact.getText().toString();
-                String register_date = etRegisterDate.getText().toString();
 
-                nurse = new Nurse(name, ic, birthday, sex, address, contact, register_date);
 
-                //Queries here
-                Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
-
-                if(queries.insert(nurse) != 0)
-                    Toast.makeText(getApplicationContext(), "Nurse created", Toast.LENGTH_SHORT).show();
+                registerUser();
 
             }
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void registerUser(){
+       final String name = etName.getText().toString().trim();
+        final   String ic = etIC.getText().toString().trim();
+        final   String birthdate = etBirthday.getText().toString();
+  //      final String birthdate = "1995-10-20".trim();
+        final    String address = etAddress.getText().toString().trim();
+        final     String contact = etContact.getText().toString().trim();
+        final     String register_date = etRegisterDate.getText().toString();
+ //       final String register_date = "2017-12-23".trim();
+
+
+
+        final String register_type = "T".trim();
+
+
+        class RegisterUser extends AsyncTask<Void, Void, String> {
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+
+                params.put("Name", name);
+                params.put("IC", ic);
+                params.put("Gender", sex);
+                params.put("Birthdate", birthdate);
+                params.put("Contact", contact);
+                params.put("Addr", address);
+                params.put("regisDate",register_date );
+                params.put("regisType", register_type);
+
+     //           Toast.makeText(getApplicationContext(), requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params), Toast.LENGTH_SHORT).show();
+
+
+                return requestHandler.sendPostRequest(URLs.URL_USER_REGISTER, params);
+
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        RegisterUser registerUser = new RegisterUser();
+        registerUser.execute();
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -87,8 +147,13 @@ public class AddUserActivity extends AppCompatActivity {
         }
     }
 
-    public void showDatePickerDialog(View view){
-        DialogFragment fragment = new DatePickerFragment();
+    public void showRegisterDatePickerDialog(View view){
+        DialogFragment fragment = new RegisterDatePickerFragment();
+        fragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showBirthDatePickerDialog(View view){
+        DialogFragment fragment = new BirthDatePickerFragment();
         fragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

@@ -1,20 +1,24 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.CursorAdapter;
 
-import android.widget.CursorAdapter;
 import android.content.Context;
 import android.database.Cursor;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
-import android.view.*;
-import java.text.*;
+
+import com.joshua_lsj.goldenage.DatabaseContract;
+import com.joshua_lsj.goldenage.R;
 
 /**
  * Created by limsh on 10/21/2017.
  */
 
-public class PatientCursorAdapter extends CursorAdapter {
+public class ClientCursorAdapter extends CursorAdapter {
     private LayoutInflater inflater;
 
-    public PatientCursorAdapter(Context context, Cursor cursor, int flags){
+    public ClientCursorAdapter(Context context, Cursor cursor, int flags){
         super(context, cursor, flags);
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -26,8 +30,9 @@ public class PatientCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView tvName = view.findViewById(R.id.user_name);
 
-        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.NAME));
+        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.NAME));
 
         tvName.setText(name);
+
     }
 }

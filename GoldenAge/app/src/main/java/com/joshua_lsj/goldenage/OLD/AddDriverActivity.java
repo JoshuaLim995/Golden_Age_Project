@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.OLD;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.joshua_lsj.goldenage.DatabaseHelper;
+import com.joshua_lsj.goldenage.Driver;
+import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.R;
+import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 
 /**
  * Created by limsh on 10/22/2017.
@@ -82,7 +88,7 @@ public class AddDriverActivity extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View view){
-        DialogFragment fragment = new DatePickerFragment();
+        DialogFragment fragment = new RegisterDatePickerFragment();
         fragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

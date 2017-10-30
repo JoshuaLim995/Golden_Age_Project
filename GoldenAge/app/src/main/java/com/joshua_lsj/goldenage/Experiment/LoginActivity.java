@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.MainActivity;
 import com.joshua_lsj.goldenage.R;
 
 import org.json.JSONException;

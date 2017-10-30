@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
         <!-- FOR TESTING AFTER LOGIN THEN CONTINUE TO MAIN ACTIVITY -->
-        <activity android:name=".MainActivity"
-            android:label="ADMIN PAGE"
+        <activity android:name=".Experiment.MainActivity"
+            android:label="Experiment"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -59,7 +59,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".OLD.MainActivity" />
         </activity>
 
 
@@ -73,8 +73,21 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".OLD.MainActivity" />
         </activity>
+
+        <!-- ADD USER ACTIVITY -->
+        <activity android:name=".Experiment.AddUserActivity"
+            android:label="Add USER"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".OLD.MainActivity" />
+        </activity>
+
+
+
+        <!-- ORIGINAL ADD NURSE
         <activity android:name=".AddNurseActivity"
             android:label="Add Nurse"
             android:theme="@style/AppTheme.NoActionBar">
@@ -82,19 +95,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".AddDriverActivity"
+        -->
+
+
+
+        <activity android:name=".OLD.AddDriverActivity"
             android:label="Add Driver"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".OLD.MainActivity" />
         </activity>
-        <activity android:name=".AddClientActivity"
+        <activity android:name=".OLD.AddClientActivity"
             android:label="Add Client"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".OLD.MainActivity" />
         </activity>
         <activity android:name=".PatientMedicalActivity"
             android:label="Patient Medical Checkup"

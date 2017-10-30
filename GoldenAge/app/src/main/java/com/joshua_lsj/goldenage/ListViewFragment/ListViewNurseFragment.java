@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.ListViewFragment;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.joshua_lsj.goldenage.CursorAdapter.NurseCursorAdapter;
+import com.joshua_lsj.goldenage.DatabaseContract;
+import com.joshua_lsj.goldenage.DatabaseHelper;
+import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.R;
 
 /**
  * Created by user on 12/31/15.

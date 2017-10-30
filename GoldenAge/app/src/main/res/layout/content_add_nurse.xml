@@ -74,7 +74,11 @@
             <EditText
                 android:id="@+id/item_birthday"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:editable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="showBirthDatePickerDialog"/>
 
             <!-- Contact-->
             <TextView
@@ -111,7 +115,7 @@
                 android:clickable="false"
                 android:editable="false"
                 android:focusableInTouchMode="false"
-                android:onClick="showDatePickerDialog"/>
+                android:onClick="showRegisterDatePickerDialog"/>
 
         </LinearLayout>
 
