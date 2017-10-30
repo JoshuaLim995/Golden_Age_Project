@@ -9,5 +9,6 @@ public class URLs {
     private static final String ROOT_URL = "http://192.168.0.110/Android/PatientRegister.php?apicall=";
 
     public static final String LOGIN_URL = "http://192.168.0.110/Android/Login.php?apicall=login";
-    public static final String URL_REGISTER = ROOT_URL + "signup";
+    public static final String USER_URL = "http://192.168.0.110/Android/RegisterUser.php?apicall=REGISTER";
+
 }
