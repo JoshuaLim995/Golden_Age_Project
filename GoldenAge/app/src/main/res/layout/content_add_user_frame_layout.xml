@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.joshua_lsj.goldenage.OLD.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.joshua_lsj.goldenage.AddUserActivity"
+    tools:showIn="@layout/activity_add_user">
 
-
+    <!-- SEE WHAT CAN BE DONE HERE, IF NOT, IGNORE THIS -->
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

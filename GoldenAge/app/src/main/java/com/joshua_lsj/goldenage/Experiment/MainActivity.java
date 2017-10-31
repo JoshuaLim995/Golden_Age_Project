@@ -21,8 +21,6 @@ import com.github.clans.fab.FloatingActionMenu;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewDriverFragment;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewNurseFragment;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
-import com.joshua_lsj.goldenage.OLD.AddClientActivity;
-import com.joshua_lsj.goldenage.OLD.AddDriverActivity;
 import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
 
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_admin_main);
 
         Initialize();
 

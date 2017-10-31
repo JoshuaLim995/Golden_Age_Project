@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.joshua_lsj.goldenage.CursorAdapter.NurseCursorAdapter;
-import com.joshua_lsj.goldenage.DatabaseContract;
-import com.joshua_lsj.goldenage.DatabaseHelper;
-import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.R;
 
 /**

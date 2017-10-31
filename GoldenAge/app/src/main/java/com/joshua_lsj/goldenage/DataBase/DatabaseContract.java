@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.DataBase;
 
 import android.provider.BaseColumns;
 import android.util.StringBuilderPrinter;

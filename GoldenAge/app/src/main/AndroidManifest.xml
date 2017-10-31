@@ -98,14 +98,6 @@
         -->
 
 
-
-        <activity android:name=".OLD.AddDriverActivity"
-            android:label="Add Driver"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OLD.MainActivity" />
-        </activity>
         <activity android:name=".OLD.AddClientActivity"
             android:label="Add Client"
             android:theme="@style/AppTheme.NoActionBar">

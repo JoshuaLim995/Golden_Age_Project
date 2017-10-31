@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.joshua_lsj.goldenage.OLD.MainActivity"
-        tools:showIn="@layout/content_main">
+        tools:showIn="@layout/content_admin_main">
 
 
         <ListView

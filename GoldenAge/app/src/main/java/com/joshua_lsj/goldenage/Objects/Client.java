@@ -1,12 +1,10 @@
-package com.joshua_lsj.goldenage;
-
-import java.io.Serializable;
+package com.joshua_lsj.goldenage.Objects;
 
 /**
  * Created by limsh on 10/22/2017.
  */
 
-public class Driver implements Serializable {
+public class Client {
 
     private long id;
     private String name;
@@ -17,15 +15,14 @@ public class Driver implements Serializable {
     private String address;
     private String register_date;
     private String register_type;
-
-    //Check it later
+    private String relationship;
     private String password;
 
-    public Driver(){
-        this.register_type = "D";
-    }
-    public Driver(String name, String ic, String birthday, String sex,
-                  String address, String contact, String register_date){
+    public Client(){this.register_type = "C";}
+
+    public Client(String name, String ic, String birthday, String sex,
+                  String address, String contact, String register_date,
+                  String relationship){
         this.id = 0;
         this.name = name;
         this.ic = ic;
@@ -34,20 +31,9 @@ public class Driver implements Serializable {
         this.address = address;
         this.contact = contact;
         this.register_date = register_date;
-        this.register_type = "D";
-    }
-
-    public Driver(long id, String name, String ic, String birthday, String sex,
-                  String address, String contact, String register_date){
-        this.id = id;
-        this.name = name;
-        this.ic = ic;
-        this.birthday = birthday;
-        this.sex = sex;
-        this.address = address;
-        this.contact = contact;
-        this.register_date = register_date;
-        this.register_type = "D";
+        this.register_type = "C";
+        this.relationship = relationship;
+        this.password = ic;
     }
 
     public long getId() {
@@ -120,5 +106,17 @@ public class Driver implements Serializable {
 
     public void setRegister_type(String register_type) {
         this.register_type = register_type;
+    }
+
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

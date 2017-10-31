@@ -16,10 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.DatabaseHelper;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
-import com.joshua_lsj.goldenage.Patient;
-import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.R;
 
 

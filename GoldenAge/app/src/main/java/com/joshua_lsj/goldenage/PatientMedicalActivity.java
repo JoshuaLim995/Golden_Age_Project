@@ -1,7 +1,6 @@
 package com.joshua_lsj.goldenage;
 
 import android.content.Intent;
-import android.icu.text.TimeZoneNames;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.DailyRecord;
+import com.joshua_lsj.goldenage.Objects.Nurse;
+import com.joshua_lsj.goldenage.Objects.Patient;
 
 /**
  * Created by limsh on 10/22/2017.

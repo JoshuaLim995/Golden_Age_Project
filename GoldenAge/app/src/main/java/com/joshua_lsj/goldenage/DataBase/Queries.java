@@ -1,8 +1,14 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.DataBase;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Objects.DailyRecord;
+import com.joshua_lsj.goldenage.Objects.Driver;
+import com.joshua_lsj.goldenage.Objects.Nurse;
+import com.joshua_lsj.goldenage.Objects.Patient;
 
 /**
  * Created by limsh on 10/21/2017.

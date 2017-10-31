@@ -3,14 +3,16 @@ package com.joshua_lsj.goldenage;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.TestLooperManager;
-import android.support.annotation.InterpolatorRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.Patient;
 
 /**
  * Created by limsh on 10/21/2017.

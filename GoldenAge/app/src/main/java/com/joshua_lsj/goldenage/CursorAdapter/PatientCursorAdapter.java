@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.widget.TextView;
 import android.view.*;
 
-import com.joshua_lsj.goldenage.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
 import com.joshua_lsj.goldenage.R;
-
-import java.text.*;
 
 /**
  * Created by limsh on 10/21/2017.

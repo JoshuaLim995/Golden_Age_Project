@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.joshua_lsj.goldenage.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
 import com.joshua_lsj.goldenage.R;
 
 /**

@@ -12,10 +12,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.joshua_lsj.goldenage.BirthDatePickerFragment;
-import com.joshua_lsj.goldenage.DatabaseHelper;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
-import com.joshua_lsj.goldenage.Nurse;
-import com.joshua_lsj.goldenage.Queries;
 import com.joshua_lsj.goldenage.R;
 
 import org.json.JSONException;
@@ -26,6 +23,8 @@ import java.util.HashMap;
 /**
  * Created by limsh on 10/29/2017.
  */
+
+
 
 public class AddUserActivity extends AppCompatActivity {
 
@@ -43,7 +42,7 @@ public class AddUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_nurse);
+        setContentView(R.layout.activity_add_user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,7 +58,7 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+//USED TO ADD ADMIN, NURSE, DRIVER
                 registerUser();
 
             }

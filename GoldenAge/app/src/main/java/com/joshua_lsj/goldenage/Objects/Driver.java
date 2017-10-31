@@ -1,10 +1,12 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.Objects;
+
+import java.io.Serializable;
 
 /**
  * Created by limsh on 10/22/2017.
  */
 
-public class Client {
+public class Driver implements Serializable {
 
     private long id;
     private String name;
@@ -15,14 +17,15 @@ public class Client {
     private String address;
     private String register_date;
     private String register_type;
-    private String relationship;
+
+    //Check it later
     private String password;
 
-    public Client(){this.register_type = "C";}
-
-    public Client(String name, String ic, String birthday, String sex,
-                  String address, String contact, String register_date,
-                  String relationship){
+    public Driver(){
+        this.register_type = "D";
+    }
+    public Driver(String name, String ic, String birthday, String sex,
+                  String address, String contact, String register_date){
         this.id = 0;
         this.name = name;
         this.ic = ic;
@@ -31,9 +34,20 @@ public class Client {
         this.address = address;
         this.contact = contact;
         this.register_date = register_date;
-        this.register_type = "C";
-        this.relationship = relationship;
-        this.password = ic;
+        this.register_type = "D";
+    }
+
+    public Driver(long id, String name, String ic, String birthday, String sex,
+                  String address, String contact, String register_date){
+        this.id = id;
+        this.name = name;
+        this.ic = ic;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.address = address;
+        this.contact = contact;
+        this.register_date = register_date;
+        this.register_type = "D";
     }
 
     public long getId() {
@@ -106,17 +120,5 @@ public class Client {
 
     public void setRegister_type(String register_type) {
         this.register_type = register_type;
-    }
-
-    public String getRelationship() {
-        return relationship;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

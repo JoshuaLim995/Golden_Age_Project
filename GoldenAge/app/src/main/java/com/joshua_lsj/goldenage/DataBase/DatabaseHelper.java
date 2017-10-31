@@ -1,7 +1,6 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.DataBase;
 
 import android.content.Context;
-import android.content.pm.ProviderInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 

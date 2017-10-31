@@ -12,9 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.joshua_lsj.goldenage.CursorAdapter.PatientCursorAdapter;
-import com.joshua_lsj.goldenage.DatabaseContract;
-import com.joshua_lsj.goldenage.DatabaseHelper;
-import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.ViewPatientActivity;
 

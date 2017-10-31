@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.Client;
-import com.joshua_lsj.goldenage.DatabaseHelper;
-import com.joshua_lsj.goldenage.Queries;
+import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 
