@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ public class AddUserActivity extends AppCompatActivity {
     private EditText etContact;
 
     private String sex;
+    private String user_type;
 
    // private Nurse nurse;
 
@@ -46,12 +48,12 @@ public class AddUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        etName = (EditText) findViewById(R.id.item_name);
-        etIC = (EditText) findViewById(R.id.item_ic);
-        etBirthday = (EditText) findViewById(R.id.item_birthday);
-        etRegisterDate = (EditText) findViewById(R.id.item_register_date);
-        etAddress = (EditText) findViewById(R.id.item_address);
-        etContact = (EditText) findViewById(R.id.item_contact);
+        etName = (TextInputEditText) findViewById(R.id.item_name);
+        etIC = (TextInputEditText) findViewById(R.id.item_ic);
+        etBirthday = (TextInputEditText) findViewById(R.id.item_birthday);
+        etRegisterDate = (TextInputEditText) findViewById(R.id.item_register_date);
+        etAddress = (TextInputEditText) findViewById(R.id.item_address);
+        etContact = (TextInputEditText) findViewById(R.id.item_contact);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -78,10 +80,6 @@ public class AddUserActivity extends AppCompatActivity {
  //       final String register_date = "2017-12-23".trim();
 
 
-
-        final String register_type = "T".trim();
-
-
         class RegisterUser extends AsyncTask<Void, Void, String> {
             @Override
             protected String doInBackground(Void... voids) {
@@ -96,7 +94,7 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("Contact", contact);
                 params.put("Addr", address);
                 params.put("regisDate",register_date );
-                params.put("regisType", register_type);
+                params.put("regisType", user_type);
 
      //           Toast.makeText(getApplicationContext(), requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params), Toast.LENGTH_SHORT).show();
 
@@ -143,6 +141,20 @@ public class AddUserActivity extends AppCompatActivity {
             case R.id.sex_female:
                 if (checked)
                     sex = "F";
+        }
+
+        switch (view.getId()) {
+            case R.id.item_user_client:
+                if (checked)
+                    user_type = "C";
+                break;
+            case R.id.item_user_nurse:
+                if (checked)
+                    user_type = "N";
+                break;
+            case R.id.item_user_driver:
+                if (checked)
+                    user_type = "D";
         }
     }
 
