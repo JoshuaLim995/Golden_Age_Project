@@ -31,6 +31,14 @@ public class LoginActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //CHECK IF USER LOGGED IN BEFORE OR NOT
+        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
@@ -92,8 +100,19 @@ public class LoginActivity  extends AppCompatActivity {
                             userJason.getString("regisType")
                     );
 
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+
+                    //STORE THE USER DATA IN SHARED PREFERENCE
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+
+
+                    if(user.getRegisType().equals("A")){
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        Toast.makeText(getApplicationContext(), "Logged in as Admin", Toast.LENGTH_LONG).show();
+                    }
+                    else //WILL UPDATE MORE HERE
+                        Toast.makeText(getApplicationContext(), "Currently other users cannot use", Toast.LENGTH_LONG).show();
 
                 }else{
                     Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();

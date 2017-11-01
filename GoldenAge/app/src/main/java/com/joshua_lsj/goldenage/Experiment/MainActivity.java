@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_main);
 
+        //CHECK IF USER IS LOGGED IN OR NOT, IF NOT, LOGINACTIVITY WILL OPEN INSTEAD
+        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
         Initialize();
 
 /*
@@ -173,7 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             */
         }
         else if (id == R.id.nav_logout) {
-            Toast.makeText(getApplicationContext(), "nav_logout", Toast.LENGTH_SHORT).show();
+            finish();
+            Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+            SharedPrefManager.getInstance(getApplicationContext()).logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
