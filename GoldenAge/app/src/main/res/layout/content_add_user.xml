@@ -21,6 +21,7 @@
 
             <!-- Name-->
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -38,6 +39,7 @@
 
             <!-- IC-->
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_IC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
@@ -114,6 +116,7 @@
 
             <!-- Birthday -->
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -134,6 +137,7 @@
 
             <!-- Contact-->
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
@@ -154,6 +158,7 @@
 
             <!-- Address-->
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -171,7 +176,7 @@
 
             <!-- Register date -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_birthdate"
+                android:id="@+id/TIL_RegisterDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
