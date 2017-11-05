@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.joshua_lsj.goldenage.Experiment.ViewUserActivity"
+    android:padding="20dp">
+
+
+    <!-- Display User ID -->
+    <TextView
+        android:id="@+id/item_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID" />
+
+    <!-- Display User Register Type -->
+    <TextView
+        android:id="@+id/item_register_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register Type"/>
+
+    <!-- Display User Name -->
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name" />
+
+    <!-- Display User Contact-->
+    <TextView
+        android:id="@+id/item_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Contact" />
+
+    <!-- Display User IC -->
+    <TextView
+        android:id="@+id/item_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IC" />
+
+    <!-- Display User Gender -->
+    <TextView
+        android:id="@+id/item_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender" />
+
+    <!-- Display User Age -->
+    <TextView
+        android:id="@+id/item_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age" />
+
+    <!-- Display User Birthdate -->
+    <TextView
+        android:id="@+id/item_birthdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Birthday" />
+
+
+    <!-- Display Register date -->
+    <TextView
+        android:id="@+id/item_register_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register Date" />
+
+
+
+    <!-- Patient ID-->
+    <TextView
+        android:id="@+id/item_patient_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient ID" />
+
+    <!-- Patient Name-->
+    <TextView
+        android:id="@+id/item_patient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Name" />
+
+
+
+
+
+</LinearLayout>

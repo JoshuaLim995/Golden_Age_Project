@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
-import com.joshua_lsj.goldenage.DataBase.Queries;
+//import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+//import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Objects.DailyRecord;
 import com.joshua_lsj.goldenage.Objects.Nurse;
 import com.joshua_lsj.goldenage.Objects.Patient;
@@ -71,10 +71,10 @@ public class PatientMedicalActivity extends AppCompatActivity{
 
                 DailyRecord dailyRecord = new DailyRecord(patient, calender.getToday(), bloodPressure, sugarLevel, heartRate, temperature, nurse);
 
-                Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
+   //             Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
 
-                if(queries.insert(dailyRecord) != 0)
-                    Toast.makeText(getApplicationContext(), "DailyRecord created", Toast.LENGTH_SHORT).show();
+    //            if(queries.insert(dailyRecord) != 0)
+    //                Toast.makeText(getApplicationContext(), "DailyRecord created", Toast.LENGTH_SHORT).show();
             }
         });
 

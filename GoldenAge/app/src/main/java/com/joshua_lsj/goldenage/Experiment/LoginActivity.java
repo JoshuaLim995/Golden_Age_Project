@@ -93,6 +93,7 @@ public class LoginActivity  extends AppCompatActivity {
 
 
 
+
                     //Creating a new user object
                     User user = new User(
                             userJason.getInt("id"),

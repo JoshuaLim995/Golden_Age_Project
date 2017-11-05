@@ -1,8 +1,12 @@
 package com.joshua_lsj.goldenage.Experiment;
 
 
+import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +25,7 @@ import com.github.clans.fab.FloatingActionMenu;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewDriverFragment;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewNurseFragment;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
+//import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
 import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
 
@@ -32,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private  DrawerLayout drawer;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
+
+    public static Activity getActivity(){
+        return getActivity();
+    }
 
 
     private static final String FRAGMENT_ADD_PATIENT = "com.addPatientFragment";
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.nav_patient_listView);
+        navigationView.setCheckedItem(R.id.nav_users_listView);
 
 
     }
@@ -71,16 +80,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Initialize();
 
-/*
+
         getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new ListViewPatientFragment())
+                .replace(R.id.content_frame, new ListViewUserFragment())
                 .commit();
-        getSupportActionBar().setTitle("Patients");
-*/
-        getSupportActionBar().setTitle("Experiment");
+        getSupportActionBar().setTitle("Users");
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+ //       if(networkInfo != null && networkInfo.isConnected()) {
+ //s           new DownloadJsonUsers(this).execute();
+//        }
+  //      else {
+  //          Toast toast = Toast.makeText(this, "Unable to connect", Toast.LENGTH_LONG);
+  //          toast.show();
+  //      }
+    }
 
 
     public void onFloatingActionButtonClicked(View view){
@@ -93,11 +114,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 startActivity(intent);
                 break;
-            case R.id.menu_add_nurse:
+            case R.id.menu_add_user:
                 intent = new Intent(getApplicationContext(), AddUserActivity.class);
          //       intent = new Intent(getApplicationContext(), AddNurseActivity.class);
                 startActivity(intent);
                 break;
+            /*
             case R.id.menu_add_client:
      //           intent = new Intent(getApplicationContext(), AddClientActivity.class);
     //            startActivity(intent);
@@ -106,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      //           intent = new Intent(getApplicationContext(), AddDriverActivity.class);
     //            startActivity(intent);
                 break;
+                */
             default:
                 fam.close(true);
         }
@@ -150,15 +173,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
-        if (id == R.id.nav_patient_listView) {
+        if (id == R.id.nav_users_listView) {
 
-            Toast.makeText(getApplicationContext(), "Experiment Main", Toast.LENGTH_SHORT).show();
-            /*
+            Toast.makeText(getApplicationContext(), "List All Users", Toast.LENGTH_SHORT).show();
+
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewPatientFragment())
+                    .replace(R.id.content_frame, new ListViewUserFragment())
                     .commit();
-            getSupportActionBar().setTitle("Patients");
+            getSupportActionBar().setTitle("Users");
         }
+/*
         else if (id == R.id.nav_nurse_listView) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewNurseFragment())
@@ -176,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
-            */
-        }
+
+      } */
         else if (id == R.id.nav_logout) {
             finish();
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();

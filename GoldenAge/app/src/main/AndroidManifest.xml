@@ -32,6 +32,15 @@
                 android:value=".Experiment.LoginActivity" />
         </activity>
 
+        <!-- View User Activity -->
+        <activity android:name=".Experiment.ViewUserActivity"
+            android:label="View User"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
+        </activity>
+
         <!-- ORIGINAL MAIN ACTIVITY
         <activity
             android:name=".MainActivity"
@@ -62,19 +71,6 @@
                 android:value=".Experiment.MainActivity" />
         </activity>
 
-
-
-
-
-
-
-        <activity android:name=".ViewPatientActivity"
-            android:label="View Patient"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OLD.MainActivity" />
-        </activity>
 
         <!-- ADD USER ACTIVITY -->
         <activity android:name=".Experiment.AddUserActivity"

@@ -11,8 +11,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.joshua_lsj.goldenage.Objects.Client;
-import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
-import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 
@@ -66,10 +64,10 @@ public class AddClientActivity extends AppCompatActivity {
                 client = new Client(name, ic, birthday, sex, address, contact, register_date, relation);
 
                 //Queries here
-                Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
+             //   Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
 
-                if(queries.insert(client) != 0)
-                    Toast.makeText(getApplicationContext(), "Client created", Toast.LENGTH_SHORT).show();
+         //       if(queries.insert(client) != 0)
+        //            Toast.makeText(getApplicationContext(), "Client created", Toast.LENGTH_SHORT).show();
 
             }
         });
