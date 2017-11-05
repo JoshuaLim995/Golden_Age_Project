@@ -8,6 +8,8 @@
     <string name="Address">Address</string>
     <string name="IC">IC</string>
     <string name="Birthday">Birthday</string>
+    <string name="contact">Contact</string>
+    <string name="RegisterDate">Register Date</string>
 
     <string name="Blood_Type">Blood Type</string>
     <!-- Blood types: O+, O-, A+, A-, B+, B-, AB+, AB- -->

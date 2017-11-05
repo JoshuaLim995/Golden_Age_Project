@@ -3,9 +3,13 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -28,14 +32,11 @@ import java.util.HashMap;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    private EditText etName;
-    private EditText etIC;
-    private EditText etBirthday;
-    private EditText etRegisterDate;
-    private EditText etAddress;
-    private EditText etContact;
+    private TextInputLayout til_name, til_ic, til_birthday, til_registerDate, til_address, til_contact;
+    private TextInputEditText etName, etIC, etBirthday, etRegisterDate, etAddress, etContact;
 
     private String sex;
+    private String user_type;
 
    // private Nurse nurse;
 
@@ -46,14 +47,105 @@ public class AddUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        etName = (EditText) findViewById(R.id.item_name);
-        etIC = (EditText) findViewById(R.id.item_ic);
-        etBirthday = (EditText) findViewById(R.id.item_birthday);
-        etRegisterDate = (EditText) findViewById(R.id.item_register_date);
-        etAddress = (EditText) findViewById(R.id.item_address);
-        etContact = (EditText) findViewById(R.id.item_contact);
+        etName = (TextInputEditText) findViewById(R.id.item_name);
+        etIC = (TextInputEditText) findViewById(R.id.item_ic);
+        etBirthday = (TextInputEditText) findViewById(R.id.item_birthday);
+        etRegisterDate = (TextInputEditText) findViewById(R.id.item_register_date);
+        etAddress = (TextInputEditText) findViewById(R.id.item_address);
+        etContact = (TextInputEditText) findViewById(R.id.item_contact);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        til_name = (TextInputLayout) findViewById(R.id.TIL_Name);
+        til_ic = (TextInputLayout) findViewById(R.id.TIL_IC);
+        til_birthday = (TextInputLayout) findViewById(R.id.TIL_Birthday);
+        til_contact = (TextInputLayout) findViewById(R.id.TIL_Contact);
+        til_address = (TextInputLayout) findViewById(R.id.TIL_Address);
+        til_registerDate = (TextInputLayout) findViewById(R.id.TIL_RegisterDate);
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(etName.getText().length() == 0 ) {
+                    til_name.setError("Name cannot be empty");
+                    fab.setEnabled(false);
+                } else {
+                    til_name.setError(null);
+                    fab.setEnabled(true);
+                }
+            }
+        });
+
+        etIC.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(etIC.getText().length() == 0) {
+                    til_ic.setError("IC number cannot be empty");
+                    fab.setEnabled(false);
+                } else if (etIC.getText().length() > 12) {
+                    til_ic.setError("Length of IC number exceeded");
+                    fab.setEnabled(false);
+                } else {
+                    til_ic.setError(null);
+                    fab.setEnabled(true);
+                }
+            }
+        });
+
+        etAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(etAddress.getText().length() == 0) {
+                    til_address.setError("Address cannot be empty");
+                    fab.setEnabled(false);
+                } else {
+                    til_address.setError(null);
+                    fab.setEnabled(true);
+                }
+            }
+        });
+
+        etContact.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(etContact.getText().length() == 0 ) {
+                    til_contact.setError("Phone number cannot be empty");
+                    fab.setEnabled(false);
+                } else if(etContact.getText().length() > 10){
+                    til_contact.setError("Length of phone number exceeded");
+                    fab.setEnabled(false);
+                } else {
+                    til_contact.setError(null);
+                    fab.setEnabled(true);
+                }
+            }
+        });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +170,6 @@ public class AddUserActivity extends AppCompatActivity {
  //       final String register_date = "2017-12-23".trim();
 
 
-
-        final String register_type = "T".trim();
-
-
         class RegisterUser extends AsyncTask<Void, Void, String> {
             @Override
             protected String doInBackground(Void... voids) {
@@ -96,7 +184,7 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("Contact", contact);
                 params.put("Addr", address);
                 params.put("regisDate",register_date );
-                params.put("regisType", register_type);
+                params.put("regisType", user_type);
 
      //           Toast.makeText(getApplicationContext(), requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params), Toast.LENGTH_SHORT).show();
 
@@ -143,6 +231,20 @@ public class AddUserActivity extends AppCompatActivity {
             case R.id.sex_female:
                 if (checked)
                     sex = "F";
+        }
+
+        switch (view.getId()) {
+            case R.id.item_user_client:
+                if (checked)
+                    user_type = "C";
+                break;
+            case R.id.item_user_nurse:
+                if (checked)
+                    user_type = "N";
+                break;
+            case R.id.item_user_driver:
+                if (checked)
+                    user_type = "D";
         }
     }
 
