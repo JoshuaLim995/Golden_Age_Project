@@ -25,7 +25,12 @@ public class PatientMedicalActivity extends AppCompatActivity{
     private static final String PATIENT = "Patient";
     private Patient patient;
     private Calender calender;
-    private Nurse nurse;
+    private User user;
+    
+    private EditText etBlood_Pressure;
+    private EditText etSugar_Level;
+    private EditText etHeartRate;
+    private EditText etTemperature;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,51 +38,87 @@ public class PatientMedicalActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView tvPName = (TextView) findViewById(R.id.item_patient_name);
-        TextView tvDate = (TextView) findViewById(R.id.item_date);
-        TextView tvNname = (TextView) findViewById(R.id.item_nurse_name);
-
-        final EditText etBPressure = (EditText) findViewById(R.id.item_bloodPressure);
-        final EditText etSLevel = (EditText) findViewById(R.id.item_sugarLevel);
-        final EditText etHeartRate = (EditText) findViewById(R.id.item_heartRate);
-        final EditText etTemp = (EditText) findViewById(R.id.item_temperature);
-
-        calender = new Calender();
-
-        //SIMPLY CREATE A NURSE HERE FOR TESTING PURPOSE
-        nurse = new Nurse();
-        nurse.setName("Nurse Wong Wong Wong");
-        nurse.setId(5201314);
-
-
-        Intent intent = getIntent();
-        patient = (Patient) intent.getSerializableExtra(PATIENT);
-
-        tvPName.setText(patient.getName());
-//Set date
-        tvDate.setText(calender.getToday());
-        //Set Nurse Name
-        tvNname.setText(nurse.getName());
+        intialize();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                String bloodPressure = etBPressure.getText().toString();
-                String sugarLevel = etSLevel.getText().toString();
-                String heartRate = etHeartRate.getText().toString();
-                String temperature = etTemp.getText().toString();
-
-                DailyRecord dailyRecord = new DailyRecord(patient, calender.getToday(), bloodPressure, sugarLevel, heartRate, temperature, nurse);
-
-   //             Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
-
-    //            if(queries.insert(dailyRecord) != 0)
-    //                Toast.makeText(getApplicationContext(), "DailyRecord created", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {              
+                createMedicakRecord()
             }
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    
+    private void intialize(){
+        calender = new Calender();
+        patient = (Patient) getIntent().getSerializableExtra(PATIENT);
+        //GET USER ID FROM THE SHARED_PREFERENCE IF CAN,, IF NOT, THEN USE THE INTENT?? 
+        
+        TextView tvPatient_ID = (TextView) findViewById(R.id.item_patient_id);
+        TextView tvPatient_Name = (TextView) findViewById(R.id.item_patient_name);
+        TextView tvDate = (TextView) findViewById(R.id.item_date);
+        TextView tvNurse_name = (TextView) findViewById(R.id.item_nurse_name); //CHECK AGAIN IF THIS IS NEEDED OR OPTIONAL
+        
+        tvPatient_Name.setText(patient.getName());
+        tvDate.setText(calender.getToday());
+        tvNurse_name.setText(nurse.getName());      
+        
+        etBlood_Pressure = (EditText) findViewById(R.id.item_bloodPressure);
+        etSugar_Level = (EditText) findViewById(R.id.item_sugarLevel);
+        etHeartRate = (EditText) findViewById(R.id.item_heartRate);
+        etTemperature = (EditText) findViewById(R.id.item_temperature);
+    }
+    
+    private void createMedicakRecord(){
+        final String bloodPressure = etBlood_Pressure.getText().toString();
+        final String sugarLevel = etSugar_Level.getText().toString();
+        final String heartRate = etHeartRate.getText().toString();
+        final String temperature = etTemperature.getText().toString();
+        
+        class UploadMedicalRecord extends AsyncTask<Void, Void, String>{
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                RequestHandler requestHandler = new RequestHandler();
+
+                HashMap<String, String> params = new HashMap<>();
+
+                params.put("date", calender.getToday());
+                params.put("patient_id", patient.getID()); //GET ID IN P001 FORMAT
+                params.put("user_id", user.getID); //GET ID IN N001 FORMAT
+                params.put("bloodPressure", bloodPressure);
+                params.put("sugarLevel", sugarLevel);
+                params.put("heartRate", heartRate);
+                params.put("temperature", temperature );
+                
+                return requestHandler.sendPostRequest(URLs.URL_UPLOAD_MEDICAL_RECORD, params);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+
+        UploadMedicalRecord ru = new UploadMedicalRecord();
+        ru.execute();
     }
 }
