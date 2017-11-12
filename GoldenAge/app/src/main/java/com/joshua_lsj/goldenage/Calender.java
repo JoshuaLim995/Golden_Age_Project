@@ -30,4 +30,9 @@ public class Calender {
 */
         return today;
     }
+
+    public int getCurrentYear(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.YEAR;
+    }
 }

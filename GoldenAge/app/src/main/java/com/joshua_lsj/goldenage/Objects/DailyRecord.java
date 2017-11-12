@@ -1,7 +1,6 @@
 package com.joshua_lsj.goldenage.Objects;
 
-import com.joshua_lsj.goldenage.Objects.Nurse;
-import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Experiment.Patient;
 
 import java.io.Serializable;
 

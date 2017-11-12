@@ -8,13 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 //import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 //import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Objects.DailyRecord;
 import com.joshua_lsj.goldenage.Objects.Nurse;
-import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Experiment.Patient;
 
 /**
  * Created by limsh on 10/22/2017.

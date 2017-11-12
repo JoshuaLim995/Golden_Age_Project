@@ -17,6 +17,7 @@ public class URLs {
     public static final String URL_PATIENT_REGISTER = "http://192.168.1.10/Android/PatientRegister.php?apicall=signup";
 
     public static final String GET_USER_URL = GET_DATA + "users";
+    public static final String GET_PATIENT_URL = GET_DATA + "patients";
 
     //http://192.168.1.12/Android/getdata?apicall=users
 }

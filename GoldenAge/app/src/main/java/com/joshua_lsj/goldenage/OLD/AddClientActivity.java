@@ -82,11 +82,11 @@ public class AddClientActivity extends AppCompatActivity {
 
 
             switch (view.getId()) {
-                case R.id.sex_male:
+                case R.id.gender_male:
                     if (checked)
                         sex = "M";
                     break;
-                case R.id.sex_female:
+                case R.id.gender_female:
                     if (checked)
                         sex = "F";
                     break;

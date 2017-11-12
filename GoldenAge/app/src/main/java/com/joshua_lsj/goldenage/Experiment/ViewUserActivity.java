@@ -49,7 +49,7 @@ public class ViewUserActivity extends AppCompatActivity {
         tvIc.setText(user.getIc());
         tvGender.setText(user.getGender());
     //    tvAge.setText(user.get()); //GET USER AGE FROM THE BIRTHDATE
-        tvBirthdate.setText(user.getBirthdate());
+        tvBirthdate.setText(user.getAge());
         tvRegisDate.setText(user.getRegisDate());
     //    tvPatientID.setText(user.getName()); //GET PATIENT ID FROM USER
      //   tvPatientName.setText(user.getName()); //GET PATIENT NAME FROM USER

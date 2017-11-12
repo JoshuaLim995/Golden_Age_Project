@@ -1,6 +1,9 @@
 package com.joshua_lsj.goldenage.Experiment;
 
+import com.joshua_lsj.goldenage.Calender;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by limsh on 10/28/2017.
@@ -12,12 +15,15 @@ public class User implements Serializable {
     private String ic;
     private String gender;
     private String contact;
-    private String birthdate;   //CONSIDERING USING STRING OR DATE
+//    private String birthdate;   //CONSIDERING USING STRING OR DATE
     private String address;
     private String regisDate;   //CONSIDERING USING STRING OR DATE
     private String regisType;
+    private int age;
+    private int birthyear;
     //CONSIDERING NEED TO ADD USER_ID OR NOT (USER_ID = REGISTER_TYPE + ID) MAKE IT EASIER BE IDENTIFIED AND UNIQUE
 
+    private Calender calender;
     public User(){}
 
     public User(int id, String name, String regisType){
@@ -41,7 +47,7 @@ public class User implements Serializable {
         this.ic = ic;
         this.gender = gender;
         this.contact = contact;
-        this.birthdate = birthdate;
+    //    this.birthdate = birthdate;
         this.address = address;
         this.regisDate = regisDate;
         this.regisType = regisType;
@@ -87,7 +93,7 @@ public class User implements Serializable {
     public void setContact(String contact) {
         this.contact = contact;
     }
-
+/*
     public String getBirthdate() {
         return birthdate;
     }
@@ -95,7 +101,7 @@ public class User implements Serializable {
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
-
+*/
     public String getAddress() {
         return address;
     }
@@ -118,5 +124,14 @@ public class User implements Serializable {
 
     public void setRegisType(String regisType) {
         this.regisType = regisType;
+    }
+
+    public int getAge() {
+
+        return age;
+    }
+
+    public void setAge(int birthyear) {
+        this.age = calender.getCurrentYear() - birthyear;
     }
 }

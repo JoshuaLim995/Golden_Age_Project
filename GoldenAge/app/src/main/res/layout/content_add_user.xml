@@ -89,25 +89,25 @@
                     android:onClick="onRadioButtonClicked"/>
             </RadioGroup>
 
-            <!-- Sex -->
+            <!-- Gender -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sex" />
+                android:text="Gender" />
 
             <RadioGroup
-                android:id="@+id/item_sex"
+                android:id="@+id/gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RadioButton
-                    android:id="@+id/item_sex_male"
+                    android:id="@+id/gender_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
                     android:onClick="onRadioButtonClicked"/>
                 <RadioButton
-                    android:id="@+id/item_sex_female"
+                    android:id="@+id/gender_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Female"
@@ -116,7 +116,7 @@
 
             <!-- Birthday -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Birthday"
+                android:id="@+id/TIL_Age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -124,14 +124,12 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_birthday"
+                    android:id="@+id/item_age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Birthday"
-                    android:clickable="false"
-                    android:focusableInTouchMode="false"
-                    android:editable="false"
-                    android:onClick="showBirthDatePickerDialog"
+                    android:hint="Age"
+                    android:inputType="number"
+
                     />
             </android.support.design.widget.TextInputLayout>
 

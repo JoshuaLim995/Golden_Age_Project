@@ -1,21 +1,20 @@
-package com.joshua_lsj.goldenage.Objects;
+package com.joshua_lsj.goldenage.Experiment;
 
-import android.media.Image;
+import com.joshua_lsj.goldenage.Calender;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Patient implements Serializable{
 
     private long id;
     private String name;
     private String ic;
-    private String sex;
+    private String gender;
     private String blood_type;
     private Double margin;
     //private Client client; > relative contact
     //relative name
-    private String birthday;
+    private int age;
     private String address;
     private String contact;
     private String meals;
@@ -31,17 +30,19 @@ public class Patient implements Serializable{
   //  private String blood_sugar_level;
  //   private String heart_rate;
 
-    public Patient(){}
-    public Patient(String name, String ic, String birthday, String sex,
+    public Patient(){
+        this.register_type = "P";
+    }
+    public Patient(String name, String ic, int age, String gender,
                    String blood_type, String address, String contact,
                    String meals, String allergic, String sickness,
                    String register_date, double margin){
         this.id = 0;
         this.name = name;
         this.ic = ic;
-        this.sex = sex;
+        this.gender = gender;
         this.blood_type = blood_type;
-        this.birthday = birthday;
+        this.age = age;
         this.address = address;
         this.contact = contact;
         this.meals = meals;
@@ -52,16 +53,16 @@ public class Patient implements Serializable{
         this.register_type = "P";
     }
 
-    public Patient(Long id, String name, String ic, String birthday, String sex,
+    public Patient(Long id, String name, String ic, int age, String gender,
                    String blood_type, String address, String contact,
                    String meals, String allergic, String sickness,
                    String register_date, double margin){
         this.id = id;
         this.name = name;
         this.ic = ic;
-        this.sex = sex;
+        this.gender = gender;
         this.blood_type = blood_type;
-        this.birthday = birthday;
+        this.age = age;
         this.address = address;
         this.contact = contact;
         this.meals = meals;
@@ -97,12 +98,12 @@ public class Patient implements Serializable{
         this.ic = ic;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getBlood_type() {
@@ -121,12 +122,13 @@ public class Patient implements Serializable{
         this.margin = margin;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setAge(int birthyear) {
+        Calender cal = new Calender();
+        this.age = cal.getCurrentYear() - birthyear;
     }
 
     public String getAddress() {

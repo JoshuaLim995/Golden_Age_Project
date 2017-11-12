@@ -11,11 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
+import android.view.animation.Interpolator;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.joshua_lsj.goldenage.BirthDatePickerFragment;
+import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
 
@@ -32,10 +33,10 @@ import java.util.HashMap;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    private TextInputLayout til_name, til_ic, til_birthday, til_registerDate, til_address, til_contact;
-    private TextInputEditText etName, etIC, etBirthday, etRegisterDate, etAddress, etContact;
+    private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact;
+    private TextInputEditText etName, etIC, etAge, etRegisterDate, etAddress, etContact;
 
-    private String sex;
+    private String gender;
     private String user_type;
 
    // private Nurse nurse;
@@ -49,14 +50,14 @@ public class AddUserActivity extends AppCompatActivity {
 
         etName = (TextInputEditText) findViewById(R.id.item_name);
         etIC = (TextInputEditText) findViewById(R.id.item_ic);
-        etBirthday = (TextInputEditText) findViewById(R.id.item_birthday);
+        etAge = (TextInputEditText) findViewById(R.id.item_age);
         etRegisterDate = (TextInputEditText) findViewById(R.id.item_register_date);
         etAddress = (TextInputEditText) findViewById(R.id.item_address);
         etContact = (TextInputEditText) findViewById(R.id.item_contact);
 
         til_name = (TextInputLayout) findViewById(R.id.TIL_Name);
         til_ic = (TextInputLayout) findViewById(R.id.TIL_IC);
-        til_birthday = (TextInputLayout) findViewById(R.id.TIL_Birthday);
+        til_age = (TextInputLayout) findViewById(R.id.TIL_Age);
         til_contact = (TextInputLayout) findViewById(R.id.TIL_Contact);
         til_address = (TextInputLayout) findViewById(R.id.TIL_Address);
         til_registerDate = (TextInputLayout) findViewById(R.id.TIL_RegisterDate);
@@ -151,7 +152,10 @@ public class AddUserActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 //USED TO ADD ADMIN, NURSE, DRIVER
+
                 registerUser();
+
+                finish();
 
             }
         });
@@ -162,8 +166,7 @@ public class AddUserActivity extends AppCompatActivity {
     private void registerUser(){
        final String name = etName.getText().toString().trim();
         final   String ic = etIC.getText().toString().trim();
-        final   String birthdate = etBirthday.getText().toString();
-  //      final String birthdate = "1995-10-20".trim();
+        final   int age = Integer.parseInt(etAge.getText().toString());
         final    String address = etAddress.getText().toString().trim();
         final     String contact = etContact.getText().toString().trim();
         final     String register_date = etRegisterDate.getText().toString();
@@ -177,16 +180,20 @@ public class AddUserActivity extends AppCompatActivity {
                 RequestHandler requestHandler = new RequestHandler();
                 HashMap<String, String> params = new HashMap<>();
 
+                Calender calender = new Calender();
+                Integer birthYear = calender.getCurrentYear() - age;
+
                 params.put("Name", name);
                 params.put("IC", ic);
-                params.put("Gender", sex);
-                params.put("Birthdate", birthdate);
+                params.put("Gender", gender);
+                params.put("Birthyear", birthYear.toString());
                 params.put("Contact", contact);
                 params.put("Addr", address);
                 params.put("regisDate",register_date );
                 params.put("regisType", user_type);
 
      //           Toast.makeText(getApplicationContext(), requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), birthYear.toString(), Toast.LENGTH_SHORT).show();
 
 
                 return requestHandler.sendPostRequest(URLs.URL_USER_REGISTER, params);
@@ -224,13 +231,13 @@ public class AddUserActivity extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
         switch (view.getId()) {
-            case R.id.sex_male:
+            case R.id.gender_male:
                 if (checked)
-                    sex = "M";
+                    gender = "M";
                 break;
-            case R.id.sex_female:
+            case R.id.gender_female:
                 if (checked)
-                    sex = "F";
+                    gender = "F";
         }
 
         switch (view.getId()) {

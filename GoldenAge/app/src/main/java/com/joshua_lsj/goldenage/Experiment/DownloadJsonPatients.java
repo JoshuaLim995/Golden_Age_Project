@@ -20,38 +20,38 @@ import java.util.ArrayList;
  * Created by limsh on 11/4/2017.
  */
 
-public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
+public class DownloadJsonPatients extends AsyncTask<Void, Void, ArrayList<Patient>> {
 
 
 
 
     private Activity activity;
 
-    public DownloadJsonUsers(Activity activity){
+    public DownloadJsonPatients(Activity activity){
         this.activity = activity;
     }
 
 
     @Override
-    protected ArrayList<User> doInBackground(Void... v) {
-        ArrayList<User> users = null;
+    protected ArrayList<Patient> doInBackground(Void... v) {
+        ArrayList<Patient> patients = null;
 
         try {
-            users = downloadJson();
+            patients = downloadJson();
         }
         catch (IOException ex) {
             Log.e("IO_EXCEPTION", ex.toString());
         }
 
-        return users;
+        return patients;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<User> users) {
+    protected void onPostExecute(ArrayList<Patient> patients) {
         ListView listView = (ListView)(activity.findViewById(R.id.list_view));
 
-        if(users != null){
-            UserAdapter adapter = new UserAdapter(users, activity);
+        if(patients != null){
+            PatientAdapter adapter = new PatientAdapter(patients, activity);
 
             listView.setAdapter(adapter);
         }
@@ -59,11 +59,11 @@ public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
             Log.d("ERROR:", "No connection");
     }
 
-    private ArrayList<User> downloadJson() throws IOException {
+    private ArrayList<Patient> downloadJson() throws IOException {
         InputStream is = null;
 
         try {
-            URL url = new URL(URLs.GET_USER_URL);
+            URL url = new URL(URLs.GET_PATIENT_URL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
@@ -78,7 +78,7 @@ public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
                 is = conn.getInputStream();
 
                 // Convert the InputStream into ArrayList<Person>
-                ArrayList<User> users = readInputStream(is);
+                ArrayList<Patient> users = readInputStream(is);
                 return users;
             }
             else {
@@ -94,54 +94,60 @@ public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
         }
     }
 
-    private ArrayList<User> readInputStream(InputStream is)
+    private ArrayList<Patient> readInputStream(InputStream is)
             throws IOException, UnsupportedEncodingException {
 
         JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
         try {
-            return readUsersArray(reader);
+            return readPatientsArray(reader);
         } finally {
             reader.close();
         }
     }
 
-    private ArrayList<User> readUsersArray(JsonReader reader) throws IOException {
-        ArrayList<User> persons = new ArrayList<>();
+    private ArrayList<Patient> readPatientsArray(JsonReader reader) throws IOException {
+        ArrayList<Patient> persons = new ArrayList<>();
 
         reader.beginArray();
         while (reader.hasNext()) {
-            persons.add(readUser(reader));
+            persons.add(readPaient(reader));
         }
         reader.endArray();
         return persons;
     }
 
-    private User readUser(JsonReader reader) throws IOException {
-        User user = new User();
+    private Patient readPaient(JsonReader reader) throws IOException {
+        Patient patient = new Patient();
 
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();    // name variable refers to the name (key) of JSON object
             if (name.equals("id")) {
-                user.setId(reader.nextInt());
-            } else if (name.equals("Name")) {
-                user.setName(reader.nextString());
-            }
-
-            else  if (name.equals("ic")){
-                user.setIc(reader.nextString());
+                patient.setId(reader.nextInt());
+            } else if (name.equals("name")) {
+                patient.setName(reader.nextString());
+            } else if (name.equals("ic")){
+                patient.setIc(reader.nextString());
+            } else if (name.equals("Birthyear")){
+                patient.setAge(Integer.parseInt(reader.nextString()));
+            } else if (name.equals("gender")){
+                patient.setGender(reader.nextString());
+            } else if (name.equals("bloodType")){
+                patient.setBlood_type(reader.nextString());
+            } else if (name.equals("address")){
+                patient.setAddress(reader.nextString());
             } else if (name.equals("contact")){
-                user.setContact(reader.nextString());
-            }else if (name.equals("Birthyear")){
-                user.setAge(Integer.parseInt(reader.nextString()));
-            }else if (name.equals("addr")){
-                user.setAddress(reader.nextString());
-            }else if (name.equals("gender")){
-                user.setGender(reader.nextString());
-            }else if (name.equals("regisdate")){
-                user.setRegisDate(reader.nextString());
-            }else if (name.equals("registype")){
-                user.setRegisType(reader.nextString());
+                patient.setContact(reader.nextString());
+            } else if (name.equals("meals")){
+                patient.setMeals(reader.nextString());
+            } else if (name.equals("allegic")){
+                patient.setAllergic(reader.nextString());
+            } else if (name.equals("sickness")){
+                patient.setSickness(reader.nextString());
+            } else if (name.equals("regisdate")){
+                patient.setRegister_date(reader.nextString());
+            } else if (name.equals("margin")){
+                patient.setMargin(Double.parseDouble(reader.nextString()));
             }
 
             else {
@@ -149,6 +155,6 @@ public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
             }
         }
         reader.endObject();
-        return user;
+        return patient;
     }
 }

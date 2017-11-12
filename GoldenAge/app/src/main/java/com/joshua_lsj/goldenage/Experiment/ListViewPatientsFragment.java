@@ -17,11 +17,11 @@ import com.joshua_lsj.goldenage.R;
  * Created by limsh on 11/4/2017.
  */
 
-public class ListViewUserFragment extends Fragment {
+public class ListViewPatientsFragment extends Fragment {
 
     View myView;
     ListView listView;
-    public static final String USER = "USER";
+    public static final String PATIENTS = "PATIENTS";
 
     @Nullable
     @Override
@@ -29,21 +29,22 @@ public class ListViewUserFragment extends Fragment {
         myView = inflater.inflate(R.layout.list_view_fragment, container, false);
 
         listView = myView.findViewById(R.id.list_view);
-        new DownloadJsonUsers(getActivity()).execute();
+        new DownloadJsonPatients(getActivity()).execute();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                User user = (User) adapterView.getAdapter().getItem(position);
-                Toast.makeText(getActivity(), user.getName(), Toast.LENGTH_SHORT).show();
+                Patient patient = (Patient) adapterView.getAdapter().getItem(position);
+                Toast.makeText(getActivity(), patient.getName(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), ViewUserActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(USER, user);
+                bundle.putSerializable(PATIENTS, patient);
                 intent.putExtras(bundle);
 
                 startActivity(intent);
+
             }
         });
 

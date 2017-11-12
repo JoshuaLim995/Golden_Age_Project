@@ -12,12 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
-import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.R;
 
 
@@ -44,9 +42,6 @@ public class AddPatientActivity extends AppCompatActivity {
     private EditText etSickness;
     private EditText etMargin;
 
-    private RadioGroup rdSex;
-    private RadioButton rdSex_male;
-    private RadioButton rdSex_female;
 
     private CheckBox cbPork;
     private CheckBox cbFish;
@@ -81,7 +76,8 @@ public class AddPatientActivity extends AppCompatActivity {
         etRelativeIC = (EditText) findViewById(R.id.item_patient_relative_ic);
         etMargin = (EditText) findViewById(R.id.item_patient_margin);
 
-
+        RadioButton rbInitial = (RadioButton)findViewById(R.id.gender_male);
+        rbInitial.setChecked(true);
 
         cbVege = (CheckBox) findViewById(R.id.cbVegetarian);
         cbFish = (CheckBox) findViewById(R.id.cbFish);
@@ -110,6 +106,8 @@ public class AddPatientActivity extends AppCompatActivity {
                 meals = stringBuffer.toString();
 
                 registerPatient();
+
+                finish();
 
 //                patient = new Patient("name", "ic", "birht", "sex", "blood", "addr", "con", "meal", "alle", "sick", "date", 20.06);
 /*
@@ -145,7 +143,7 @@ public class AddPatientActivity extends AppCompatActivity {
         final String register_date = etRegisterDate.getText().toString().trim();
         final String blood_type = String.valueOf(spinner.getSelectedItem()).trim();
 
-        sex.trim();
+  //      sex.trim();
         meals.trim();
 
   //      final String LOL = "testing";
@@ -221,11 +219,11 @@ public class AddPatientActivity extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
         switch (view.getId()) {
-            case R.id.sex_male:
+            case R.id.gender_male:
                 if (checked)
                     sex = "M";
                 break;
-            case R.id.sex_female:
+            case R.id.gender_female:
                 if (checked)
                     sex = "F";
         }

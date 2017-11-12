@@ -182,13 +182,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
             getSupportActionBar().setTitle("Users");
         }
-/*
-        else if (id == R.id.nav_nurse_listView) {
+
+        else if (id == R.id.nav_patients_listView) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewNurseFragment())
+                    .replace(R.id.content_frame, new ListViewPatientsFragment())
                     .commit();
-            getSupportActionBar().setTitle("Nurses");
+            getSupportActionBar().setTitle("Patients");
         }
+        /*
         else if (id == R.id.nav_driver_listView) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewDriverFragment())
