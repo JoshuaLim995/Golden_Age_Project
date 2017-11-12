@@ -7,27 +7,56 @@ package com.joshua_lsj.goldenage.Objects;
 public class Client {
 
     private long id;
+    private String Client_ID; //C001 format
     private String name;
     private String ic;
     private String birthday;
-    private String sex;
+    private String gender;
     private String contact;
     private String address;
     private String register_date;
     private String register_type;
     private String relationship;
     private String password;
+    
+    private int patient_id; //patient id
+    private String patient_ic; //use in register client in patient ic input
+    private String patient_name;
+    
+    public void setPatientName(String patient_name){
+        this.patient_name = patient_name;
+    }
+    
+    public void setPatientIC(String patient_ic){
+        this.patient_ic = patient_ic;
+    }
+    
+    public void setPatientID(int patient_id){
+        this.patient_id = patient_id;
+    }
+    
+    public String getPatientName(){
+        return patient_name;
+    }
+    
+    public String getPatientIC(){
+        return patient_ic;
+    }
+    
+    public int getPatientID(){
+        return patient_id;
+    }
 
     public Client(){this.register_type = "C";}
 
-    public Client(String name, String ic, String birthday, String sex,
+    public Client(String name, String ic, String birthday, String gender,
                   String address, String contact, String register_date,
                   String relationship){
         this.id = 0;
         this.name = name;
         this.ic = ic;
         this.birthday = birthday;
-        this.sex = sex;
+        this.gender = gender;
         this.address = address;
         this.contact = contact;
         this.register_date = register_date;
@@ -68,12 +97,12 @@ public class Client {
         this.birthday = birthday;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getContact() {
