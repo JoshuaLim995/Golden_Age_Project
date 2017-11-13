@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
 
 /**
@@ -18,7 +19,7 @@ public class ViewClientActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_client);
+        setContentView(R.layout.activity_view_user); //Share view User and Client
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -28,7 +29,7 @@ public class ViewClientActivity extends AppCompatActivity {
 
     protected void intialize(){
 
-        client = (Client) getIntent().getSerializableExtra(ListViewClientFragment.USER);
+        client = (Client) getIntent().getSerializableExtra(ListViewClientFragment.CLIENT);
 
         TextView tvName = (TextView) findViewById(R.id.item_name);
         TextView tvId = (TextView) findViewById(R.id.item_id);
@@ -43,16 +44,16 @@ public class ViewClientActivity extends AppCompatActivity {
         TextView tvPatientName = (TextView) findViewById(R.id.item_patient_name);
 
         tvName.setText(client.getName());
-        tvId.setText(client.getID());
-        tvRegisType.setText(client.getRegisType());
+        tvId.setText(client.getId().toString());
+        tvRegisType.setText(client.getRegister_type());
         tvContact.setText(client.getContact());
         tvIc.setText(client.getIc());
         tvGender.setText(client.getGender());
-    //    tvAge.setText(client.get()); //GET USER AGE FROM THE BIRTHDATE
-        tvBirthdate.setText(client.getBirthdate());
-        tvRegisDate.setText(client.getRegisDate());
-    //    tvPatientID.setText(client.getName()); //GET PATIENT ID FROM USER
-     //   tvPatientName.setText(client.getName()); //GET PATIENT NAME FROM USER
+        tvAge.setText(client.getAge()); //GET USER AGE FROM THE BIRTHDATE
+        tvRegisDate.setText(client.getRegister_date());
+        tvPatientID.setText(client.getPatientID()); //GET PATIENT ID FROM USER
+        if(client.getName() != null)
+            tvPatientName.setText(client.getName()); //GET PATIENT NAME FROM USER
 
     }
 }

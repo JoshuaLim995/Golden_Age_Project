@@ -6,6 +6,7 @@ import android.util.JsonReader;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
 
 import java.io.IOException;
@@ -49,9 +50,15 @@ public class DownloadJsonClients extends AsyncTask<Void, Void, ArrayList<Client>
     @Override
     protected void onPostExecute(ArrayList<Client> clients) {
         ListView listView = (ListView)(activity.findViewById(R.id.list_view));
-        ClientAdapter adapter = new ClientAdapter(clients, activity);
 
-        listView.setAdapter(adapter);
+        if(clients != null){
+            ClientAdapter adapter = new ClientAdapter(clients, activity);
+
+            listView.setAdapter(adapter);
+        }
+        else
+            Log.d("ERROR:", "No connection");
+
     }
 
     private ArrayList<Client> downloadJson() throws IOException {
@@ -117,26 +124,28 @@ public class DownloadJsonClients extends AsyncTask<Void, Void, ArrayList<Client>
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();    // name variable refers to the name (key) of JSON object
-            if (name.equals("id")) {
+            if (name.equals("ID")) {
                 client.setId(reader.nextInt());
             } else if (name.equals("Name")) {
                 client.setName(reader.nextString());
             }
 
-            else  if (name.equals("ic")){
+            else  if (name.equals("IC")){
                 client.setIc(reader.nextString());
-            } else if (name.equals("contact")){
+            } else if (name.equals("Contact")){
                 client.setContact(reader.nextString());
-            }else if (name.equals("birthdate")){
-                client.setBirthdate(reader.nextString());
-            }else if (name.equals("addr")){
+            }else if (name.equals("BirthYear")){
+                client.setAge(reader.nextString());
+            }else if (name.equals("Address")){
                 client.setAddress(reader.nextString());
-            }else if (name.equals("gender")){
+            }else if (name.equals("Gender")){
                 client.setGender(reader.nextString());
-            }else if (name.equals("regisdate")){
-                client.setRegisDate(reader.nextString());
-            }else if (name.equals("registype")){
-                client.setRegisType(reader.nextString());
+            }else if (name.equals("RegisDate")){
+                client.setRegister_date(reader.nextString());
+            }else if (name.equals("RegisType")){
+                client.setRegister_type(reader.nextString());
+            }else if(name.equals("Patient_ID")){
+                client.setPatientID(reader.nextString());
             }
 
             else {

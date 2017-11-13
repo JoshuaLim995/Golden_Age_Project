@@ -21,6 +21,8 @@ public class DailyRecord implements Serializable {
     private String nurse_id;
     private String nurse_name;
 
+    //TODO: Edit here to allow Admin/Nurse to record patient daily medical checkup data;;;;
+    /*
     public DailyRecord(Patient patient, String date, String blood_pressure, String sugar_level,
                        String heart_rate, String temperature, Nurse nurse){
 
@@ -34,7 +36,7 @@ public class DailyRecord implements Serializable {
         this.nurse_id = nurse.getRegister_type() + nurse.getId();
         this.nurse_name = nurse.getName();
     }
-
+*/
 
     public String getPatient_id() {
         return patient_id;

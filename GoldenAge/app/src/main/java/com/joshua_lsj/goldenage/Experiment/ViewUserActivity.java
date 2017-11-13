@@ -43,7 +43,7 @@ public class ViewUserActivity extends AppCompatActivity {
         TextView tvPatientName = (TextView) findViewById(R.id.item_patient_name);
 
         tvName.setText(user.getName());
-        tvId.setText(user.getID());
+        tvId.setText(user.getID().toString());
         tvRegisType.setText(user.getRegisType());
         tvContact.setText(user.getContact());
         tvIc.setText(user.getIc());

@@ -44,35 +44,35 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sex" />
+                android:text="Gender" />
 
             <RadioGroup
-                android:id="@+id/item_sex"
+                android:id="@+id/item_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RadioButton
-                    android:id="@+id/item_sex_male"
+                    android:id="@+id/gender_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
                     android:onClick="onRadioButtonClicked"/>
                 <RadioButton
-                    android:id="@+id/item_sex_female"
+                    android:id="@+id/gender_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Female"
                     android:onClick="onRadioButtonClicked"/>
             </RadioGroup>
 
-            <!-- Birthday -->
+            <!-- Age -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Birthday" />
+                android:text="Age" />
 
             <EditText
-                android:id="@+id/item_birthday"
+                android:id="@+id/item_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -124,42 +124,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Relationship to Patient-->
+            <!-- Patient IC -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Relations" />
-
-            <RadioGroup
-                android:id="@+id/item_relation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/relation1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Son/Daughter"
-                    android:layout_weight="1"
-                    android:onClick="onRadioButtonClicked"/>
-                <RadioButton
-                    android:id="@+id/relation2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Relative"
-                    android:layout_weight="1"
-                    android:onClick="onRadioButtonClicked"/>
-                <RadioButton
-                    android:id="@+id/relation3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Other"
-                    android:layout_weight="1"
-                    android:onClick="onRadioButtonClicked"/>
-            </RadioGroup>
+                android:text="Patient IC" />
 
             <EditText
-                android:id="@+id/item_other"
+                android:id="@+id/item_patient_ic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

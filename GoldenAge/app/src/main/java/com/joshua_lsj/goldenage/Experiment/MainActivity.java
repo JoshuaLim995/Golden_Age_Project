@@ -80,11 +80,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Initialize();
 
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new ListViewUserFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Users");
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new ListViewUserFragment())
-                .commit();
-        getSupportActionBar().setTitle("Users");
+
+
 
 
     }
@@ -92,15 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
- //       if(networkInfo != null && networkInfo.isConnected()) {
- //s           new DownloadJsonUsers(this).execute();
-//        }
-  //      else {
-  //          Toast toast = Toast.makeText(this, "Unable to connect", Toast.LENGTH_LONG);
-  //          toast.show();
-  //      }
     }
 
 
@@ -119,16 +112,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          //       intent = new Intent(getApplicationContext(), AddNurseActivity.class);
                 startActivity(intent);
                 break;
-            /*
+
             case R.id.menu_add_client:
-     //           intent = new Intent(getApplicationContext(), AddClientActivity.class);
-    //            startActivity(intent);
+                intent = new Intent(getApplicationContext(), AddClientActivity.class);
+                startActivity(intent);
                 break;
-            case R.id.menu_add_driver:
-     //           intent = new Intent(getApplicationContext(), AddDriverActivity.class);
-    //            startActivity(intent);
-                break;
-                */
+
             default:
                 fam.close(true);
         }
@@ -189,20 +178,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
             getSupportActionBar().setTitle("Patients");
         }
-        /*
-        else if (id == R.id.nav_driver_listView) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewDriverFragment())
-                    .commit();
-            getSupportActionBar().setTitle("Drivers");
-        }
+
         else if (id == R.id.nav_client_listView) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
 
-      } */
+      }
         else if (id == R.id.nav_logout) {
             finish();
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();

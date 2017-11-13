@@ -1,16 +1,20 @@
 package com.joshua_lsj.goldenage.Objects;
 
+import com.joshua_lsj.goldenage.Calender;
+
+import java.io.Serializable;
+
 /**
  * Created by limsh on 10/22/2017.
  */
 
-public class Client {
+public class Client implements Serializable {
 
     private long id;
     private String Client_ID; //C001 format
     private String name;
     private String ic;
-    private String birthday;
+    private int age;
     private String gender;
     private String contact;
     private String address;
@@ -22,6 +26,8 @@ public class Client {
     private int patient_id; //patient id
     private String patient_ic; //use in register client in patient ic input
     private String patient_name;
+
+    private Calender calender;
     
     public void setPatientName(String patient_name){
         this.patient_name = patient_name;
@@ -31,8 +37,8 @@ public class Client {
         this.patient_ic = patient_ic;
     }
     
-    public void setPatientID(int patient_id){
-        this.patient_id = patient_id;
+    public void setPatientID(String patient_id){
+        this.patient_id = Integer.parseInt(patient_id);
     }
     
     public String getPatientName(){
@@ -48,7 +54,7 @@ public class Client {
     }
 
     public Client(){this.register_type = "C";}
-
+/*
     public Client(String name, String ic, String birthday, String gender,
                   String address, String contact, String register_date,
                   String relationship){
@@ -64,8 +70,8 @@ public class Client {
         this.relationship = relationship;
         this.password = ic;
     }
-
-    public long getId() {
+*/
+    public Long getId() {
         return id;
     }
 
@@ -87,14 +93,6 @@ public class Client {
 
     public void setIc(String ic) {
         this.ic = ic;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
     }
 
     public String getGender() {
@@ -147,5 +145,13 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(String birthyear) {
+        this.age = calender.getCurrentYear() - Integer.parseInt(birthyear);
     }
 }

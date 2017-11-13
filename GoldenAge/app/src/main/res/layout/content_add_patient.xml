@@ -91,10 +91,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Birthday" />
+                android:text="Age" />
 
             <EditText
-                android:id="@+id/item_patient_birthday"
+                android:id="@+id/item_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -185,27 +185,6 @@
                 android:focusableInTouchMode="false"
                 android:onClick="showDatePickerDialog"/>
 
-            <!-- Relative Name-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Relative Name" />
-
-            <EditText
-                android:id="@+id/item_patient_relative_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Relative IC-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Relative IC" />
-
-            <EditText
-                android:id="@+id/item_patient_relative_ic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <!-- Margin/Deposit -->
             <TextView

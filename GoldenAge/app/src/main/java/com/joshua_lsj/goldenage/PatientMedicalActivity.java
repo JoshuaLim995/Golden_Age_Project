@@ -1,6 +1,6 @@
 package com.joshua_lsj.goldenage;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +8,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 //import com.joshua_lsj.goldenage.DataBase.Queries;
-import com.joshua_lsj.goldenage.Objects.DailyRecord;
-import com.joshua_lsj.goldenage.Objects.Nurse;
+import com.joshua_lsj.goldenage.Experiment.LoginActivity;
+import com.joshua_lsj.goldenage.Experiment.RequestHandler;
+import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
+import com.joshua_lsj.goldenage.Experiment.URLs;
+import com.joshua_lsj.goldenage.Experiment.User;
 import com.joshua_lsj.goldenage.Experiment.Patient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by limsh on 10/22/2017.
@@ -37,13 +46,15 @@ public class PatientMedicalActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Get user from sharedPreference
+        user = SharedPrefManager.getInstance(this).getUserSharedPref();
         intialize();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {              
-                createMedicakRecord()
+                createMedicakRecord();
             }
         });
 
@@ -62,7 +73,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
         
         tvPatient_Name.setText(patient.getName());
         tvDate.setText(calender.getToday());
-        tvNurse_name.setText(nurse.getName());      
+        tvNurse_name.setText(user.getName());
         
         etBlood_Pressure = (EditText) findViewById(R.id.item_bloodPressure);
         etSugar_Level = (EditText) findViewById(R.id.item_sugarLevel);
@@ -76,7 +87,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
         final String heartRate = etHeartRate.getText().toString();
         final String temperature = etTemperature.getText().toString();
         
-        class UploadMedicalRecord extends AsyncTask<Void, Void, String>{
+        class UploadMedicalRecord extends AsyncTask<Void, Void, String> {
             @Override
             protected String doInBackground(Void... voids) {
 
@@ -85,8 +96,8 @@ public class PatientMedicalActivity extends AppCompatActivity{
                 HashMap<String, String> params = new HashMap<>();
 
                 params.put("date", calender.getToday());
-                params.put("patient_id", patient.getID()); //GET ID IN P001 FORMAT
-                params.put("user_id", user.getID); //GET ID IN N001 FORMAT
+                params.put("patient_id", patient.getId().toString()); //GET ID IN P001 FORMAT
+                params.put("user_id", user.getID().toString()); //GET ID IN N001 FORMAT
                 params.put("bloodPressure", bloodPressure);
                 params.put("sugarLevel", sugarLevel);
                 params.put("heartRate", heartRate);

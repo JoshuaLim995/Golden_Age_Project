@@ -11,16 +11,12 @@
             android:id="@+id/nav_patients_listView"
 
             android:title="Patients" />
-<!--
-        <item
-            android:id="@+id/nav_driver_listView"
 
-            android:title="Drivers" />
         <item
             android:id="@+id/nav_client_listView"
 
             android:title="Clients" />
--->
+
         <item
             android:id="@+id/nav_logout"
 

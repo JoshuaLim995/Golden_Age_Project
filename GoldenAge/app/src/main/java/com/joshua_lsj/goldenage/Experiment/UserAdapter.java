@@ -25,7 +25,7 @@ public class UserAdapter extends ArrayAdapter<User> {
     }
 
     public UserAdapter(ArrayList<User> data, Context context) {
-        super(context, R.layout.list_names, data);
+        super(context, R.layout.list_items, data);
         this.data = data;
         this.context = context;
     }
@@ -39,7 +39,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         if(convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_names, parent, false);
+            convertView = inflater.inflate(R.layout.list_items, parent, false);
 
             viewHolder.txtName = convertView.findViewById(R.id.item_name);
             viewHolder.txtRegisType = convertView.findViewById(R.id.item_detail);

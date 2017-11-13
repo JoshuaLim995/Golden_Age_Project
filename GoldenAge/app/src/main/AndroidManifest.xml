@@ -94,19 +94,20 @@
         -->
 
 
-        <activity android:name=".OLD.AddClientActivity"
+        <activity android:name=".Experiment.AddClientActivity"
             android:label="Add Client"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OLD.MainActivity" />
+                android:value=".Experiment.MainActivity" />
         </activity>
+
         <activity android:name=".PatientMedicalActivity"
             android:label="Patient Medical Checkup"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewPatientActivity" />
+                android:value=".Experiment.ViewPatientActivity" />
         </activity>
     </application>
 

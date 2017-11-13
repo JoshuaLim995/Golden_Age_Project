@@ -26,7 +26,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
     }
 
     public PatientAdapter(ArrayList<Patient> patients, Context context) {
-        super(context, R.layout.list_names, patients);
+        super(context, R.layout.list_items, patients);
         this.patients = patients;
         this.context = context;
     }
@@ -40,7 +40,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         if(convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_names, parent, false);
+            convertView = inflater.inflate(R.layout.list_items, parent, false);
 
             viewHolder.txtName = convertView.findViewById(R.id.item_name);
             viewHolder.txtRegisType = convertView.findViewById(R.id.item_detail);

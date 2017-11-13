@@ -11,11 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.BirthDatePickerFragment;
 import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
@@ -188,7 +186,7 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("Gender", gender);
                 params.put("Birthyear", birthYear.toString());
                 params.put("Contact", contact);
-                params.put("Addr", address);
+                params.put("Address", address);
                 params.put("regisDate",register_date );
                 params.put("regisType", user_type);
 
@@ -260,8 +258,4 @@ public class AddUserActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void showBirthDatePickerDialog(View view){
-        DialogFragment fragment = new BirthDatePickerFragment();
-        fragment.show(getSupportFragmentManager(), "datePicker");
-    }
 }

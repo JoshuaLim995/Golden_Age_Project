@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
 
@@ -32,7 +33,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
     private EditText etName;
     private EditText etIC;
-    private EditText etBirthday;
+    private EditText etAge;
     private EditText etRelativeIC;
     private EditText etRelativeName;
     private EditText etRegisterDate;
@@ -66,7 +67,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.item_patient_name);
         etIC = (EditText) findViewById(R.id.item_patient_ic);
-        etBirthday = (EditText) findViewById(R.id.item_patient_birthday);
+        etAge = (EditText) findViewById(R.id.item_age);
         etAddress = (EditText) findViewById(R.id.item_patient_address);
         etContact = (EditText) findViewById(R.id.item_patient_contact);
         etAllergic = (EditText) findViewById(R.id.item_patient_allergic);
@@ -132,7 +133,7 @@ public class AddPatientActivity extends AppCompatActivity {
     private void registerPatient(){
         final String name = etName.getText().toString().trim();
         final String ic = etIC.getText().toString().trim();
-        final     String birthday = etBirthday.getText().toString().trim();
+        final     int age = Integer.parseInt(etAge.getText().toString());
         final String address = etAddress.getText().toString().trim();
         final      String contact = etContact.getText().toString().trim();
         final String allergic = etAllergic.getText().toString().trim();
@@ -158,10 +159,12 @@ public class AddPatientActivity extends AppCompatActivity {
 
                 HashMap<String, String> params = new HashMap<>();
 
+                Calender calender = new Calender();
+                Integer birthyear = calender.getCurrentYear() - age;
 
                 params.put("name", name);
                 params.put("ic", ic);
-                params.put("birthdate", birthday);
+                params.put("Birthyear", birthyear.toString());
                 params.put("gender", sex);
                 params.put("bloodType", blood_type);
                 params.put("address", address);

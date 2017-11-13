@@ -10,7 +10,7 @@ import java.util.Date;
  */
 
 public class User implements Serializable {
-    private int id;
+    private long id;
     private String name;
     private String ic;
     private String gender;
@@ -24,14 +24,16 @@ public class User implements Serializable {
     //CONSIDERING NEED TO ADD USER_ID OR NOT (USER_ID = REGISTER_TYPE + ID) MAKE IT EASIER BE IDENTIFIED AND UNIQUE
 
     private Calender calender;
-    public User(){}
+    public User(){
+        calender = new Calender();
+    }
 
     public User(int id, String name, String regisType){
         this.id = id;
         this.name = name;
         this.regisType = regisType;
     }
-
+/*
     public User(int id, String name, String ic, String gender, String contact, String regisType){
         this.id = id;
         this.name = name;
@@ -52,13 +54,13 @@ public class User implements Serializable {
         this.regisDate = regisDate;
         this.regisType = regisType;
     }
+*/
 
-
-    public int getID() {
+    public Long getID() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -127,7 +129,6 @@ public class User implements Serializable {
     }
 
     public int getAge() {
-
         return age;
     }
 

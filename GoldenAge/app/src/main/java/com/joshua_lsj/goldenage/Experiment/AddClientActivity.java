@@ -3,19 +3,15 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.BirthDatePickerFragment;
+import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
 
@@ -41,10 +37,10 @@ import java.util.HashMap;
 		
 		private RadioButton rdMale;
 		//NEED TO EDIT THE ADD CLIENT ACTIVITY XML
-		private EditText etPatientIC; //USE PATIENT IC AS FOREIGN_KEY 
+		private EditText etPatientIC; //USE PATIENT IC AS FOREIGN_KEY
+    private EditText etPatientName;
 		
 		private String gender;
-    private String relation;
 		
 		protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +72,11 @@ import java.util.HashMap;
         etAddress = (EditText) findViewById(R.id.item_address);
         etContact = (EditText) findViewById(R.id.item_contact);
 				
-        etPatientIC = (EditText) findViewById(R.id.item_patientIC);
+        etPatientIC = (EditText) findViewById(R.id.item_patient_ic);
+            etPatientName = (EditText) findViewById(R.id.item_patient_name);
 				
 				rdMale = (RadioButton) findViewById(R.id.gender_male);
 
-        etOther.setVisibility(View.INVISIBLE);
-				rdMale.isChecked = true;
 		}
 		
 		private void registerClient(){
@@ -93,6 +88,7 @@ import java.util.HashMap;
         final String register_date = etRegisterDate.getText().toString().trim();
 				
 				final String patient_IC = etPatientIC.getText().toString().trim();
+            final String patient_name = etPatientName.getText().toString().trim();
 				final String regis_type = "C";
 				
 				    class RegisterClient extends AsyncTask<Void, Void, String>{
@@ -104,17 +100,19 @@ import java.util.HashMap;
                 HashMap<String, String> params = new HashMap<>();
 								
 								Calender cal = new Calender();
-								Integer birthYear = calender.getCurrentYear() - age;
+								Integer birthYear = cal.getCurrentYear() - age;
 
                 params.put("name", name);
                 params.put("ic", ic);
-                params.put("birthYear", birthYear.toString);
+                params.put("birthYear", birthYear.toString());
                 params.put("gender", gender);
                 params.put("address", address);
                 params.put("contact", contact);
                 params.put("regType", regis_type);
                 params.put("regDate",register_date);
-								params.put("patientIC", patient_IC);//PUT PATIENT IC INTO THE PARAMETER
+                //TODO: use patient ic? name?
+								params.put("patient_IC", patient_IC);//PUT PATIENT IC INTO THE PARAMETER
+                params.put("Patient_Name", patient_name);
 								
                 return requestHandler.sendPostRequest(URLs.URL_CLIENT_REGISTER, params);
             }
