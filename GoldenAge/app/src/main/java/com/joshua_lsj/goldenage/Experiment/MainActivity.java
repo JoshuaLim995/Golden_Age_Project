@@ -27,6 +27,7 @@ import com.github.clans.fab.FloatingActionMenu;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
 //import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
 import com.joshua_lsj.goldenage.R;
+import com.joshua_lsj.goldenage.Volley.AddPatientActivityVolley;
 //import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,9 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
         switch (view.getId()){
             case R.id.menu_add_patient:
-//                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
-                intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
-
+ //               intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
+                intent = new Intent(getApplicationContext(),  AddPatientActivityVolley.class);
                 startActivity(intent);
                 break;
             case R.id.menu_add_user:

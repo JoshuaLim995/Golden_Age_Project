@@ -8,19 +8,19 @@ if(isset($_GET['apicall'])){
 	
 	switch($_GET['apicall']){
 		
-		case 'signup':
+		case 'medical':
 		
 		if(isTheseParametersAvailable(array('Date','Nurse_ID','Patient_ID','Blood_Pressure','Heart_Rate','Sugar_Level'))){
 
-      $Date = $_POST['Date'];
-      $Nurse_ID = $_POST['Nurse_ID'];
+			$Date = $_POST['Date'];
+			$Nurse_ID = $_POST['Nurse_ID'];
 			$Patient_ID = $_POST['Patient_ID'];
-      $Blood_Pressure = $_POST['Blood_Pressure']; 
-      $Heart_Rate = $_POST['Heart_Rate'];
-      $Sugar_Level = $_POST['Sugar_Level'];
-      
-      
-      $stmt = $conn->prepare("INSERT INTO medical (Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level) VALUES (?,?,?)");
+			$Blood_Pressure = $_POST['Blood_Pressure']; 
+			$Heart_Rate = $_POST['Heart_Rate'];
+			$Sugar_Level = $_POST['Sugar_Level'];
+			
+			
+			$stmt = $conn->prepare("INSERT INTO medical (Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level) VALUES (?,?,?)");
 
 			$stmt->bind_param("ssssss", $Date, $Nurse_ID, $Patient_ID, $Blood_Pressure, $Heart_Rate, $Sugar_Level);
 

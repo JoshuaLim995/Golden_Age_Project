@@ -27,7 +27,6 @@ public class Client implements Serializable {
     private String patient_ic; //use in register client in patient ic input
     private String patient_name;
 
-    private Calender calender;
     
     public void setPatientName(String patient_name){
         this.patient_name = patient_name;
@@ -151,7 +150,8 @@ public class Client implements Serializable {
         return age;
     }
 
-    public void setAge(String birthyear) {
-        this.age = calender.getCurrentYear() - Integer.parseInt(birthyear);
+    public void setAge(int birthyear) {
+        Calender calender = new Calender();
+        this.age = calender.getCurrentYear() - birthyear;
     }
 }

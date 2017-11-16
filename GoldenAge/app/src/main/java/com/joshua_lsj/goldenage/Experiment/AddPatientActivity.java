@@ -73,8 +73,6 @@ public class AddPatientActivity extends AppCompatActivity {
         etAllergic = (EditText) findViewById(R.id.item_patient_allergic);
         etSickness = (EditText) findViewById(R.id.item_patient_sickness);
         etRegisterDate = (EditText) findViewById(R.id.item_register_date);
-        etRelativeName = (EditText) findViewById(R.id.item_patient_relative_name);
-        etRelativeIC = (EditText) findViewById(R.id.item_patient_relative_ic);
         etMargin = (EditText) findViewById(R.id.item_patient_margin);
 
         RadioButton rbInitial = (RadioButton)findViewById(R.id.gender_male);
@@ -109,18 +107,6 @@ public class AddPatientActivity extends AppCompatActivity {
                 registerPatient();
 
                 finish();
-
-//                patient = new Patient("name", "ic", "birht", "sex", "blood", "addr", "con", "meal", "alle", "sick", "date", 20.06);
-/*
-                patient = new Patient(name, ic, birthday, sex, blood_type, address, contact, meals,
-                        allergic, sickness, register_date,
-                        Double.parseDouble(margin));
-*/
-//                Queries queries = new Queries(new DatabaseHelper(getApplicationContext()));
-
-   //             if(queries.insert(patient) != 0)
-  //                  Toast.makeText(getApplicationContext(), "Patient created", Toast.LENGTH_SHORT).show();
-
 
             }
         });

@@ -4,6 +4,8 @@
 
     <!-- adding internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- adding access image permission -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -41,6 +43,25 @@
                 android:value=".Experiment.MainActivity" />
         </activity>
 
+        <!-- View Patient Activity -->
+        <activity android:name=".Experiment.ViewPatientActivity"
+            android:label="View Patient"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
+        </activity>
+
+        <!-- View Client Activity -->
+        <activity android:name=".Experiment.ViewClientActivity"
+            android:label="View Client"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
+        </activity>
+
+
         <!-- ORIGINAL MAIN ACTIVITY
         <activity
             android:name=".MainActivity"
@@ -71,6 +92,14 @@
                 android:value=".Experiment.MainActivity" />
         </activity>
 
+        //Add Patient Using Volley
+        <activity android:name=".Volley.AddPatientActivityVolley"
+            android:label="Add Patient"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
+        </activity>
 
         <!-- ADD USER ACTIVITY -->
         <activity android:name=".Experiment.AddUserActivity"

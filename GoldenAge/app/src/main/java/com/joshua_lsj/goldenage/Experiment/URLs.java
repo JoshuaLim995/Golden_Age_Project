@@ -14,7 +14,7 @@ public class URLs {
 
     //TODO: Make API for general register account (user, client, patient)
 
-    public static final String LOGIN_URL = "http://192.168.1.10/Android/Login.php?apicall=login";
+    public static final String LOGIN_URL = ROOT_URL + "Login.php?apicall=login";
     public static final String URL_USER_REGISTER = "http://192.168.1.10/Android/RegisterUser.php?apicall=REGISTER";
     public static final String URL_PATIENT_REGISTER = "http://192.168.1.10/Android/PatientRegister.php?apicall=signup";
     public static final String URL_CLIENT_REGISTER = "";
@@ -24,7 +24,7 @@ public class URLs {
     public static final String GET_CLIENT_URL = GET_DATA + "clients";
 
 
-    public static final String URL_UPLOAD_MEDICAL_RECORD = ""; //TODO: make API for Upload Medical Record
+    public static final String URL_UPLOAD_MEDICAL_RECORD = ROOT_URL + "MedicalRecord.php?apicall=medical"; //TODO: make API for Upload Medical Record
 
 
 

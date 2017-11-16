@@ -122,31 +122,31 @@ public class DownloadJsonPatients extends AsyncTask<Void, Void, ArrayList<Patien
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();    // name variable refers to the name (key) of JSON object
-            if (name.equals("id")) {
+            if (name.equals("ID")) {
                 patient.setId(reader.nextInt());
-            } else if (name.equals("name")) {
+            } else if (name.equals("Name")) {
                 patient.setName(reader.nextString());
-            } else if (name.equals("ic")){
+            } else if (name.equals("IC")){
                 patient.setIc(reader.nextString());
+            }  else if (name.equals("Contact")){
+                patient.setContact(reader.nextString());
             } else if (name.equals("Birthyear")){
                 patient.setAge(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("gender")){
+            } else if (name.equals("Gender")){
                 patient.setGender(reader.nextString());
-            } else if (name.equals("bloodType")){
+            } else if (name.equals("BloodType")){
                 patient.setBlood_type(reader.nextString());
-            } else if (name.equals("address")){
+            } else if (name.equals("Address")){
                 patient.setAddress(reader.nextString());
-            } else if (name.equals("contact")){
-                patient.setContact(reader.nextString());
-            } else if (name.equals("meals")){
+            } else if (name.equals("Meals")){
                 patient.setMeals(reader.nextString());
-            } else if (name.equals("allegic")){
+            } else if (name.equals("Allergic")){
                 patient.setAllergic(reader.nextString());
-            } else if (name.equals("sickness")){
+            } else if (name.equals("Sickness")){
                 patient.setSickness(reader.nextString());
-            } else if (name.equals("regisdate")){
+            } else if (name.equals("RegDate")){
                 patient.setRegister_date(reader.nextString());
-            } else if (name.equals("margin")){
+            } else if (name.equals("Margin")){
                 patient.setMargin(Double.parseDouble(reader.nextString()));
             }
 

@@ -3,7 +3,6 @@ package com.joshua_lsj.goldenage.Experiment;
 import com.joshua_lsj.goldenage.Calender;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by limsh on 10/28/2017.
@@ -23,9 +22,9 @@ public class User implements Serializable {
     private int birthyear;
     //CONSIDERING NEED TO ADD USER_ID OR NOT (USER_ID = REGISTER_TYPE + ID) MAKE IT EASIER BE IDENTIFIED AND UNIQUE
 
-    private Calender calender;
+
     public User(){
-        calender = new Calender();
+
     }
 
     public User(int id, String name, String regisType){
@@ -133,6 +132,8 @@ public class User implements Serializable {
     }
 
     public void setAge(int birthyear) {
+        Calender calender = new Calender();
         this.age = calender.getCurrentYear() - birthyear;
+
     }
 }

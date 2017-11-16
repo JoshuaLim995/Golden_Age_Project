@@ -36,14 +36,18 @@ public class ListViewUserFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 User user = (User) adapterView.getAdapter().getItem(position);
-                Toast.makeText(getActivity(), user.getName(), Toast.LENGTH_SHORT).show();
+
+       //         User user = new User();
+                Toast.makeText(getActivity(), Integer.toString(user.getAge()), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), ViewUserActivity.class);
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(USER, user);
                 intent.putExtras(bundle);
 
                 startActivity(intent);
+
             }
         });
 

@@ -1,6 +1,6 @@
 package com.joshua_lsj.goldenage.Experiment;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +22,7 @@ public class ViewUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        intialize();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -49,7 +50,7 @@ public class ViewUserActivity extends AppCompatActivity {
         tvIc.setText(user.getIc());
         tvGender.setText(user.getGender());
     //    tvAge.setText(user.get()); //GET USER AGE FROM THE BIRTHDATE
-        tvBirthdate.setText(user.getAge());
+        tvAge.setText(Integer.toString(user.getAge()));
         tvRegisDate.setText(user.getRegisDate());
     //    tvPatientID.setText(user.getName()); //GET PATIENT ID FROM USER
      //   tvPatientName.setText(user.getName()); //GET PATIENT NAME FROM USER

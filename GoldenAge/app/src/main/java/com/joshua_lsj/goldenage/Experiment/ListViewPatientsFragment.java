@@ -21,7 +21,7 @@ public class ListViewPatientsFragment extends Fragment {
 
     View myView;
     ListView listView;
-    public static final String PATIENTS = "PATIENTS";
+    public static final String PATIENT = "PATIENT";
 
     @Nullable
     @Override
@@ -38,9 +38,9 @@ public class ListViewPatientsFragment extends Fragment {
                 Patient patient = (Patient) adapterView.getAdapter().getItem(position);
                 Toast.makeText(getActivity(), patient.getName(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getActivity(), ViewUserActivity.class);
+                Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(PATIENTS, patient);
+                bundle.putSerializable(PATIENT, patient);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

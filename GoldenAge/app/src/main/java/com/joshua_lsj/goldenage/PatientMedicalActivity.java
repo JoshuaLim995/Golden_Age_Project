@@ -58,7 +58,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
     private void intialize(){
@@ -95,13 +95,13 @@ public class PatientMedicalActivity extends AppCompatActivity{
 
                 HashMap<String, String> params = new HashMap<>();
 
-                params.put("date", calender.getToday());
-                params.put("patient_id", patient.getId().toString()); //GET ID IN P001 FORMAT
-                params.put("user_id", user.getID().toString()); //GET ID IN N001 FORMAT
-                params.put("bloodPressure", bloodPressure);
-                params.put("sugarLevel", sugarLevel);
-                params.put("heartRate", heartRate);
-                params.put("temperature", temperature );
+                params.put("Date", calender.getToday());
+                params.put("Patient_ID", patient.getId().toString()); //GET ID IN P001 FORMAT
+                params.put("Nurse_ID", user.getID().toString()); //GET ID IN N001 FORMAT
+                params.put("Blood_Pressure", bloodPressure);
+                params.put("Sugar_Level", sugarLevel);
+                params.put("Heart_Rate", heartRate);
+                params.put("Temperature", temperature );
                 
                 return requestHandler.sendPostRequest(URLs.URL_UPLOAD_MEDICAL_RECORD, params);
             }
@@ -115,6 +115,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
                     JSONObject obj = new JSONObject(s);
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     else
                     {

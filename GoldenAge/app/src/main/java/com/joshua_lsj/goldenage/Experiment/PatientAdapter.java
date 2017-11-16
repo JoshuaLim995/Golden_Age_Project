@@ -53,7 +53,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         }
 
         viewHolder.txtName.setText(patient.getName());
-      //  viewHolder.txtRegisType.setText(patient.getRegisType());
+        viewHolder.txtRegisType.setText("P");
 
 
         return convertView;

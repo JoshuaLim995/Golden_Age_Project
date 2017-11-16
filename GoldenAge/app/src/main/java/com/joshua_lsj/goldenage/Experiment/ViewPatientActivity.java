@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.PatientMedicalActivity;
 import com.joshua_lsj.goldenage.R;
 
@@ -48,7 +49,7 @@ public class ViewPatientActivity extends AppCompatActivity {
     public void Initialize() {
 
 
-        patient = (Patient) getIntent().getSerializableExtra(ListViewPatientsFragment.PATIENTS);
+        patient = (Patient) getIntent().getSerializableExtra(ListViewPatientsFragment.PATIENT);
 
 
         TextView tvId = (TextView) findViewById(R.id.view_patient_id);
@@ -74,7 +75,7 @@ public class ViewPatientActivity extends AppCompatActivity {
         tvIC.setText(patient.getIc());
         tvGender.setText(patient.getGender());
 //            tvAge.setText(patient.g());
-        tvBirthday.setText(patient.getAge()); //CHANGE TO AGE
+        tvBirthday.setText(Integer.toString(patient.getAge())); //CHANGE TO AGE
         tvBlood.setText(patient.getBlood_type());
         tvSick.setText(patient.getSickness());
         tvMeal.setText(patient.getMeals());
@@ -82,5 +83,8 @@ public class ViewPatientActivity extends AppCompatActivity {
         tvRegDate.setText(patient.getRegister_date());
         tvRegType.setText(patient.getRegister_type());
         tvMargin.setText(patient.getMargin().toString());
+
+        Calender calender = new Calender();
+        tvAge.setText(Integer.toString(calender.getCurrentYear()));
     }
 }

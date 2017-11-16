@@ -122,25 +122,29 @@ public class DownloadJsonUsers extends AsyncTask<Void, Void, ArrayList<User>> {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();    // name variable refers to the name (key) of JSON object
-            if (name.equals("id")) {
+            if (name.equals("ID")) {
                 user.setId(reader.nextInt());
             } else if (name.equals("Name")) {
                 user.setName(reader.nextString());
             }
 
-            else  if (name.equals("ic")){
+            else  if (name.equals("IC")){
                 user.setIc(reader.nextString());
-            } else if (name.equals("contact")){
+            } else if (name.equals("Contact")){
                 user.setContact(reader.nextString());
-            }else if (name.equals("Birthyear")){
+            }
+
+            else if (name.equals("BirthYear")){
                 user.setAge(Integer.parseInt(reader.nextString()));
-            }else if (name.equals("addr")){
+            }
+
+            else if (name.equals("Address")){
                 user.setAddress(reader.nextString());
-            }else if (name.equals("gender")){
+            }else if (name.equals("Gender")){
                 user.setGender(reader.nextString());
-            }else if (name.equals("regisdate")){
+            }else if (name.equals("RegisDate")){
                 user.setRegisDate(reader.nextString());
-            }else if (name.equals("registype")){
+            }else if (name.equals("RegisType")){
                 user.setRegisType(reader.nextString());
             }
 

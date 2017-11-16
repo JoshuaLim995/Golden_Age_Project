@@ -38,6 +38,9 @@ public class ListViewClientFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 Client client = (Client) adapterView.getAdapter().getItem(position);
+
+      //          Client client = new Client();
+
                 Toast.makeText(getActivity(), client.getName(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), ViewClientActivity.class);
@@ -48,11 +51,6 @@ public class ListViewClientFragment extends Fragment {
                 startActivity(intent);
 
 
-                //    Cursor cursor = (Cursor)adapterView.getItemAtPosition(position);
-
-                //    Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
-                //    intent.putExtra(ID, cursor.getLong(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)));
-                //   ListViewPatientFragment.this.startActivity(intent);
             }
         });
 

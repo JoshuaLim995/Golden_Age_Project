@@ -128,19 +128,23 @@ public class DownloadJsonClients extends AsyncTask<Void, Void, ArrayList<Client>
                 client.setId(reader.nextInt());
             } else if (name.equals("Name")) {
                 client.setName(reader.nextString());
-            }
-
-            else  if (name.equals("IC")){
+            } else  if (name.equals("IC")){
                 client.setIc(reader.nextString());
             } else if (name.equals("Contact")){
                 client.setContact(reader.nextString());
-            }else if (name.equals("BirthYear")){
-                client.setAge(reader.nextString());
-            }else if (name.equals("Address")){
+            }
+
+            else if (name.equals("BirthYear")){
+                client.setAge(Integer.parseInt(reader.nextString()));
+            }
+
+            else if (name.equals("Address")){
                 client.setAddress(reader.nextString());
             }else if (name.equals("Gender")){
                 client.setGender(reader.nextString());
-            }else if (name.equals("RegisDate")){
+            }
+
+            else if (name.equals("RegisDate")){
                 client.setRegister_date(reader.nextString());
             }else if (name.equals("RegisType")){
                 client.setRegister_type(reader.nextString());

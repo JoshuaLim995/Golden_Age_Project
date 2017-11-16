@@ -133,7 +133,7 @@ public class LoginActivity  extends AppCompatActivity {
             //creating request parameters
             HashMap<String, String> params = new HashMap<>();
             params.put("Name", username);
-            params.put("userPass", password);
+            params.put("Password", password);
 
             //returing the response
             return requestHandler.sendPostRequest(URLs.LOGIN_URL, params);
