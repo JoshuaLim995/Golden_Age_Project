@@ -216,20 +216,18 @@ public class AddPatientActivityVolley extends AppCompatActivity {
         //getting the tag from the edittext
         //final String tags = editTextTags.getText().toString().trim();
 
-        //Getting Patient Data
-        /*
+        //Getting Patient Data     
         final String name = etName.getText().toString().trim();
         final String ic = etIC.getText().toString().trim();
-        final     int age = Integer.parseInt(etAge.getText().toString());
+        final int age = Integer.parseInt(etAge.getText().toString());
         final String address = etAddress.getText().toString().trim();
-        final      String contact = etContact.getText().toString().trim();
+        final String contact = etContact.getText().toString().trim();
         final String allergic = etAllergic.getText().toString().trim();
         final String sickness = etSickness.getText().toString().trim();
         final String margin = etMargin.getText().toString().trim();
         final String register_date = etRegisterDate.getText().toString().trim();
         final String blood_type = String.valueOf(spinner.getSelectedItem()).trim();
         meals.trim();
-*/
 
         //our custom volley request
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.URL_PATIENT_REGISTER,
@@ -265,25 +263,23 @@ public class AddPatientActivityVolley extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Calender calender = new Calender();
-        //        Integer birthyear = calender.getCurrentYear() - age;
+                Integer birthyear = calender.getCurrentYear() - age;
 
                 Map<String, String> params = new HashMap<>();
                 //Put Patient data to parameters
-                params.put("tags", "Testing");
-                /*
-                params.put("ic", "1929394");
-                params.put("Birthyear", "1999");
-                params.put("gender", "M");
-                params.put("bloodType", "O+");
-                params.put("address", "Address");
-                params.put("contact", "889900");
-                params.put("meals", "meals" );
-                params.put("allergic","allegic" );
-                params.put("sickness", "sickness");
+                params.put("name", name);
+                params.put("ic", ic);
+                params.put("Birthyear", birthyear.toString());
+                params.put("gender", sex);
+                params.put("bloodType", blood_type);
+                params.put("address", address);
+                params.put("contact", contact);
+                params.put("meals", meals );
+                params.put("allergic",allergic );
+                params.put("sickness", sickness);
                 params.put("regType", "P");
-                params.put("regDate","2017-11-02" );
-                params.put("margin", "88");
-                */
+                params.put("regDate",register_date );
+                params.put("margin", margin);
                 return params;
             }
 
