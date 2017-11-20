@@ -6,15 +6,16 @@ $response = array();
 
 if(isset($_GET['apicall']) == "login"){
 
-	if(isTheseParametersAvailable(array('Name', 'Password'))){
+	if(isTheseParametersAvailable(array('id', 'Name', 'userPass'))){
 
+		$Id = $_POST['id'];
 		$Name = $_POST['Name'];
-		$Password = md5($_POST['Password']); 
-//		$Password = $_POST['Password']; 
+//		$userPass = md5($_POST['userPass']); 
+		$userPass = $_POST['userPass']; 
 
 		//LATER WILL HAVE TO ADD MORE
-		$stmt = $conn->prepare("SELECT id, Name, regisType FROM users WHERE Name = ? AND Password = ?");
-		$stmt->bind_param("ss",$Name, $Password);
+		$stmt = $conn->prepare("SELECT id, Name, regisType FROM usertable WHERE Name = ? AND userPass = ?");
+		$stmt->bind_param("ss",$Name, $userPass);
 
 		$stmt->execute();
 

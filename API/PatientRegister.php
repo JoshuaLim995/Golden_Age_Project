@@ -10,44 +10,41 @@ if(isset($_GET['apicall'])){
 	switch($_GET['apicall']){
 //if it is an upload call we will upload the image
 		case 'signup':
-//first confirming that we have the image and tags in the request parameter
-		if(isset($_FILES['pic']['name']) && isTheseParametersAvailable(array('name','ic','Birthyear','gender','bloodType','address','contact','meals','allergic','sickness','regType','regDate','margin'))){
+//first confirming that we have the image and tag in the request parameter
+		if(isset($_FILES['pic']['name']) && isTheseParametersAvailable(array('Name','IC','Birthyear','Gender','BloodType','Address','Contact','Meals','Allergic','Sickness','regisType','regisDate','Margin'))){
 
-			$name = $_POST['name'];
-			$ic = $_POST['ic'];
+			$server_ip = gethostbyName(gethostName());
+
+
+			$Name = $_POST['Name'];
+			$IC = $_POST['IC'];
 			$Birthyear = $_POST['Birthyear'];
-			$gender = $_POST['gender'];
-			$bloodType = $_POST['bloodType'];
-			$address = $_POST['address'];
-			$contact = $_POST['contact'];
-			$meals = $_POST['meals'];
-			$allergic = $_POST['allergic'];
-			$sickness = $_POST['sickness'];
-			$regType = $_POST['regType'];
-			$regDate = $_POST['regDate'];
-			$margin = $_POST['margin'];
+			$Gender = $_POST['Gender'];
+			$BloodType = $_POST['BloodType'];
+			$Address = $_POST['Address'];
+			$Contact = $_POST['Contact'];
+			$Meals = $_POST['Meals'];
+			$Allergic = $_POST['Allergic'];
+			$Sickness = $_POST['Sickness'];
+			$regisType = $_POST['regisType'];
+			$regisDate = $_POST['regisDate'];
+			$Margin = $_POST['Margin'];
 			
 			$image = $_FILES['pic']['name'];
 			$image_temp = $_FILES['pic']['tmp_name'];
 			
-			try{
-				//Check if is not null
-				if(!empty($image)){
-					//uploading file 
-					move_uploaded_file($image_temp, UPLOAD_PATH . $image);
-				}
-				else if(empty($image)){
-					$image = 'NULL';
-				}
+
+			
+			try{				
 				
 				//Store into database
-				$stmt = $conn->prepare("INSERT INTO patients (name, ic, Birthyear, gender, bloodType, address, contact, meals, allergic, sickness, regType, regDate, margin, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("ssssssssssssss", $name, $ic, $Birthyear, $gender, $bloodType, $address, $contact, $meals, $allergic, $sickness, $regType, $regDate, $margin, $image);
-
+				$stmt = $conn->prepare("INSERT INTO patients (Name, IC, Birthyear, Gender, BloodType, Address, Contact, Meals, Allergic, Sickness, regisType, regisDate, Margin, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("ssssssssssssss", $Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image);
 				
 				if($stmt->execute()){
 					$response['error'] = false;
 					$response['message'] = 'Patient registered successfully';
+					move_uploaded_file($image_temp, UPLOAD_PATH . $image);
 				}else{
 					
 					throw new Exception("Could not register patient");
@@ -74,6 +71,7 @@ if(isset($_GET['apicall'])){
 }
 //displaying the response in json 
 header('Content-Type: application/json');
+
 echo json_encode($response);
 
 

@@ -10,7 +10,7 @@ if(isset($_GET['apicall'])){
 		
 		case 'medical':
 		
-		if(isTheseParametersAvailable(array('Date','Nurse_ID','Patient_ID','Blood_Pressure','Heart_Rate','Sugar_Level'))){
+		if(isTheseParametersAvailable(array('Date','Nurse_ID','Patient_ID','Blood_Pressure','Heart_Rate','Sugar_Level', 'Temperature'))){
 
 			$Date = $_POST['Date'];
 			$Nurse_ID = $_POST['Nurse_ID'];
@@ -18,11 +18,11 @@ if(isset($_GET['apicall'])){
 			$Blood_Pressure = $_POST['Blood_Pressure']; 
 			$Heart_Rate = $_POST['Heart_Rate'];
 			$Sugar_Level = $_POST['Sugar_Level'];
+			$Temperature = $_POST['Temperature'];
 			
 			
-			$stmt = $conn->prepare("INSERT INTO medical (Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level) VALUES (?,?,?)");
-
-			$stmt->bind_param("ssssss", $Date, $Nurse_ID, $Patient_ID, $Blood_Pressure, $Heart_Rate, $Sugar_Level);
+			$stmt = $conn->prepare("INSERT INTO medical (Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level, Temperature) VALUES (?,?,?,?,?,?,?)");
+		$stmt->bind_param("sssdddd", $Date, $Nurse_ID, $Patient_ID, $Blood_Pressure, $Heart_Rate, $Sugar_Level, $Temperature);
 
 
 			if($stmt->execute()){
