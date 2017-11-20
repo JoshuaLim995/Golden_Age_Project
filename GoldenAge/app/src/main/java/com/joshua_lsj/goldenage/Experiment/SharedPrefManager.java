@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+
+
 /**
  * Created by limsh on 10/31/2017.
  */
@@ -14,9 +16,9 @@ public class SharedPrefManager {
     private static final String KEY_ID = "KeyID";   //CONSIDERING USE THE ID(INT) OR THE USER_ID(REGISTER_TYPE + ID VALUE)
     private static final String KEY_USERNAME = "KeyLoginName";
     private static final String KEY_IC = "KeyIC";
-    private static final String KEY_GENDER = "KeyGender";
-    private static final String KEY_CONTACT = "KeyContact";
     private static final String KEY_REGISTER_TYPE = "KeyRegisType";
+    private static final String KEY_SELECTED_ID = "selectedID";
+    private static final String SELECTED_NAV = "Selected_nav";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -65,6 +67,30 @@ public class SharedPrefManager {
         editor.clear();
         editor.apply();
         mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
+    }
+
+    public void setIdSharedPref(String id){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_SELECTED_ID, id);
+        editor.apply();
+    }
+
+    public String getKeySelectedId(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_SELECTED_ID, null);
+    }
+
+    public void setSelectedNav(String selectedNav){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SELECTED_NAV, selectedNav);
+        editor.apply();
+    }
+
+    public String getSelectedNav(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SELECTED_NAV, null);
     }
 
 }

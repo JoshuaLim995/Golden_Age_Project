@@ -19,28 +19,42 @@
             android:padding="20dp">
 
             <!-- Name-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Name" />
-
-            <EditText
-                android:id="@+id/item_name"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Name"
+                    android:inputType="textPersonName"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
             <!-- IC-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/IC" />
-
-            <EditText
-                android:id="@+id/item_ic"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_IC"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
 
-            <!-- Sex -->
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_ic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/IC"
+                    android:inputType="number"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Gender -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,74 +80,117 @@
             </RadioGroup>
 
             <!-- Age -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age" />
-
-            <EditText
-                android:id="@+id/item_age"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Age"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Age"
+                    android:inputType="number"
+
+                    />
+            </android.support.design.widget.TextInputLayout>
 
             <!-- Contact-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contact" />
-
-            <EditText
-                android:id="@+id/item_contact"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Contact"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/contact"
+                    android:inputType="phone"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
             <!-- Address-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Address" />
-
-            <EditText
-                android:id="@+id/item_address"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Address"
+                    android:inputType="textPostalAddress"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
             <!-- Register date -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Register Date" />
-
-            <EditText
-                android:id="@+id/item_register_date"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_RegisterDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:editable="false"
-                android:focusableInTouchMode="false"
-                android:onClick="showDatePickerDialog"/>
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
 
-            <!-- Patient name-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Patient name" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_register_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/RegisterDate"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:editable="false"
+                    android:onClick="showRegisterDatePickerDialog"
+                    />
 
-            <EditText
-                android:id="@+id/item_patient_name"
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Patient Name -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Patient_Name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Patient IC -->
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Patient IC" />
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
 
-            <EditText
-                android:id="@+id/item_patient_ic"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_patient_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Name"
+                    android:inputType="textPersonName"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- IC-->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/TIL_Patient_IC"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_patient_ic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/IC"
+                    android:inputType="number"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 

@@ -9,57 +9,42 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    private long id;
+    private int id;
     private String name;
     private String ic;
     private String gender;
     private String contact;
-//    private String birthdate;   //CONSIDERING USING STRING OR DATE
     private String address;
-    private String regisDate;   //CONSIDERING USING STRING OR DATE
+    private String regisDate;
     private String regisType;
     private int age;
-    private int birthyear;
-    //CONSIDERING NEED TO ADD USER_ID OR NOT (USER_ID = REGISTER_TYPE + ID) MAKE IT EASIER BE IDENTIFIED AND UNIQUE
 
-
-    public User(){
-
-    }
 
     public User(int id, String name, String regisType){
         this.id = id;
         this.name = name;
         this.regisType = regisType;
     }
-/*
-    public User(int id, String name, String ic, String gender, String contact, String regisType){
-        this.id = id;
-        this.name = name;
-        this.ic = ic;
-        this.gender = gender;
-        this.contact = contact;
-        this.regisType = regisType;
-    }
 
-    public User(int id, String name, String ic, String gender, String contact, String birthdate, String address, String regisDate, String regisType){
+    public User(int id, String name, String ic, String contact, int birthyear, String address, String gender, String regisDate, String regisType){
+       Calender calender = new Calender();
         this.id = id;
         this.name = name;
         this.ic = ic;
         this.gender = gender;
         this.contact = contact;
-    //    this.birthdate = birthdate;
+        this.age = calender.getCurrentYear() - birthyear;
         this.address = address;
         this.regisDate = regisDate;
         this.regisType = regisType;
     }
-*/
 
-    public Long getID() {
-        return id;
+
+    public String getID() {
+        return  Integer.toString(id);
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -127,8 +112,8 @@ public class User implements Serializable {
         this.regisType = regisType;
     }
 
-    public int getAge() {
-        return age;
+    public String getAge() {
+        return Integer.toString(age);
     }
 
     public void setAge(int birthyear) {

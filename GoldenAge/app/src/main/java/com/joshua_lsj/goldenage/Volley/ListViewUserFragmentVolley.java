@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Experiment;
+package com.joshua_lsj.goldenage.Volley;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -16,7 +16,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Experiment.MainActivity;
+import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
+import com.joshua_lsj.goldenage.Experiment.URLs;
+import com.joshua_lsj.goldenage.Experiment.User;
+import com.joshua_lsj.goldenage.Experiment.UserAdapter;
+import com.joshua_lsj.goldenage.Experiment.ViewUserActivity;
 import com.joshua_lsj.goldenage.R;
 
 import org.json.JSONArray;
@@ -29,12 +34,13 @@ import java.util.ArrayList;
  * Created by limsh on 11/4/2017.
  */
 
-public class ListViewPatientsFragment extends Fragment {
+public class ListViewUserFragmentVolley extends Fragment {
 
     View myView;
     ListView listView;
-    ArrayList<Patient> patientArrayList;
-    public static final String PATIENT = "PATIENT";
+    ArrayList<User> userList;
+
+    public static final String USER = "USER";
 
     @Nullable
     @Override
@@ -42,20 +48,31 @@ public class ListViewPatientsFragment extends Fragment {
         myView = inflater.inflate(R.layout.list_view_fragment, container, false);
 
         listView = myView.findViewById(R.id.list_view);
-        patientArrayList = new ArrayList<>();
+       // new DownloadJsonUsers(getActivity()).execute();
 
-        GetPatients();
+        userList = new ArrayList<User>();
+
+        //Get Users from database
+        GetUsers();
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Patient patient = (Patient) adapterView.getAdapter().getItem(position);
+                User user = (User) adapterView.getAdapter().getItem(position);
 
+
+                Intent intent = new Intent(getActivity(), ViewUserActivity.class);
+
+/*
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(USER, user);
+                intent.putExtras(bundle);
+*/
                 //STORE THE USER DATA IN SHARED PREFERENCE
-                SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(patient.getID());
-
-                Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
+                SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(user.getID());
+           //     intent.putExtra(USER, user.getID());
                 startActivity(intent);
 
             }
@@ -64,9 +81,9 @@ public class ListViewPatientsFragment extends Fragment {
         return myView;
     }
 
-    private void GetPatients() {
+    private void GetUsers() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLs.GET_PATIENT_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLs.GET_USER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -78,18 +95,19 @@ public class ListViewPatientsFragment extends Fragment {
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting user object from json array
-                                JSONObject patient = array.getJSONObject(i);
+                                JSONObject user = array.getJSONObject(i);
 
                                 //adding the product to product list
 //User(int id, String name, String ic, string contact, int birthyear, String address, String gender, String regisDate, String regisType)
-                                patientArrayList.add(new Patient(
-                                        patient.getInt("ID"),
-                                        patient.getString("Name")
+                                userList.add(new User(
+                                        user.getInt("ID"),
+                                        user.getString("Name"),
+                                        user.getString("RegisType")
                                 ));
                             }
 
                             //creating adapter object and setting it to recyclerview
-                            PatientAdapter adapter = new PatientAdapter(patientArrayList, getActivity());
+                            UserAdapter adapter = new UserAdapter(userList, getActivity());
                             listView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -106,4 +124,5 @@ public class ListViewPatientsFragment extends Fragment {
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+
 }

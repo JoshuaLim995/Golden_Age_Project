@@ -10,73 +10,59 @@ import java.io.Serializable;
 
 public class Client implements Serializable {
 
-    private long id;
-    private String Client_ID; //C001 format
+    private int id;
     private String name;
     private String ic;
-    private int age;
     private String gender;
     private String contact;
     private String address;
-    private String register_date;
-    private String register_type;
-    private String relationship;
+    private String regisDate;   //CONSIDERING USING STRING OR DATE
+    private String regisType;
+    private int age;
     private String password;
     
     private int patient_id; //patient id
     private String patient_ic; //use in register client in patient ic input
     private String patient_name;
 
-    
-    public void setPatientName(String patient_name){
+    public Client(int id, String name, String ic, String contact, int birthyear, String gender,
+                  String address, String regisDate, int patient_id, String patient_name){
+        this.id = id;
+        this.name = name;
+        this.ic = ic;
+        this.gender = gender;
+        this.contact = contact;
+        setAge(birthyear);
+        this.address = address;
+        this.regisDate = regisDate;
+        this.regisType = "C";
+        this.patient_id = patient_id;
         this.patient_name = patient_name;
     }
-    
-    public void setPatientIC(String patient_ic){
-        this.patient_ic = patient_ic;
+
+    public Client(int id, String name){
+        this.id = id;
+        this.name = name;
+        this.regisType = "C";
     }
+
     
-    public void setPatientID(String patient_id){
-        this.patient_id = Integer.parseInt(patient_id);
-    }
-    
+
     public String getPatientName(){
         return patient_name;
     }
-    
-    public String getPatientIC(){
-        return patient_ic;
-    }
-    
+
     public int getPatientID(){
         return patient_id;
     }
 
-    public Client(){this.register_type = "C";}
-/*
-    public Client(String name, String ic, String birthday, String gender,
-                  String address, String contact, String register_date,
-                  String relationship){
-        this.id = 0;
-        this.name = name;
-        this.ic = ic;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.address = address;
-        this.contact = contact;
-        this.register_date = register_date;
-        this.register_type = "C";
-        this.relationship = relationship;
-        this.password = ic;
-    }
-*/
-    public Long getId() {
-        return id;
+
+
+
+    public String getID() {
+        return Integer.toString(id);
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -118,26 +104,6 @@ public class Client implements Serializable {
         this.address = address;
     }
 
-    public String getRegister_date() {
-        return register_date;
-    }
-
-    public void setRegister_date(String register_date) {
-        this.register_date = register_date;
-    }
-
-    public String getRegister_type() {
-        return register_type;
-    }
-
-    public void setRegister_type(String register_type) {
-        this.register_type = register_type;
-    }
-
-    public String getRelationship() {
-        return relationship;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -146,12 +112,20 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public int getAge() {
-        return age;
+    public String getAge() {
+        return Integer.toString(age);
     }
 
     public void setAge(int birthyear) {
         Calender calender = new Calender();
         this.age = calender.getCurrentYear() - birthyear;
+    }
+
+    public String getRegisDate() {
+        return regisDate;
+    }
+
+    public String getRegisType() {
+        return regisType;
     }
 }

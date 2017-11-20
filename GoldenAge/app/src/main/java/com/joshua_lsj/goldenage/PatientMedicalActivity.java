@@ -12,17 +12,23 @@ import android.widget.Toast;
 
 //import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 //import com.joshua_lsj.goldenage.DataBase.Queries;
-import com.joshua_lsj.goldenage.Experiment.LoginActivity;
-import com.joshua_lsj.goldenage.Experiment.RequestHandler;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
 import com.joshua_lsj.goldenage.Experiment.URLs;
 import com.joshua_lsj.goldenage.Experiment.User;
 import com.joshua_lsj.goldenage.Experiment.Patient;
+import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by limsh on 10/22/2017.
@@ -86,50 +92,99 @@ public class PatientMedicalActivity extends AppCompatActivity{
         final String sugarLevel = etSugar_Level.getText().toString();
         final String heartRate = etHeartRate.getText().toString();
         final String temperature = etTemperature.getText().toString();
-        
-        class UploadMedicalRecord extends AsyncTask<Void, Void, String> {
+
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.URL_UPLOAD_MEDICAL_RECORD,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            if(obj.getBoolean("error")==false)
+                                finish();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+
             @Override
-            protected String doInBackground(Void... voids) {
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-                RequestHandler requestHandler = new RequestHandler();
+                Calender calender = new Calender();
 
-                HashMap<String, String> params = new HashMap<>();
-
+                Map<String, String> params = new HashMap<>();
+                //Put Patient data to parameters
                 params.put("Date", calender.getToday());
-                params.put("Patient_ID", patient.getId().toString()); //GET ID IN P001 FORMAT
-                params.put("Nurse_ID", user.getID().toString()); //GET ID IN N001 FORMAT
+                params.put("Patient_ID", patient.getID()); //GET ID IN P001 FORMAT
+                params.put("Nurse_ID", user.getID()); //GET ID IN N001 FORMAT
                 params.put("Blood_Pressure", bloodPressure);
                 params.put("Sugar_Level", sugarLevel);
                 params.put("Heart_Rate", heartRate);
                 params.put("Temperature", temperature );
-                
-                return requestHandler.sendPostRequest(URLs.URL_UPLOAD_MEDICAL_RECORD, params);
+                return params;
             }
 
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+        };
 
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
 
-        }
+//
+//
+//
+//
+//        class UploadMedicalRecord extends AsyncTask<Void, Void, String> {
+//            @Override
+//            protected String doInBackground(Void... voids) {
+//
+//                RequestHandler requestHandler = new RequestHandler();
+//
+//                HashMap<String, String> params = new HashMap<>();
+//
+//                params.put("Date", calender.getToday());
+//                params.put("Patient_ID", patient.getId().toString()); //GET ID IN P001 FORMAT
+//                params.put("Nurse_ID", user.getID().toString()); //GET ID IN N001 FORMAT
+//                params.put("Blood_Pressure", bloodPressure);
+//                params.put("Sugar_Level", sugarLevel);
+//                params.put("Heart_Rate", heartRate);
+//                params.put("Temperature", temperature );
+//
+//                return requestHandler.sendPostRequest(URLs.URL_UPLOAD_MEDICAL_RECORD, params);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                super.onPostExecute(s);
+//
+//                try {
+//                    //converting response to json object
+//                    JSONObject obj = new JSONObject(s);
+//                    if (!obj.getBoolean("error")) {
+//                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        finish();
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                    }
+//                }catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//        }
 
-        UploadMedicalRecord ru = new UploadMedicalRecord();
-        ru.execute();
     }
 }

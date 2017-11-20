@@ -11,6 +11,7 @@
 
     <!-- Display Patient Photo -->
     <ImageView
+        android:id="@+id/item_image"
         android:layout_width="100dp"
         android:layout_height="100dp" />
 

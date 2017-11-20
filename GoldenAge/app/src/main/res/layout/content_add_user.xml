@@ -42,9 +42,6 @@
                 android:id="@+id/TIL_IC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="12"
-                app:errorEnabled="true"
                 app:errorTextAppearance="@style/ErrorText"
                 app:hintTextAppearance="@style/HintText"
                 >
@@ -70,21 +67,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RadioButton
-                    android:id="@+id/item_user_client"
+                    android:id="@+id/item_user_admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Client"
+                    android:layout_weight="1"
+                    android:text="Admin"
                     android:onClick="onRadioButtonClicked"/>
                 <RadioButton
                     android:id="@+id/item_user_nurse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Nurse"
                     android:onClick="onRadioButtonClicked"/>
                 <RadioButton
                     android:id="@+id/item_user_driver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Driver"
                     android:onClick="onRadioButtonClicked"/>
             </RadioGroup>
@@ -96,7 +96,7 @@
                 android:text="Gender" />
 
             <RadioGroup
-                android:id="@+id/gender"
+                android:id="@+id/item_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -138,9 +138,6 @@
                 android:id="@+id/TIL_Contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="10"
-                app:errorEnabled="true"
                 app:errorTextAppearance="@style/ErrorText"
                 app:hintTextAppearance="@style/HintText"
                 >

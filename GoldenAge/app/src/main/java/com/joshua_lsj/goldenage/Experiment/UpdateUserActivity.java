@@ -1,6 +1,5 @@
 package com.joshua_lsj.goldenage.Experiment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -8,8 +7,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -21,8 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Calender;
-import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
+import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
+import com.joshua_lsj.goldenage.Volley.ListViewUserFragmentVolley;
 import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
 import org.json.JSONException;
@@ -37,13 +35,15 @@ import java.util.Map;
 
 
 
-public class AddUserActivity extends AppCompatActivity {
+public class UpdateUserActivity extends AppCompatActivity {
 
     private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact;
     private TextInputEditText etName, etIC, etAge, etRegisterDate, etAddress, etContact;
 
     private String gender;
     private String user_type;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,97 +53,15 @@ public class AddUserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initialize();
+        fillEditText();
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-/*
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etName.getText().length() == 0 ) {
-                    til_name.setError("Name cannot be empty");
-                    fab.setEnabled(false);
-                } else {
-                    til_name.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-
-        etIC.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etIC.getText().length() == 0) {
-                    til_ic.setError("IC number cannot be empty");
-                    fab.setEnabled(false);
-                } else if (etIC.getText().length() > 12) {
-                    til_ic.setError("Length of IC number exceeded");
-                    fab.setEnabled(false);
-                } else {
-                    til_ic.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-
-        etAddress.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etAddress.getText().length() == 0) {
-                    til_address.setError("Address cannot be empty");
-                    fab.setEnabled(false);
-                } else {
-                    til_address.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-
-        etContact.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etContact.getText().length() == 0 ) {
-                    til_contact.setError("Phone number cannot be empty");
-                    fab.setEnabled(false);
-                } else if(etContact.getText().length() > 10){
-                    til_contact.setError("Length of phone number exceeded");
-                    fab.setEnabled(false);
-                } else {
-                    til_contact.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-*/
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(checkEditText())
-                    registerUser();
+                    updateUser();
             }
         });
 
@@ -175,6 +93,17 @@ public class AddUserActivity extends AppCompatActivity {
         RadioButton radGender = findViewById(R.id.gender_male);
         radGender.setChecked(true);
         gender = "M";
+    }
+
+    private void fillEditText(){
+        user = (User) getIntent().getSerializableExtra(ViewUserActivity.USER);
+
+        etName.setText(user.getName());
+        etIC.setText(user.getIc());
+        etAge.setText(user.getAge());
+        etRegisterDate.setText(user.getRegisDate());
+        etAddress.setText(user.getAddress());
+        etContact.setText(user.getContact());
     }
 
     private boolean checkEditText(){
@@ -231,7 +160,7 @@ public class AddUserActivity extends AppCompatActivity {
         return validate;
     }
 
-    private void registerUser(){
+    private void updateUser(){
        final String name = etName.getText().toString().trim();
         final   String ic = etIC.getText().toString().trim();
         final   int age = Integer.parseInt(etAge.getText().toString());
@@ -241,7 +170,7 @@ public class AddUserActivity extends AppCompatActivity {
 
 
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.URL_USER_REGISTER,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.UPDATE_USER_URL,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -253,7 +182,7 @@ public class AddUserActivity extends AppCompatActivity {
                                 finish();
 
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -283,6 +212,7 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("Address", address);
                 params.put("regisDate",register_date );
                 params.put("regisType", user_type);
+                params.put("id", user.getID());
                 return params;
             }
 

@@ -11,8 +11,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created at 9/11/2017
@@ -22,6 +33,8 @@ public class ListViewClientFragment extends Fragment {
 
     View myView;
     ListView listView;
+    ArrayList<Client> clientList;
+
     public static final String CLIENT = "CLIENT";
 
     @Nullable
@@ -30,7 +43,10 @@ public class ListViewClientFragment extends Fragment {
         myView = inflater.inflate(R.layout.list_view_fragment, container, false);
 
         listView = myView.findViewById(R.id.list_view);
-        new DownloadJsonClients(getActivity()).execute();
+
+        clientList = new ArrayList<>();
+        //Get Clients from database
+        GetClients();
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -41,13 +57,14 @@ public class ListViewClientFragment extends Fragment {
 
       //          Client client = new Client();
 
-                Toast.makeText(getActivity(), client.getName(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), ViewClientActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(CLIENT, client);
-                intent.putExtras(bundle);
+        //        Bundle bundle = new Bundle();
+        //        bundle.putSerializable(CLIENT, client);
+        //        intent.putExtras(bundle);
 
+                //STORE THE USER DATA IN SHARED PREFERENCE
+                SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(client.getID());
                 startActivity(intent);
 
 
@@ -55,5 +72,48 @@ public class ListViewClientFragment extends Fragment {
         });
 
         return myView;
+    }
+
+    private void GetClients() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLs.GET_CLIENT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting user object from json array
+                                JSONObject client = array.getJSONObject(i);
+
+                                //adding the product to product list
+//User(int id, String name, String ic, string contact, int birthyear, String address, String gender, String regisDate, String regisType)
+                                clientList.add(new Client(
+                                        client.getInt("ID"),
+                                        client.getString("Name")
+                                ));
+                            }
+
+                            //creating adapter object and setting it to recyclerview
+                            ClientAdapter adapter = new ClientAdapter(clientList, getActivity());
+                            listView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
 }

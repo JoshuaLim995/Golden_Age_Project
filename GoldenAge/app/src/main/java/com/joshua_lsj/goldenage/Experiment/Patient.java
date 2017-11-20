@@ -6,80 +6,55 @@ import java.io.Serializable;
 
 public class Patient implements Serializable{
 
-    private long id;
+    private int id;
     private String name;
     private String ic;
-    private String gender;
-    private String blood_type;
-    private Double margin;
-    //private Client client; > relative contact
-    //relative name
+    private String contact;
     private int age;
     private String address;
-    private String contact;
+    private String gender;
+    private String regisDate;
+    private String regisType;
+
+    private String blood_type;
     private String meals;
     private String allergic;
     private String sickness;
-    private String register_date;
-    private String register_type;
-//    private Image photo;
+    private Double margin;
 
+    private String imageName;
 
-    //For Nurse use
-  //  private String blood_pressure;
-  //  private String blood_sugar_level;
- //   private String heart_rate;
-
-    public Patient(){
-        this.register_type = "P";
-    }
-    public Patient(String name, String ic, int age, String gender,
-                   String blood_type, String address, String contact,
-                   String meals, String allergic, String sickness,
-                   String register_date, double margin){
-        this.id = 0;
+    public Patient(int id, String name){
+        Calender calender = new Calender();
+        this.id = id;
         this.name = name;
-        this.ic = ic;
-        this.gender = gender;
-        this.blood_type = blood_type;
-        this.age = age;
-        this.address = address;
-        this.contact = contact;
-        this.meals = meals;
-        this.allergic = allergic;
-        this.sickness = sickness;
-        this.register_date = register_date;
-        this.margin = margin;
-        this.register_type = "P";
     }
 
-    public Patient(Long id, String name, String ic, int age, String gender,
-                   String blood_type, String address, String contact,
-                   String meals, String allergic, String sickness,
-                   String register_date, double margin){
+    public Patient(int id, String name, String ic, String contact,
+                   int birthyear, String address, String gender,
+                   String regisDate, String blood_type, String meals, String allergic, String sickness, double margin, String imageName){
+        Calender calender = new Calender();
         this.id = id;
         this.name = name;
         this.ic = ic;
         this.gender = gender;
-        this.blood_type = blood_type;
-        this.age = age;
-        this.address = address;
         this.contact = contact;
+        this.age = calender.getCurrentYear() - birthyear;
+        this.address = address;
+        this.regisDate = regisDate;
+        this.regisType = "P";
+
+        this.blood_type = blood_type;
         this.meals = meals;
         this.allergic = allergic;
         this.sickness = sickness;
-        this.register_date = register_date;
         this.margin = margin;
-        this.register_type = "P";
+        this.imageName = imageName;
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public String getID() {
+        return Integer.toString(id);
     }
 
     public String getName() {
@@ -122,8 +97,8 @@ public class Patient implements Serializable{
         this.margin = margin;
     }
 
-    public int getAge() {
-        return age;
+    public String getAge() {
+        return Integer.toString(age);
     }
 
     public void setAge(int birthyear) {
@@ -171,15 +146,16 @@ public class Patient implements Serializable{
         this.sickness = sickness;
     }
 
-    public String getRegister_date() {
-        return register_date;
+
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setRegister_date(String register_date) {
-        this.register_date = register_date;
+    public String getRegisDate() {
+        return regisDate;
     }
 
-    public String getRegister_type() {
-        return register_type;
+    public String getRegisType() {
+        return regisType;
     }
 }
