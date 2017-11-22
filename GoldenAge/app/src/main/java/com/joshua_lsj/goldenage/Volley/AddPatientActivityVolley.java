@@ -155,9 +155,9 @@ public class AddPatientActivityVolley extends AppCompatActivity {
                 meals = stringBuffer.toString();
 
                 //Upload Patient to server
-                if(checkEditText()){
+                if(checkEditText() && checkImagePicker()){
                     if(patient == null)
-                        RegisterPatient(URLs.URL_PATIENT_REGISTER);
+                        RegisterPatient(URLs.CREATE);
                     else
                         RegisterPatient(URLs.UPDATE_PATIENT_URL);
                 }
@@ -227,6 +227,18 @@ public class AddPatientActivityVolley extends AppCompatActivity {
             Glide.with(this).load(R.drawable.user_icon).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
+    private boolean checkImagePicker(){
+        boolean checker = false;
+        if(patient != null){
+            checker = true;
+        }else {
+            if(bitmap != null)
+                checker = true;
+            else
+                Toast.makeText(getApplicationContext(), "Image cannot be empty", Toast.LENGTH_SHORT).show();
+        }
+        return checker;
+    }
 
 
     private boolean checkEditText(){
@@ -471,6 +483,9 @@ public class AddPatientActivityVolley extends AppCompatActivity {
                 Integer birthyear = calender.getCurrentYear() - age;
 
                 Map<String, String> params = new HashMap<>();
+
+                params.put("type", "Patient");
+
                 //Put Patient data to parameters
                 params.put("Name", name);
                 params.put("IC", ic);

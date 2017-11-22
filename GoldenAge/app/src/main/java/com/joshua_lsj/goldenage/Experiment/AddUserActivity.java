@@ -241,7 +241,7 @@ public class AddUserActivity extends AppCompatActivity {
 
 
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.URL_USER_REGISTER,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.CREATE,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -253,6 +253,7 @@ public class AddUserActivity extends AppCompatActivity {
                                 finish();
 
                         } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -275,6 +276,8 @@ public class AddUserActivity extends AppCompatActivity {
 
                 Integer birthYear = calender.getCurrentYear() - age;
 
+                params.put("type", "User");
+
                 params.put("Name", name);
                 params.put("IC", ic);
                 params.put("Gender", gender);
@@ -283,6 +286,7 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("Address", address);
                 params.put("regisDate",register_date );
                 params.put("regisType", user_type);
+
                 return params;
             }
 

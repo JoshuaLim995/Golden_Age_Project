@@ -72,7 +72,7 @@ public class AddUpdateClientActivity extends AppCompatActivity {
                     if(client != null)
                         registerClient(URLs.UPDATE_CLIENT_URL);
                     else
-                        registerClient(URLs.URL_CLIENT_REGISTER);
+                        registerClient(URLs.CREATE);
                 }
 
             }
@@ -247,6 +247,8 @@ public class AddUpdateClientActivity extends AppCompatActivity {
 
             Calender cal = new Calender();
             Integer birthYear = cal.getCurrentYear() - age;
+
+            params.put("type", "Client");
 
             params.put("Name", name);
             params.put("IC", ic);

@@ -9,7 +9,7 @@ import java.security.spec.RSAOtherPrimeInfo;
 
 public class URLs {
 
-    private static final String IP_ADDRESS = "192.168.0.195"; //192.168.0.110
+    private static final String IP_ADDRESS = "192.168.0.109"; //192.168.0.110
     //Register Patient Url
     private static final String ROOT_URL = "http://" + IP_ADDRESS + "/Android/";
 
@@ -21,6 +21,7 @@ public class URLs {
 
     public static final String LOGIN_URL = ROOT_URL + "Login.php?apicall=login";
 
+    public static final String CREATE = ROOT_URL + "API?apicall=Create";
     public static final String URL_USER_REGISTER = ROOT_URL + "RegisterUser.php?apicall=REGISTER";
     public static final String URL_PATIENT_REGISTER = ROOT_URL + "PatientRegister.php?apicall=signup";
     public static final String URL_CLIENT_REGISTER = ROOT_URL +  "RegisterClient.php?apicall=REGISTER";
