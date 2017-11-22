@@ -1,6 +1,6 @@
 <?php
 
-require_once 'DbConnect.php';
+//require_once 'DbConnect.php';
 $response = array();
 $server_ip = gethostbyName(gethostName());
 
@@ -9,7 +9,7 @@ define('UPLOAD_PATH', 'patient_image/');
 
 //Get registeration type
 //User, Client, Patient
-$type = $_POST['regisType'];
+$type = $_POST['type'];
 
 if(isset($_GET['apicall']) == "Create"){	
 	
@@ -21,155 +21,156 @@ if(isset($_GET['apicall']) == "Create"){
 	$Contact = $_POST['Contact'];
 	$Address = $_POST['Address'];
 	$regisDate = $_POST['regisDate'];
-	$regisType = $_POST['regisType'];
+	$regisType = $_POST['regisType'];	
 	
-	//Client additional information
-	$Patient_IC = $_POST['Patient_IC'];
-	$Patient_Name =  $_POST['Patient_Name'];
-	
-	//Patient additional information
-	$BloodType = $_POST['BloodType'];
-	$Meals = $_POST['Meals'];
-	$Allergic = $_POST['Allergic'];
-	$Sickness = $_POST['Sickness'];
-	$Margin = $_POST['Margin'];
-	//Image
-	$image = $_FILES['pic']['name'];	
-    
 	switch($type){
 		case "User":
 			//Check if all parameters are available
-			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType)))){
+		if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType))){
 			//Check if User exist in the database
-				$exist = isExist("Users", $IC);
-				if(!$exist)
-					$response = createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType);
-				else{
-					$response['error'] = true;
-					$response['message'] = 'User Exist in Database';
-				}
-			}
+			$exist = isExist("Users", $IC);
+			if(!$exist)
+				$response = createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType);
 			else{
 				$response['error'] = true;
-				$response['message'] = 'Required Parameters not available';
+				$response['message'] = 'User Exist in Database';
 			}
-			break;			
+		}
+		else{
+			$response['error'] = true;
+			$response['message'] = 'Required Parameters not available';
+		}
+		break;		
+
 		case "Client":
+//Client additional information
+		$Patient_IC = $_POST['Patient_IC'];
+		$Patient_Name =  $_POST['Patient_Name'];
+
 			//Check if all parameters are available
-			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType,$Patient_IC,$Patient_Name))){
+		if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType,$Patient_IC,$Patient_Name))){
 			//Check if Client exist in the database
-				$exist = isExist("Clients", $Name, $IC);
-				if(!$exist){
-					$Patient_ID = getPatientID($Patient_Name, $Patient_IC);
-					if($Patient_ID > 0)
-						$response = createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Password, $Patient_ID);
-					else{
-						$response['error'] = true;
-						$response['message'] = 'Invalid Patient Details';
-					}
-				}
+			$exist = isExist("Clients", $IC);
+			if(!$exist){
+				$Patient_ID = getPatientID($Patient_Name, $Patient_IC);
+				if($Patient_ID > 0)
+					$response = createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Patient_ID);
 				else{
 					$response['error'] = true;
-					$response['message'] = 'Client Exist in Database';
+					$response['message'] = 'Invalid Patient Details';
 				}
 			}
 			else{
 				$response['error'] = true;
-				$response['message'] = 'Required Parameters not available';
+				$response['message'] = 'Client Exist in Database';
 			}
-			break;
+		}
+		else{
+			$response['error'] = true;
+			$response['message'] = 'Required Parameters not available';
+		}
+		break;
 		case "Patient":
+		
+	//Patient additional information
+		$BloodType = $_POST['BloodType'];
+		$Meals = $_POST['Meals'];
+		$Allergic = $_POST['Allergic'];
+		$Sickness = $_POST['Sickness'];
+		$Margin = $_POST['Margin'];
+		//Image
+		$image = $_FILES['pic']['name'];	
 			//Check if all parameters are available
-			if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image))){
+		if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image))){
 			//Check if Client exist in the database
-				$exist = isExist("Patient", $Name, $IC);
-				if(!$exist)
-					$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image);
-				else{
-					$response['error'] = true;
-					$response['message'] = 'Patient Exist in Database';
-				}
-			}
+			$exist = isExist("Patients", $IC);
+			if(!$exist)
+				$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image);
 			else{
 				$response['error'] = true;
-				$response['message'] = 'Required Parameters not available';
+				$response['message'] = 'Patient Exist in Database';
 			}
-			break;
+		}
+		else{
+			$response['error'] = true;
+			$response['message'] = 'Required Parameters not available';
+		}
+		break;
 		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-			break;
+		$response['error'] = true; 
+		$response['message'] = 'Invalid Register Type';
+		break;
 	}
 
 }
 else if(isset($_GET['apicall']) == "ReadAll"){
 	switch($type){
 		case "User":
-			
-			break;			
+		
+		break;			
 		case "Client":
-			
-			break;
+		
+		break;
 		case "Patient":
-			
-			break;
+		
+		break;
 		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-			break;
+		$response['error'] = true; 
+		$response['message'] = 'Invalid Register Type';
+		break;
 	}
 }
 
 else if(isset($_GET['apicall']) == "ReadData"){
 	switch($type){
 		case "User":
-			
-			break;			
+		
+		break;			
 		case "Client":
-			
-			break;
+		
+		break;
 		case "Patient":
-			
-			break;
+		
+		break;
 		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-			break;
+		$response['error'] = true; 
+		$response['message'] = 'Invalid Register Type';
+		break;
 	}
 
 }
 else if(isset($_GET['apicall']) == "Update"){
 	switch($type){
 		case "User":
-			
-			break;			
+		
+		break;			
 		case "Client":
-			
-			break;
+		
+		break;
 		case "Patient":
-			
-			break;
+		
+		break;
 		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-			break;
+		$response['error'] = true; 
+		$response['message'] = 'Invalid Register Type';
+		break;
 	}
 }
 else if(isset($_GET['apicall']) == "Delete"){
 	switch($type){
 		case "User":
-			
-			break;			
+		
+		break;			
 		case "Client":
-			
-			break;
+		
+		break;
 		case "Patient":
-			
-			break;
+		
+		break;
 		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-			break;
+		$response['error'] = true; 
+		$response['message'] = 'Invalid Register Type';
+		break;
 	}
 }
 else {
@@ -184,7 +185,7 @@ echo json_encode($response);
 //Function to check parameter
 function isTheseParametersAvailable($params){
 	foreach($params as $param){
-		if(!isset[$param]){
+		if(!isset($param)){
 			return false; 
 		}
 	}
@@ -193,9 +194,11 @@ function isTheseParametersAvailable($params){
 
 //Function to check existing account Should return false if not exist
 function isExist($tableName, $IC){
-	$query = "SELECT id FROM $tableName WHERE IC = '$IC'";
+	include 'DbConnect.php';
+	$query = "SELECT id FROM $tableName WHERE IC = ?";
 	
 	$stmt = $conn->prepare($query);
+	$stmt->bind_param("s", $IC);
 	$stmt->execute();
 	$stmt->store_result();
 	
@@ -207,6 +210,7 @@ function isExist($tableName, $IC){
 
 //Function to add User
 function createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType){
+	include 'DbConnect.php';
 	$response = array();
 	$Password = md5($IC);
 	$stmt = $conn->prepare("INSERT INTO users (Name, IC, Gender, Birthyear,Contact, Address, regisDate, regisType, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -226,6 +230,7 @@ function createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,
 
 //Function to get Patient's ID
 function getPatientID($Patient_Name, $Patient_IC){
+	include 'DbConnect.php';
 	$stmt = $conn->prepare("SELECT id FROM patients WHERE Name = ? AND ic = ?");
 	$stmt->bind_param("ss",$Patient_Name, $Patient_IC);
 	$stmt->execute();
@@ -240,7 +245,8 @@ function getPatientID($Patient_Name, $Patient_IC){
 }
 
 //Funtion to add Client
-function createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Password, $Patient_ID){
+function createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Patient_ID){
+	include 'DbConnect.php';
 	$response = array();
 	$Password = md5($IC);
 	$stmt = $conn->prepare("INSERT INTO clients (Name, IC, Gender, Birthyear,Contact, Address, regisDate, regisType, Password, Patient_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -260,6 +266,7 @@ function createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regi
 
 //Function to add Patient
 function createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image){
+	include 'DbConnect.php';
 	$response = array();
 	$image_temp = $_FILES['pic']['tmp_name'];
 	try{
