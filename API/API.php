@@ -125,8 +125,9 @@ else if(isset($_GET['apicall']) == "ReadAll"){
 
 else if(isset($_GET['apicall']) == "ReadData"){
 	//get id 
-	$id = $_POST['ID']
-	switch($type){
+	$id = $_POST['ID'];
+	if(isTheseParametersAvailable($id)){
+		switch($type){
 		case "User":
 			$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, RegisType FROM users WHERE id = $id";
 		break;			
@@ -143,17 +144,58 @@ else if(isset($_GET['apicall']) == "ReadData"){
 	}
 	if(isset($query))
 		$response = getData($query);
+	}
+	else{
+		$response['error'] = true; 
+		$response['message'] = 'Required parameter not available';	
+	}
 }
 else if(isset($_GET['apicall']) == "Update"){
+	//General Information
+	$id = $_POST['ID'];
+	$Name = $_POST['Name'];
+	$IC = $_POST['IC'];
+	$Gender = $_POST['Gender'];
+	$Birthyear = $_POST['Birthyear'];
+	$Contact = $_POST['Contact'];
+	$Address = $_POST['Address'];
+	$regisDate = $_POST['regisDate'];
+	$regisType = $_POST['regisType'];
+	
 	switch($type){
 		case "User":
-		
+			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id))){
+				$response = updateUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id);
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Required Parameters not available';
+			}
 		break;			
 		case "Client":
-		
+			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id))){
+				$response = updateClient($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id);
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Required Parameters not available';
+			}
 		break;
 		case "Patient":
-		
+			//Patient additional information
+			$BloodType = $_POST['BloodType'];
+			$Meals = $_POST['Meals'];
+			$Allergic = $_POST['Allergic'];
+			$Sickness = $_POST['Sickness'];
+			$Margin = $_POST['Margin'];
+			
+			if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id))){
+				$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id);
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Required Parameters not available';
+			}
 		break;
 		default:
 		$response['error'] = true; 
@@ -164,21 +206,30 @@ else if(isset($_GET['apicall']) == "Update"){
 
 else if(isset($_GET['apicall']) == "Delete"){
 	//get id 
-	$id = $_POST['ID']
-	switch($type){
-		case "User":
-			$query = "DELETE FROM users WHERE ID = $id";
+	$id = $_POST['ID'];
+	if(isTheseParametersAvailable($id)){
+		
+		switch($type){
+			case "User":
+				$query = "DELETE FROM users WHERE ID = $id";
 		break;			
 		case "Client":
-		
+			$query = "DELETE FROM clients WHERE id = $id";
 		break;
 		case "Patient":
-		
+			$query = "DELETE FROM patients WHERE id = $id";
 		break;
 		default:
-		$response['error'] = true; 
-		$response['message'] = 'Invalid Register Type';
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Register Type';
 		break;
+		}
+		if(isset($query))
+			$response = delete($query);
+	}
+	else{
+		$response['error'] = true; 
+		$response['message'] = 'Required parameter not available';
 	}
 }
 else {
@@ -318,4 +369,87 @@ function getData($query){
 	return $response;
 }
 
+//Function to update User
+function updateUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id){
+	include 'DbConnect.php';
+	$response = array();
+	$stmt = $conn->prepare("UPDATE users SET Name = '$Name', IC = '$IC', Gender = '$Gender', Birthyear = '$Birthyear', Contact = '$Contact', Address = '$Address', regisDate = '$regisDate', regisType = '$regisType' WHERE id=$id");
+	if($stmt->execute()){
+		$response['error'] = false; 
+		$response['message'] = 'User Update successfully'; 
+	}
+	else{
+		$response['error'] = true; 
+		$response['message'] = 'Could Not Update User'; 
+	}
+	$stmt->close();
+	return $response;
+}
 
+//Function to update Client
+function updateClient($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id){
+	include 'DbConnect.php';
+	$response = array();
+	if($stmt->execute()){
+			$response['error'] = false; 
+			$response['message'] = 'Client Update successfully'; 
+		}
+		else{
+			$response['error'] = true; 
+			$response['message'] = 'Could Not Update Client'; 
+		}
+		$stmt->close();
+	return $response;
+}
+
+//Function to update Patient
+function updatePatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id){
+	include 'DbConnect.php';
+	$response = array();
+	//check if image is null
+	if(isset($_FILES['pic']['name'])){
+		$image = $_FILES['pic']['name'];
+		$image_temp = $_FILES['pic']['tmp_name'];
+		$query = "UPDATE patients SET Name = '$Name', IC = '$IC', Gender = '$Gender', Birthyear = $Birthyear, Contact = '$Contact', Address = '$Address', regisDate = '$regisDate', regisType = '$regisType', BloodType = '$BloodType', Meals = '$Meals' , Allergic = '$Allergic', Sickness = '$Sickness', Margin = $Margin, Image = '$image' WHERE id=$id";
+	}
+	else{
+		$query = "UPDATE patients SET Name = '$Name', IC = '$IC', Gender = '$Gender', Birthyear = $Birthyear, Contact = '$Contact', Address = '$Address', regisDate = '$regisDate', regisType = '$regisType', BloodType = '$BloodType', Meals = '$Meals' , Allergic = '$Allergic', Sickness = '$Sickness', Margin = $Margin WHERE id=$id";
+	}
+	try{
+		$stmt = $conn->prepare($query);
+		if($stmt->execute()){
+			$response['error'] = false; 
+			$response['message'] = 'Patient Update successfully'; 
+			if(isset($_FILES['pic']['name'])){
+				move_uploaded_file($image_temp, UPLOAD_PATH . $image);
+			}
+		}
+		else{
+			throw new Exception("Could Not Update patient");
+		}
+	}catch(Exception $e){
+		$response['error'] = true; 
+		$response['message'] = 'Could Not Update patient'; 
+	}
+}
+
+//Function to delete data
+function delete($query){
+	include 'DbConnect.php';
+	$response = array();
+	
+	$stmt = $conn->prepare($query);
+	if($stmt->execute()){
+		$stmt->close();
+		$response['error'] = false;
+		$response['message'] = 'Delete Success';
+	}
+	else{
+		$stmt->close();
+		$response['error'] = true; 
+		$response['message'] = 'Error Execute Query';
+	}
+	return $response;
+}
+	
+	
