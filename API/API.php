@@ -106,38 +106,43 @@ if(isset($_GET['apicall']) == "Create"){
 else if(isset($_GET['apicall']) == "ReadAll"){
 	switch($type){
 		case "User":
-		
+			$query = "SELECT ID, Name, RegisType FROM users";
 		break;			
 		case "Client":
-		
+			$query = "SELECT ID, Name FROM clients";
 		break;
 		case "Patient":
-		
+			$query = "SELECT ID, Name FROM patients";
 		break;
 		default:
-		$response['error'] = true; 
-		$response['message'] = 'Invalid Register Type';
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Register Type';
 		break;
 	}
+	if(isset($query))
+		$response = getData($query);
 }
 
 else if(isset($_GET['apicall']) == "ReadData"){
+	//get id 
+	$id = $_POST['ID']
 	switch($type){
 		case "User":
-		
+			$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, RegisType FROM users WHERE id = $id";
 		break;			
 		case "Client":
-		
+			$query = "SELECT c.ID, c.Name, c.IC, c.Contact, c.BirthYear, c.Address, c.Gender, c.RegisDate, c.Patient_ID,  p.Name as P_Name FROM clients c, patients p WHERE c.Patient_ID = p.ID AND c.ID = $id";
 		break;
 		case "Patient":
-		
+			$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, BloodType, Meals , Allergic, Sickness, Margin, Image FROM patients WHERE id = $id";
 		break;
 		default:
-		$response['error'] = true; 
-		$response['message'] = 'Invalid Register Type';
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Register Type';
 		break;
 	}
-
+	if(isset($query))
+		$response = getData($query);
 }
 else if(isset($_GET['apicall']) == "Update"){
 	switch($type){
@@ -156,10 +161,13 @@ else if(isset($_GET['apicall']) == "Update"){
 		break;
 	}
 }
+
 else if(isset($_GET['apicall']) == "Delete"){
+	//get id 
+	$id = $_POST['ID']
 	switch($type){
 		case "User":
-		
+			$query = "DELETE FROM users WHERE ID = $id";
 		break;			
 		case "Client":
 		
@@ -288,3 +296,26 @@ function createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $C
 	}	
 	return $response;
 }
+
+//Function to get data from using query
+function getData($query){
+	include 'DbConnect.php';
+	$response = array();
+	
+	$result=$conn->query($query);
+	if($result -> num_rows > 0){
+		while($e = mysqli_fetch_assoc($result)){
+			$output[]=$e;
+		}
+		$response['error'] = false;
+		$response['message'] = 'Success';
+		$response['result'] = $output;
+	}
+	else{
+		$response['error'] = true;
+		$response['message'] = 'No record';
+	}
+	return $response;
+}
+
+
