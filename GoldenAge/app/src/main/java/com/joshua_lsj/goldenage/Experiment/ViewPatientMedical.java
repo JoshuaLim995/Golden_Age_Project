@@ -48,10 +48,12 @@ public class ViewPatientMedical extends AppCompatActivity {
     public static final String MEDICAL = "Medical";
 
     private Medical medical;
+    private Patient patient = null;
     private ArrayList<Medical> medicalList;
     private DeleteHelper deleteHelper;
 
     private String id;
+    
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +64,7 @@ public class ViewPatientMedical extends AppCompatActivity {
         
         deleteHelper = new DeleteHelper(this);
 
-        
+        patient = (Patient) getIntent().getSerializableExtra(ViewPatientActivity.PATIENT);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -70,16 +72,16 @@ public class ViewPatientMedical extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        getData();
+        if(patient != null)
+            getData();
+        else 
+            Toast.makeText(getApplicationContext(), "Null Patient", Toast.LENGTH_SHORT).show();
     }
 
     private void getData(){
 
-        id = SharedPrefManager.getInstance(this).getKeySelectedId();
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
-
-
+        id = patient.getID();
+       
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.GET_MEDICAL,
                 new Response.Listener<NetworkResponse>() {
                     @Override
