@@ -218,8 +218,21 @@ public class ViewPatientActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.action_delete){
+            Delete();
+             return true;
+        }
+        else if(id == R.id.action_view_medical){
+            Intent intent = new Intent(getApplicationContext(), ViewMedicalActivity.class);
+            intent.putExtra(PATIENT, patient);
+            startActivity(intent);
+            return true;
+        }
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        return super.onOptionsItemSelected(item);
+    }
+    
+    private void Delete(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
@@ -237,10 +250,6 @@ public class ViewPatientActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Delete User?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+       }
 
 }
