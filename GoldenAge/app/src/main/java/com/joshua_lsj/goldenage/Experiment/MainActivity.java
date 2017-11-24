@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String NAV_USER = "nav_user";
     private final String NAV_CLIENT = "nav_client";
     private final String NAV_PATIENT = "nav_patient";
+    
+    private final String NAV_PATIENT_MEDICAL "nav_patient_medical";
 
 
 /*
@@ -59,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
     }
 
     private void NurseLogin(){
@@ -81,10 +80,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+    
+    private void ClientLogin(){
+        setContentView(R.layout.activity_client_main);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        fam = (FloatingActionMenu) findViewById(R.id.fam);
+        fam.setVisibility(View.GONE);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AdminLogin();
         else if(user.getRegisType().equals("N"))
             NurseLogin();
+        else if(user.getRegisterType().equals("C"))
+            ClientLogin();
 
     //    Initialize();
 
@@ -135,6 +154,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.content_frame, new ListViewPatientsFragment())
                         .commit();
                 getSupportActionBar().setTitle("Patients");
+                break;
+                
+            case NAV_PATIENT_MEDICAL:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Patient Medical");
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 break;
         }
 
@@ -239,9 +266,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
-
-
       }
+        
+        else if (id == R.id.nav_patient_medical){
+            //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT_MEDICAL);
+
+            getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
+                        .commit();
+            getSupportActionBar().setTitle("Patient Medical");
+        }
+        
         else if (id == R.id.nav_logout) {
             finish();
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
