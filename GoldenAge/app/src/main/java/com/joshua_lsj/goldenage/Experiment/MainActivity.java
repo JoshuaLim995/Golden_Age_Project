@@ -4,7 +4,6 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,12 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.joshua_lsj.goldenage.Fragments.ListViewClientFragment;
+import com.joshua_lsj.goldenage.Fragments.ListViewPatientMedicalFragment;
+import com.joshua_lsj.goldenage.Fragments.ListViewPatientsFragment;
+import com.joshua_lsj.goldenage.Fragments.ListViewUserFragment;
+import com.joshua_lsj.goldenage.Fragments.ViewPatientFragment;
 import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Objects.User;
+import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
 

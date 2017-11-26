@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Experiment;
+package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -17,15 +17,14 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
-import com.joshua_lsj.goldenage.Experiment.URLs;
-import com.joshua_lsj.goldenage.Experiment.User;
-import com.joshua_lsj.goldenage.Experiment.UserAdapter;
+import com.joshua_lsj.goldenage.Adapter.UserAdapter;
+import com.joshua_lsj.goldenage.Other.SharedPrefManager;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Experiment.ViewUserActivity;
+import com.joshua_lsj.goldenage.Objects.User;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;

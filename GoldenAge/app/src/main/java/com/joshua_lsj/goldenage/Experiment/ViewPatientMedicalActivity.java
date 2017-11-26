@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.joshua_lsj.goldenage.Fragments.ListViewPatientMedicalFragment;
 import com.joshua_lsj.goldenage.Objects.Medical;
+import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.DeleteHelper;
+import com.joshua_lsj.goldenage.Other.DeleteHelper;
 
 import java.util.ArrayList;
 

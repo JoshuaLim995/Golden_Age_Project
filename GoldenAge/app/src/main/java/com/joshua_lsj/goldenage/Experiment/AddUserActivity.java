@@ -1,6 +1,5 @@
 package com.joshua_lsj.goldenage.Experiment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -8,8 +7,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -20,10 +17,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Calender;
-import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
+import com.joshua_lsj.goldenage.Objects.Calender;
+import com.joshua_lsj.goldenage.Objects.User;
+import com.joshua_lsj.goldenage.Other.RegisterDatePickerFragment;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -200,6 +199,7 @@ public class AddUserActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {

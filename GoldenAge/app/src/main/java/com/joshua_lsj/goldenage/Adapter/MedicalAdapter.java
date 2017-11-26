@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Experiment;
+package com.joshua_lsj.goldenage.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

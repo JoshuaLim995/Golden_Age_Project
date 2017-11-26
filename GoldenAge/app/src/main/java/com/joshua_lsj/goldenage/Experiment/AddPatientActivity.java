@@ -1,27 +1,17 @@
 package com.joshua_lsj.goldenage.Experiment;
 
 import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,12 +27,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.joshua_lsj.goldenage.Calender;
-import com.joshua_lsj.goldenage.Experiment.Patient;
-import com.joshua_lsj.goldenage.Experiment.URLs;
-import com.joshua_lsj.goldenage.Experiment.ViewPatientActivity;
+import com.joshua_lsj.goldenage.Objects.Calender;
+import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
+import com.joshua_lsj.goldenage.Other.RegisterDatePickerFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +42,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 
 import java.io.ByteArrayOutputStream;
@@ -61,9 +50,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 

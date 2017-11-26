@@ -1,7 +1,6 @@
-package com.joshua_lsj.goldenage.Volley;
+package com.joshua_lsj.goldenage.Other;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -10,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Experiment.URLs;
 
 import org.json.JSONException;
 import org.json.JSONObject;

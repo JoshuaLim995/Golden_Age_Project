@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.Other;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
+import com.joshua_lsj.goldenage.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

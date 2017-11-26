@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Experiment;
+package com.joshua_lsj.goldenage.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.joshua_lsj.goldenage.Objects.User;
 import com.joshua_lsj.goldenage.R;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
  * Created by limsh on 11/4/2017.
  */
 
-public class PatientAdapter extends ArrayAdapter<Patient> {
+public class UserAdapter extends ArrayAdapter<User> {
 
-    private ArrayList<Patient> patients;
+    private ArrayList<User> data;
     Context context;
 
     private static class ViewHolder {
@@ -25,15 +26,15 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         TextView txtRegisType;
     }
 
-    public PatientAdapter(ArrayList<Patient> patients, Context context) {
-        super(context, R.layout.list_items, patients);
-        this.patients = patients;
+    public UserAdapter(ArrayList<User> data, Context context) {
+        super(context, R.layout.list_items, data);
+        this.data = data;
         this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Patient patient = getItem(position);
+        User user = getItem(position);
         ViewHolder viewHolder;
         final View result;
 
@@ -52,7 +53,8 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        viewHolder.txtName.setText(patient.getName());
+        viewHolder.txtName.setText(user.getName());
+        viewHolder.txtRegisType.setText(user.getRegisType());
 
 
         return convertView;

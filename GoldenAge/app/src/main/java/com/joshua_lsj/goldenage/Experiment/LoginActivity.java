@@ -1,7 +1,6 @@
 package com.joshua_lsj.goldenage.Experiment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -14,16 +13,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Calender;
-import com.joshua_lsj.goldenage.Experiment.MainActivity;
-import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
-import com.joshua_lsj.goldenage.Experiment.URLs;
-import com.joshua_lsj.goldenage.Experiment.User;
+import com.joshua_lsj.goldenage.Objects.User;
 import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Other.SharedPrefManager;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;

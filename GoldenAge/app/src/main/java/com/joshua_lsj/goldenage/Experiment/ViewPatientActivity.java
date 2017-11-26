@@ -24,9 +24,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.joshua_lsj.goldenage.AddPatientMedicalActivity;
+import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Other.SharedPrefManager;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.DeleteHelper;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.DeleteHelper;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;

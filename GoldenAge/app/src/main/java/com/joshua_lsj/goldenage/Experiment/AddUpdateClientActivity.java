@@ -17,11 +17,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Calender;
+import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
-import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.Other.RegisterDatePickerFragment;
+import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;

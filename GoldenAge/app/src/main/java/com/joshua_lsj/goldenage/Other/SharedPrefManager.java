@@ -1,9 +1,11 @@
-package com.joshua_lsj.goldenage.Experiment;
+package com.joshua_lsj.goldenage.Other;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.joshua_lsj.goldenage.Experiment.LoginActivity;
+import com.joshua_lsj.goldenage.Objects.User;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Volley;
+package com.joshua_lsj.goldenage.Other;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
