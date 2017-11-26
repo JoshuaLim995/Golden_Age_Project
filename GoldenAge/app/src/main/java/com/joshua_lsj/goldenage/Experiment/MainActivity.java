@@ -4,6 +4,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,12 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.AddPatientActivityVolley;
-import com.joshua_lsj.goldenage.Volley.ListViewUserFragmentVolley;
 //import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,10 +36,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String NAV_USER = "nav_user";
     private final String NAV_CLIENT = "nav_client";
     private final String NAV_PATIENT = "nav_patient";
-    
-    private final String NAV_PATIENT_MEDICAL "nav_patient_medical";
+
+    private final String NAV_PATIENT_MEDICAL = "nav_patient_medical";
+    private final String NAV_PATIENT_INFO = "nav_patient_info";
 
 
+
+    private User user;
+
+
+private Client client;
 /*
     public static Activity getActivity(){
         return getActivity();
@@ -61,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     private void NurseLogin(){
@@ -83,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     
     private void ClientLogin(){
+
         setContentView(R.layout.activity_client_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,16 +123,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        User user = SharedPrefManager.getInstance(this).getUserSharedPref();
+        user = SharedPrefManager.getInstance(this).getUserSharedPref();
+
         if(user.getRegisType().equals("A"))
             AdminLogin();
         else if(user.getRegisType().equals("N"))
             NurseLogin();
-        else if(user.getRegisterType().equals("C"))
+        else if(user.getRegisType().equals("C"))
             ClientLogin();
 
-    //    Initialize();
 
+
+
+    }
+
+    public String getRegisterType(String type){
+        String getType;
+        switch (type){
+            case "A":
+                getType = "Admin";
+                break;
+            case "N":
+                getType = "Nurse";
+                break;
+            case "D":
+                getType = "Driver";
+                break;
+            case "C":
+                getType = "Client";
+                break;
+            default:
+                getType = "INVALID";
+                break;
+        }
+        return getType;
     }
 
     @Override
@@ -133,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case NAV_USER:
                 navigationView.setCheckedItem(R.id.nav_users_listView);
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new ListViewUserFragmentVolley())
+                        .replace(R.id.content_frame, new ListViewUserFragment())
                         .commit();
                 getSupportActionBar().setTitle("Users");
                 break;
@@ -157,11 +191,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
                 
             case NAV_PATIENT_MEDICAL:
+                navigationView.setCheckedItem(R.id.nav_patient_medical_listView);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
                         .commit();
                 getSupportActionBar().setTitle("Patient Medical");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                break;
+
+            case NAV_PATIENT_INFO:
+                navigationView.setCheckedItem(R.id.nav_view_patient);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ViewPatientFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Patient Info");
                 break;
         }
 
@@ -174,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (view.getId()){
             case R.id.menu_add_patient:
  //               intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
-                intent = new Intent(getApplicationContext(),  AddPatientActivityVolley.class);
+                intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menu_add_user:
@@ -240,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SharedPrefManager.getInstance(this).setSelectedNav(NAV_USER);
 
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewUserFragmentVolley())
+                    .replace(R.id.content_frame, new ListViewUserFragment())
                     .commit();
             getSupportActionBar().setTitle("Users");
 
@@ -268,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setTitle("Clients");
       }
         
-        else if (id == R.id.nav_patient_medical){
+        else if (id == R.id.nav_patient_medical_listView){
             //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
             SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT_MEDICAL);
 
@@ -276,6 +318,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
                         .commit();
             getSupportActionBar().setTitle("Patient Medical");
+        }
+
+        else if(id == R.id.nav_view_patient){
+
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT_INFO);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new ViewPatientFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Patient Info");
+
+
         }
         
         else if (id == R.id.nav_logout) {

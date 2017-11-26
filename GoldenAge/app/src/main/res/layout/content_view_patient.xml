@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.joshua_lsj.goldenage.Experiment.ViewPatientActivity"
-    android:padding="20dp">
+    tools:context="com.joshua_lsj.goldenage.Experiment.ViewPatientActivity">
+
 
     <!-- Display Patient Photo -->
     <ImageView
@@ -15,142 +18,411 @@
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
-    <!-- Display Patient ID -->
-    <TextView
-        android:id="@+id/view_patient_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
-    <!-- Display Patient Name -->
-    <TextView
-        android:id="@+id/view_patient_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
-    <!-- Display Patient Contact-->
-    <TextView
-        android:id="@+id/view_patient_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Patient Contact" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Display Patient Emergency Contact-->
-    <TextView
-        android:id="@+id/view_patient_emergency_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emergency Contact" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <!-- Display Patient IC -->
-    <TextView
-        android:id="@+id/view_patient_ic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="IC" />
+            <!-- Display Patient ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
-    <!-- Display Patient Sex -->
-    <TextView
-        android:id="@+id/view_patient_sex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sex" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textSize="20dp" />
 
-    <!-- Display Patient Age -->
-    <TextView
-        android:id="@+id/view_patient_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Age" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
 
-    <!-- Display Patient Birthday -->
-    <TextView
-        android:id="@+id/view_patient_birthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Birthday" />
+                <TextView
+                    android:id="@+id/item_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="ID"
+                    android:textSize="20dp" />
+            </LinearLayout>
 
-    <!-- Display Patient Blood Type -->
-    <TextView
-        android:id="@+id/view_patient_blood_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Blood type"
-        />
+            <!-- Display Patient Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
-    <!-- Display Patient Sickness -->
-    <TextView
-        android:id="@+id/view_patient_sickness"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sickness" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="20dp" />
 
-    <!-- Display Patient Meals -->
-    <TextView
-        android:id="@+id/view_patient_meals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Meals" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
 
-    <!-- Display Patient Allergic -->
-    <TextView
-        android:id="@+id/view_patient_allergic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Allergic" />
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Name"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Patient IC -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="IC"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="IC"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Patient Gender -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Gender"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Gender"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Patient Age -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Age"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Age"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Patient Contact-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Contact"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Contact"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Patient Address-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Address"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Address"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Display Register date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Register Date"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_register_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Register Date"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
 
 
-    <!-- Display Register date -->
-    <TextView
-        android:id="@+id/view_patient_reg_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register Date" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Medical Info"
+                android:textSize="20dp" />
 
-    <!-- Display Register type -->
-    <TextView
-        android:id="@+id/view_patient_reg_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register Type" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
+            <!-- Display Patient Blood Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
-    <!-- Margin/Deposit -->
-    <TextView
-        android:id="@+id/view_patient_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Margin/Deposit" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Blood type"
+                    android:textSize="20dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
 
-    <!-- Relative Name-->
-    <TextView
-        android:id="@+id/view_patient_rela_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Relative Name" />
+                <TextView
+                    android:id="@+id/item_blood_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Blood type"
+                    android:textSize="20dp" />
+            </LinearLayout>
 
+            <!-- Display Patient Sickness -->
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
 
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:text="Sickness"
+                android:textSize="20dp" />
 
-    <!-- Nurse able to input medical info of the patient during checkup -->
-    <!-- Display Patient Sugar Level -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sugar Level" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="20dp" />
 
-    <!-- Display Patient Heart Rate -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Heart Rate" />
+            <TextView
+                android:id="@+id/item_sickness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="Sickness"
+                android:textSize="20dp" />
+        </LinearLayout>
 
-    <!-- Display Patient Blood Pressure -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Blood Pressure" />
+            <!-- Display Patient Allergic -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Allergic"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_allergic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Allergic"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <!-- Display Patient Meals -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Meals"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_meals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Meals"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <!-- Margin/Deposit -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Margin/Deposit"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/item_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="Margin/Deposit"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
     <!-- Put Floating button to let nurse to input

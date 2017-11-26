@@ -19,6 +19,9 @@ public class SharedPrefManager {
     private static final String KEY_REGISTER_TYPE = "KeyRegisType";
     private static final String KEY_SELECTED_ID = "selectedID";
     private static final String SELECTED_NAV = "Selected_nav";
+    private static final String PATIENT_NAME = "Patient_name";
+
+    
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -93,4 +96,15 @@ public class SharedPrefManager {
         return sharedPreferences.getString(SELECTED_NAV, null);
     }
 
+    public void setPatientName(String patientName){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PATIENT_NAME, patientName);
+        editor.apply();
+    }
+
+    public String getPatientName(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PATIENT_NAME, null);
+    }
 }

@@ -11,159 +11,164 @@ define('UPLOAD_PATH', 'patient_image/');
 //User, Client, Patient
 $type = $_POST['type'];
 
-if(isset($_GET['apicall']) == "Create"){	
-	
+if(isset($_GET['apicall'])){
+	$apicall = $_GET['apicall'];
+
+	if($apicall == "Create"){	
+
 	//General Information
-	$Name = $_POST['Name'];
-	$IC = $_POST['IC'];
-	$Gender = $_POST['Gender'];
-	$Birthyear = $_POST['Birthyear'];
-	$Contact = $_POST['Contact'];
-	$Address = $_POST['Address'];
-	$regisDate = $_POST['regisDate'];
-	$regisType = $_POST['regisType'];	
-	
-	switch($type){
-		case "User":
+		$Name = $_POST['Name'];
+		$IC = $_POST['IC'];
+		$Gender = $_POST['Gender'];
+		$Birthyear = $_POST['Birthyear'];
+		$Contact = $_POST['Contact'];
+		$Address = $_POST['Address'];
+		$regisDate = $_POST['regisDate'];
+		$regisType = $_POST['regisType'];	
+
+		switch($type){
+			case "User":
 			//Check if all parameters are available
-		if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType))){
+			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType))){
 			//Check if User exist in the database
-			$exist = isExist("Users", $IC);
-			if(!$exist)
-				$response = createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType);
-			else{
-				$response['error'] = true;
-				$response['message'] = 'User Exist in Database';
-			}
-		}
-		else{
-			$response['error'] = true;
-			$response['message'] = 'Required Parameters not available';
-		}
-		break;		
-
-		case "Client":
-//Client additional information
-		$Patient_IC = $_POST['Patient_IC'];
-		$Patient_Name =  $_POST['Patient_Name'];
-
-			//Check if all parameters are available
-		if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType,$Patient_IC,$Patient_Name))){
-			//Check if Client exist in the database
-			$exist = isExist("Clients", $IC);
-			if(!$exist){
-				$Patient_ID = getPatientID($Patient_Name, $Patient_IC);
-				if($Patient_ID > 0)
-					$response = createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Patient_ID);
+				$exist = isExist("Users", $IC);
+				if(!$exist)
+					$response = createUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType);
 				else{
 					$response['error'] = true;
-					$response['message'] = 'Invalid Patient Details';
+					$response['message'] = 'User Exist in Database';
 				}
 			}
 			else{
 				$response['error'] = true;
-				$response['message'] = 'Client Exist in Database';
+				$response['message'] = 'Required Parameters not available';
 			}
-		}
-		else{
-			$response['error'] = true;
-			$response['message'] = 'Required Parameters not available';
-		}
-		break;
-		case "Patient":
-		
-	//Patient additional information
-		$BloodType = $_POST['BloodType'];
-		$Meals = $_POST['Meals'];
-		$Allergic = $_POST['Allergic'];
-		$Sickness = $_POST['Sickness'];
-		$Margin = $_POST['Margin'];
-		//Image
-		$image = $_FILES['pic']['name'];	
+			break;		
+
+			case "Client":
+//Client additional information
+			$Patient_IC = $_POST['Patient_IC'];
+			$Patient_Name =  $_POST['Patient_Name'];
+
 			//Check if all parameters are available
-		if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image))){
+			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType,$Patient_IC,$Patient_Name))){
 			//Check if Client exist in the database
-			$exist = isExist("Patients", $IC);
-			if(!$exist)
-				$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image);
+				$exist = isExist("Clients", $IC);
+				if(!$exist){
+					$Patient_ID = getPatientID($Patient_Name, $Patient_IC);
+					if($Patient_ID > 0)
+						$response = createClient($Name, $IC, $Gender, $Birthyear, $Contact, $Address, $regisDate, $regisType, $Patient_ID);
+					else{
+						$response['error'] = true;
+						$response['message'] = 'Invalid Patient Details';
+					}
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'Client Exist in Database';
+				}
+			}
 			else{
 				$response['error'] = true;
-				$response['message'] = 'Patient Exist in Database';
+				$response['message'] = 'Required Parameters not available';
 			}
+			break;
+			case "Patient":
+
+	//Patient additional information
+			$BloodType = $_POST['BloodType'];
+			$Meals = $_POST['Meals'];
+			$Allergic = $_POST['Allergic'];
+			$Sickness = $_POST['Sickness'];
+			$Margin = $_POST['Margin'];
+		//Image
+			$image = $_FILES['pic']['name'];	
+			//Check if all parameters are available
+			if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image))){
+			//Check if Client exist in the database
+				$exist = isExist("Patients", $IC);
+				if(!$exist)
+					$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $image);
+				else{
+					$response['error'] = true;
+					$response['message'] = 'Patient Exist in Database';
+				}
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Required Parameters not available';
+			}
+			break;
+			default:
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Register Type';
+			break;
+		}
+
+	}
+	else if($apicall == "ReadAll"){
+		switch($type){
+			case "User":
+			$query = "SELECT ID, Name, RegisType FROM users";
+			break;			
+			case "Client":
+			$query = "SELECT ID, Name FROM clients";
+			break;
+			case "Patient":
+			$query = "SELECT ID, Name FROM patients";
+			break;			
+			default:
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Register Type';
+			break;
+		}
+		if(isset($query))
+			$response = getData($query);
+	}
+
+	else if($apicall == "ReadData"){
+	//get id 
+		$id = $_POST['id'];
+		if(isset($id)){
+			switch($type){
+				case "User":
+				$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, RegisType FROM users WHERE id = $id";
+				break;			
+				case "Client":
+				$query = "SELECT c.ID, c.Name, c.IC, c.Contact, c.BirthYear, c.Address, c.Gender, c.RegisDate, c.Patient_ID,  p.Name as P_Name FROM clients c, patients p WHERE c.Patient_ID = p.ID AND c.ID = $id";
+				break;
+				case "Patient":
+				$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, BloodType, Meals , Allergic, Sickness, Margin, Image FROM patients WHERE id = $id";
+				break;
+				case "Medical":
+				$query = "SELECT Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level, Temperature FROM medical WHERE Patient_ID = $id";
+				default:
+				$response['error'] = true; 
+				$response['message'] = 'Invalid Register Type';
+				break;
+			}
+			if(isset($query))
+				$response = getData($query);
 		}
 		else{
-			$response['error'] = true;
-			$response['message'] = 'Required Parameters not available';
+			$response['error'] = true; 
+			$response['message'] = 'Required parameter not available';	
 		}
-		break;
-		default:
-		$response['error'] = true; 
-		$response['message'] = 'Invalid Register Type';
-		break;
 	}
-
-}
-else if(isset($_GET['apicall']) == "ReadAll"){
-	switch($type){
-		case "User":
-			$query = "SELECT ID, Name, RegisType FROM users";
-		break;			
-		case "Client":
-			$query = "SELECT ID, Name FROM clients";
-		break;
-		case "Patient":
-			$query = "SELECT ID, Name FROM patients";
-		break;
-		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-		break;
-	}
-	if(isset($query))
-		$response = getData($query);
-}
-
-else if(isset($_GET['apicall']) == "ReadData"){
-	//get id 
-	$id = $_POST['ID'];
-	if(isTheseParametersAvailable($id)){
-		switch($type){
-		case "User":
-			$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, RegisType FROM users WHERE id = $id";
-		break;			
-		case "Client":
-			$query = "SELECT c.ID, c.Name, c.IC, c.Contact, c.BirthYear, c.Address, c.Gender, c.RegisDate, c.Patient_ID,  p.Name as P_Name FROM clients c, patients p WHERE c.Patient_ID = p.ID AND c.ID = $id";
-		break;
-		case "Patient":
-			$query = "SELECT ID, Name, IC, Contact, BirthYear, Address, Gender, RegisDate, BloodType, Meals , Allergic, Sickness, Margin, Image FROM patients WHERE id = $id";
-		break;
-		default:
-			$response['error'] = true; 
-			$response['message'] = 'Invalid Register Type';
-		break;
-	}
-	if(isset($query))
-		$response = getData($query);
-	}
-	else{
-		$response['error'] = true; 
-		$response['message'] = 'Required parameter not available';	
-	}
-}
-else if(isset($_GET['apicall']) == "Update"){
+	else if($apicall == "Update"){
 	//General Information
-	$id = $_POST['ID'];
-	$Name = $_POST['Name'];
-	$IC = $_POST['IC'];
-	$Gender = $_POST['Gender'];
-	$Birthyear = $_POST['Birthyear'];
-	$Contact = $_POST['Contact'];
-	$Address = $_POST['Address'];
-	$regisDate = $_POST['regisDate'];
-	$regisType = $_POST['regisType'];
-	
-	switch($type){
-		case "User":
+		$id = $_POST['id'];
+		$Name = $_POST['Name'];
+		$IC = $_POST['IC'];
+		$Gender = $_POST['Gender'];
+		$Birthyear = $_POST['Birthyear'];
+		$Contact = $_POST['Contact'];
+		$Address = $_POST['Address'];
+		$regisDate = $_POST['regisDate'];
+		$regisType = $_POST['regisType'];
+
+		switch($type){
+			case "User":
 			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id))){
 				$response = updateUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id);
 			}
@@ -171,8 +176,8 @@ else if(isset($_GET['apicall']) == "Update"){
 				$response['error'] = true;
 				$response['message'] = 'Required Parameters not available';
 			}
-		break;			
-		case "Client":
+			break;			
+			case "Client":
 			if(isTheseParametersAvailable(array($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id))){
 				$response = updateClient($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id);
 			}
@@ -180,8 +185,8 @@ else if(isset($_GET['apicall']) == "Update"){
 				$response['error'] = true;
 				$response['message'] = 'Required Parameters not available';
 			}
-		break;
-		case "Patient":
+			break;
+			case "Patient":
 			//Patient additional information
 			$BloodType = $_POST['BloodType'];
 			$Meals = $_POST['Meals'];
@@ -190,51 +195,83 @@ else if(isset($_GET['apicall']) == "Update"){
 			$Margin = $_POST['Margin'];
 			
 			if(isTheseParametersAvailable(array($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id))){
-				$response = createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id);
+				$response = updatePatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $Contact, $Meals, $Allergic, $Sickness, $regisType, $regisDate, $Margin, $id);
 			}
 			else{
 				$response['error'] = true;
 				$response['message'] = 'Required Parameters not available';
 			}
-		break;
-		default:
-		$response['error'] = true; 
-		$response['message'] = 'Invalid Register Type';
-		break;
-	}
-}
-
-else if(isset($_GET['apicall']) == "Delete"){
-	//get id 
-	$id = $_POST['ID'];
-	if(isTheseParametersAvailable($id)){
-		
-		switch($type){
-			case "User":
-				$query = "DELETE FROM users WHERE ID = $id";
-		break;			
-		case "Client":
-			$query = "DELETE FROM clients WHERE id = $id";
-		break;
-		case "Patient":
-			$query = "DELETE FROM patients WHERE id = $id";
-		break;
-		default:
+			break;
+			default:
 			$response['error'] = true; 
 			$response['message'] = 'Invalid Register Type';
-		break;
+			break;
 		}
-		if(isset($query))
-			$response = delete($query);
 	}
-	else{
+
+	else if($apicall == "Delete"){
+	//get id 
+		$id = $_POST['id'];
+		if(isset($id)){
+
+			switch($type){
+				case "User":
+				$query = "DELETE FROM users WHERE ID = $id";
+				break;			
+				case "Client":
+				$query = "DELETE FROM clients WHERE id = $id";
+				break;
+				case "Patient":
+				$query = "DELETE FROM patients WHERE id = $id";
+				break;
+				default:
+				$response['error'] = true; 
+				$response['message'] = 'Invalid Register Type';
+				break;
+			}
+			if(isset($query))
+				$response = delete($query);
+		}
+		else{
+			$response['error'] = true; 
+			$response['message'] = 'Required parameter not available';
+		}
+	}
+
+	else if($apicall == "Create_Medical"){
+		$Date = $_POST['Date'];
+		$Nurse_ID = $_POST['Nurse_ID'];
+		$Patient_ID = $_POST['Patient_ID'];
+		$Blood_Pressure = $_POST['Blood_Pressure']; 
+		$Heart_Rate = $_POST['Heart_Rate'];
+		$Sugar_Level = $_POST['Sugar_Level'];
+		$Temperature = $_POST['Temperature'];
+
+		switch ($type) {
+			case "Medical":
+			if(isTheseParametersAvailable(array($Date,$Nurse_ID,$Patient_ID,$Blood_Pressure,$Heart_Rate,$Sugar_Level, $Temperature))){
+				$response = createMedical($Date,$Nurse_ID,$Patient_ID,$Blood_Pressure,$Heart_Rate,$Sugar_Level, $Temperature);
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'Required Parameters not available';
+			}
+			break;
+			
+			default:
+			$response['error'] = true; 
+			$response['message'] = 'Invalid Value Type';
+			break;
+		}		
+	}
+	else {
 		$response['error'] = true; 
-		$response['message'] = 'Required parameter not available';
+		$response['message'] = 'Invalid API Call';
 	}
 }
-else {
+else{
 	$response['error'] = true; 
-	$response['message'] = 'Invalid API Call';
+	$response['message'] = 'No API call';
 }
 
 //Send out the Response
@@ -348,6 +385,25 @@ function createPatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $C
 	return $response;
 }
 
+function createMedical($Date,$Nurse_ID,$Patient_ID,$Blood_Pressure,$Heart_Rate,$Sugar_Level, $Temperature){
+	include 'DbConnect.php';
+	$response = array();
+	$stmt = $conn->prepare("INSERT INTO medical (Date, Nurse_ID, Patient_ID, Blood_Pressure, Heart_Rate, Sugar_Level, Temperature) VALUES (?,?,?,?,?,?,?)");
+	$stmt->bind_param("sssdddd", $Date, $Nurse_ID, $Patient_ID, $Blood_Pressure, $Heart_Rate, $Sugar_Level, $Temperature);
+
+
+	if($stmt->execute()){
+		$response['error'] = false; 
+		$response['message'] = 'Patient\'s medical saved'; 
+	}
+	else{
+		$response['error'] = true; 
+		$response['message'] = 'Unable to save Patient medical record'; 
+	}
+	$stmt->close();
+	return $response;
+}
+
 //Function to get data from using query
 function getData($query){
 	include 'DbConnect.php';
@@ -390,15 +446,16 @@ function updateUser($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,
 function updateClient($Name,$IC,$Gender, $Birthyear, $Contact,$Address,$regisDate,$regisType, $id){
 	include 'DbConnect.php';
 	$response = array();
+	$stmt = $conn->prepare("UPDATE clients SET Name = '$Name', IC = '$IC', Gender = '$Gender', Birthyear = '$Birthyear', Contact = '$Contact', Address = '$Address', regisDate = '$regisDate', regisType = '$regisType' WHERE id=$id");
 	if($stmt->execute()){
-			$response['error'] = false; 
-			$response['message'] = 'Client Update successfully'; 
-		}
-		else{
-			$response['error'] = true; 
-			$response['message'] = 'Could Not Update Client'; 
-		}
-		$stmt->close();
+		$response['error'] = false; 
+		$response['message'] = 'Client Update successfully'; 
+	}
+	else{
+		$response['error'] = true; 
+		$response['message'] = 'Could Not Update Client'; 
+	}
+	$stmt->close();
 	return $response;
 }
 
@@ -431,6 +488,8 @@ function updatePatient($Name, $IC, $Birthyear, $Gender, $BloodType, $Address, $C
 		$response['error'] = true; 
 		$response['message'] = 'Could Not Update patient'; 
 	}
+	$stmt->close();
+	return $response;
 }
 
 //Function to delete data
@@ -451,5 +510,5 @@ function delete($query){
 	}
 	return $response;
 }
-	
-	
+
+

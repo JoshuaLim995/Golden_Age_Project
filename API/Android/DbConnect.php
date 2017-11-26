@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "goldenAge";
 $password = "";
-$database = "testing";
+$database = "goldenage";
  
  
 //creating a new connection object using mysqli 

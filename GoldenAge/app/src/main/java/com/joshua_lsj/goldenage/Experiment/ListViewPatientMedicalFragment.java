@@ -9,14 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Objects.Medical;
 import com.joshua_lsj.goldenage.R;
 
 import org.json.JSONArray;
@@ -24,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by limsh on 11/4/2017.
@@ -40,38 +45,54 @@ public class ListViewPatientMedicalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.list_view_fragment, container, false);
-
-        listView = myView.findViewById(R.id.list_view_patient_medical);
+        myView = inflater.inflate(R.layout.fragment_view_patient_medical, container, false);
         medicalArrayList = new ArrayList<>();
+
+        initialize();
+
+    //    listView = myView.findViewById(R.id.list_view);
 
 
         getData();
 
+
         return myView;
+    }
+
+    private void initialize(){
+        String patient_name = SharedPrefManager.getInstance(getActivity()).getPatientName();
+
+        TextView tvPatientName = myView.findViewById(R.id.item_name);
+        TextView tvPatientID = myView.findViewById(R.id.item_id);
+        TextView emptyText = myView.findViewById(R.id.empty);
+
+        tvPatientName.setText(patient_name);
+        listView = myView.findViewById(R.id.list_view);
+        listView.setEmptyView(emptyText);
+
     }
 
     private void getData() {
 	//get patient id from shared preference
-	id = SharedPrefManager.getInstance(this).getKeyPatientId();
+	id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLs.GET_PATIENT_MEDICAL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.READ_DATA,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            
+                            JSONObject obj = new JSONObject(new String(response));
+                        //    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                             if(!obj.getBoolean("error")){
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
                                 JSONArray array = obj.getJSONArray("result");
                                 
                                 for (int i = 0; i < array.length(); i++) {
                                 JSONObject medicalJson = array.getJSONObject(i);
                                 
                                 //Creating a new user object
-                                medicalList.add(new Medical(
+                                    medicalArrayList.add(new Medical(
                                         medicalJson.getString("Date"),
                                         medicalJson.getString("Patient_ID"),
                                         medicalJson.getString("Nurse_ID"),
@@ -82,12 +103,14 @@ public class ListViewPatientMedicalFragment extends Fragment {
                                 ));
                                 }
                                  //creating adapter object and setting it to recyclerview
-                            MedicalAdapter adapter = new MedicalAdapter(medicalList, getActivity());
+                            MedicalAdapter adapter = new MedicalAdapter(medicalArrayList, getActivity());
                             listView.setAdapter(adapter);
                                
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
 }
                     }
                 },
@@ -103,6 +126,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
 
                 Map<String, String> params = new HashMap<>();
                 //Put Patient id to parameters to search for medical record
+                params.put("type", "Medical");
                 params.put("id", id);
                 return params;
             }

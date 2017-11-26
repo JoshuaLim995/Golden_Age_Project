@@ -54,6 +54,15 @@
                 android:value=".Experiment.MainActivity" />
         </activity>
 
+        <!-- View Patient Medical Activity -->
+        <activity android:name=".Experiment.ViewPatientMedicalActivity"
+            android:label="View Patient Medical"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.ViewPatientActivity" />
+        </activity>
+
         <!-- View Client Activity -->
         <activity android:name=".Experiment.ViewClientActivity"
             android:label="View Client"
@@ -64,13 +73,6 @@
         </activity>
 
         <!-- Add & Update User Activity -->
-        <activity android:name=".Experiment.UpdateUserActivity"
-            android:label="Add Update User"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Experiment.ViewUserActivity" />
-        </activity>
 
 
         <!-- Update Client Activity -->
@@ -81,7 +83,7 @@
 
 
         //Add Patient Using Volley
-        <activity android:name=".Volley.AddPatientActivityVolley"
+        <activity android:name=".Experiment.AddPatientActivity"
             android:label="Add Patient"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -110,7 +112,7 @@
 -->
 
         <!-- Add Patient Medical -->
-        <activity android:name=".PatientMedicalActivity"
+        <activity android:name=".AddPatientMedicalActivity"
             android:label="Patient Medical Checkup"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

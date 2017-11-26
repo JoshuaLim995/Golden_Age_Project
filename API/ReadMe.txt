@@ -1,1 +1,5 @@
-This is the API required in the wamp www folder for communication between the app and the mysql database server
+Copy the whole Android Folder to the www folder
+
+
+Create Database named goldenage
+Import goldenAge DataBase.sql to myPHPAdmin 

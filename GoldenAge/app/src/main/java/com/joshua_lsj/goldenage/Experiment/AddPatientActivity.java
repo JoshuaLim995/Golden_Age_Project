@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage.Volley;
+package com.joshua_lsj.goldenage.Experiment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -53,6 +53,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
 
 import java.io.ByteArrayOutputStream;
@@ -70,7 +71,7 @@ import java.util.Map;
  * Created by limsh on 10/18/2017.
  */
 
-public class AddPatientActivityVolley extends AppCompatActivity {
+public class AddPatientActivity extends AppCompatActivity {
 
     private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact, til_allergic, til_sickness, til_margin;
 
@@ -159,7 +160,7 @@ public class AddPatientActivityVolley extends AppCompatActivity {
                     if(patient == null)
                         RegisterPatient(URLs.CREATE);
                     else
-                        RegisterPatient(URLs.UPDATE_PATIENT_URL);
+                        RegisterPatient(URLs.UPDATE);
                 }
 
 
@@ -311,7 +312,7 @@ public class AddPatientActivityVolley extends AppCompatActivity {
         builder.setItems(items, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int item){
-        //        boolean result = Utility.checkPermission(AddPatientActivityVolley.this);
+        //        boolean result = Utility.checkPermission(AddPatientActivity.this);
 
                 if(items[item].equals("Camera")){
                     userChoosenTask="Camera";

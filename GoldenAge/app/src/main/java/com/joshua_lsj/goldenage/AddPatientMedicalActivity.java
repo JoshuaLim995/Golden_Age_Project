@@ -1,8 +1,8 @@
 package com.joshua_lsj.goldenage;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -34,12 +34,14 @@ import java.util.Map;
  * Created by limsh on 10/22/2017.
  */
 
-public class PatientMedicalActivity extends AppCompatActivity{
+public class AddPatientMedicalActivity extends AppCompatActivity{
 
     private static final String PATIENT = "Patient";
     private Patient patient;
     private Calender calender;
     private User user;
+
+    private TextInputLayout til_bloodPressure, til_sugarLevel, til_heartRate, til_temperature;
     
     private EditText etBlood_Pressure;
     private EditText etSugar_Level;
@@ -48,7 +50,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_medical);
+        setContentView(R.layout.activity_add_patient_medical);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,20 +61,46 @@ public class PatientMedicalActivity extends AppCompatActivity{
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {              
-                createMedicakRecord();
+            public void onClick(View view) {
+                checkEditText();
+                if(!etBlood_Pressure.getText().toString().isEmpty() &&
+                        !etSugar_Level.getText().toString().isEmpty() &&
+                        !etHeartRate.getText().toString().isEmpty() &&
+                        !etTemperature.getText().toString().isEmpty())
+                    createMedicakRecord();
             }
         });
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void checkEditText(){
+        if(!etBlood_Pressure.getText().toString().isEmpty())
+            til_bloodPressure.setError(null);
+        else
+            til_bloodPressure.setError("Please fill in here");
+
+        if(!etSugar_Level.getText().toString().isEmpty())
+            til_sugarLevel.setError(null);
+        else
+            til_sugarLevel.setError("Please fill in here");
+
+        if(!etHeartRate.getText().toString().isEmpty())
+            til_heartRate.setError(null);
+         else
+            til_heartRate.setError("Please fill in here");
+
+        if(!etTemperature.getText().toString().isEmpty())
+            til_temperature.setError(null);
+        else
+            til_temperature.setError("Please fill in here");
     }
     
     private void intialize(){
         calender = new Calender();
         patient = (Patient) getIntent().getSerializableExtra(PATIENT);
         //GET USER ID FROM THE SHARED_PREFERENCE IF CAN,, IF NOT, THEN USE THE INTENT?? 
-        
-        TextView tvPatient_ID = (TextView) findViewById(R.id.item_patient_id);
+
         TextView tvPatient_Name = (TextView) findViewById(R.id.item_patient_name);
         TextView tvDate = (TextView) findViewById(R.id.item_date);
         TextView tvNurse_name = (TextView) findViewById(R.id.item_nurse_name); //CHECK AGAIN IF THIS IS NEEDED OR OPTIONAL
@@ -85,6 +113,11 @@ public class PatientMedicalActivity extends AppCompatActivity{
         etSugar_Level = (EditText) findViewById(R.id.item_sugarLevel);
         etHeartRate = (EditText) findViewById(R.id.item_heartRate);
         etTemperature = (EditText) findViewById(R.id.item_temperature);
+
+        til_bloodPressure = findViewById(R.id.TIL_bloodPressure);
+        til_heartRate = findViewById(R.id.TIL_heartRate);
+        til_sugarLevel = findViewById(R.id.TIL_sugarLevel);
+        til_temperature = findViewById(R.id.TIL_temperature);
     }
     
     private void createMedicakRecord(){
@@ -124,6 +157,7 @@ public class PatientMedicalActivity extends AppCompatActivity{
                 Calender calender = new Calender();
 
                 Map<String, String> params = new HashMap<>();
+                params.put("type", "Medical");
                 //Put Patient data to parameters
                 params.put("Date", calender.getToday());
                 params.put("Patient_ID", patient.getID()); //GET ID IN P001 FORMAT
@@ -139,52 +173,6 @@ public class PatientMedicalActivity extends AppCompatActivity{
 
         //adding the request to volley
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
-
-//
-//
-//
-//
-//        class UploadMedicalRecord extends AsyncTask<Void, Void, String> {
-//            @Override
-//            protected String doInBackground(Void... voids) {
-//
-//                RequestHandler requestHandler = new RequestHandler();
-//
-//                HashMap<String, String> params = new HashMap<>();
-//
-//                params.put("Date", calender.getToday());
-//                params.put("Patient_ID", patient.getId().toString()); //GET ID IN P001 FORMAT
-//                params.put("Nurse_ID", user.getID().toString()); //GET ID IN N001 FORMAT
-//                params.put("Blood_Pressure", bloodPressure);
-//                params.put("Sugar_Level", sugarLevel);
-//                params.put("Heart_Rate", heartRate);
-//                params.put("Temperature", temperature );
-//
-//                return requestHandler.sendPostRequest(URLs.URL_UPLOAD_MEDICAL_RECORD, params);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String s) {
-//                super.onPostExecute(s);
-//
-//                try {
-//                    //converting response to json object
-//                    JSONObject obj = new JSONObject(s);
-//                    if (!obj.getBoolean("error")) {
-//                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-//                        finish();
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-//                    }
-//                }catch (JSONException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//        }
 
     }
 }

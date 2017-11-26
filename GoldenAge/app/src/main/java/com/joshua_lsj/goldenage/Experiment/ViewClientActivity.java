@@ -62,6 +62,7 @@ public class ViewClientActivity extends AppCompatActivity {
 
     protected void intialize(){
 
+        TextView tvDetail = findViewById(R.id.item_detail);
         TextView tvName = (TextView) findViewById(R.id.item_name);
         TextView tvId = (TextView) findViewById(R.id.item_id);
         TextView tvRegisType = (TextView) findViewById(R.id.item_register_type);
@@ -69,11 +70,11 @@ public class ViewClientActivity extends AppCompatActivity {
         TextView tvIc = (TextView) findViewById(R.id.item_ic);
         TextView tvGender = (TextView) findViewById(R.id.item_gender);
         TextView tvAge = (TextView) findViewById(R.id.item_age);
-        TextView tvBirthdate = (TextView) findViewById(R.id.item_birthdate);
         TextView tvRegisDate = (TextView) findViewById(R.id.item_register_date);
         TextView tvPatientID = (TextView) findViewById(R.id.item_patient_id);
         TextView tvPatientName = (TextView) findViewById(R.id.item_patient_name);
 
+        tvDetail.setText("Client Details");
         if(client != null){
             tvName.setText(client.getName());
             tvId.setText(client.getID());
@@ -92,18 +93,18 @@ public class ViewClientActivity extends AppCompatActivity {
 
     private void getData(){
 
-        //    id = getIntent().getStringExtra(ListViewUserFragmentVolley.USER);
+        //    id = getIntent().getStringExtra(ListViewUserFragment.USER);
         id = SharedPrefManager.getInstance(this).getKeySelectedId();
         Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.GET_CLIENT,
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
-                            //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                             if(!obj.getBoolean("error")){
                                 Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -127,6 +128,7 @@ public class ViewClientActivity extends AppCompatActivity {
                                 intialize();
                             }
                         } catch (JSONException e) {
+                        //    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -143,6 +145,7 @@ public class ViewClientActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 //Put Patient data to parameters
+                params.put("type", "Client");
                 params.put("id", id);
                 return params;
             }
@@ -180,27 +183,30 @@ public class ViewClientActivity extends AppCompatActivity {
         }
         else if(id == R.id.action_delete){
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            deleteHelper.Delete(URLs.DELETE_CLIENT_URL, client.getID());
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Delete User?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-            return true;
+            Delete();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Delete(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        deleteHelper.Delete("Client", client.getID());
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete Client?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
     }
 }

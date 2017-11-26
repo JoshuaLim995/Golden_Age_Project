@@ -20,7 +20,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/list_view_patient_medical" />
+
+    <include layout="@layout/content_view_patient_medical"/>
+
+
+
+
 
 
 

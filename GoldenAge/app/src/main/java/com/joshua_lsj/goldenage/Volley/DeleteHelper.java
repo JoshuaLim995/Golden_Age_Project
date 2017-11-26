@@ -10,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.Experiment.URLs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +31,9 @@ public class DeleteHelper {
     }
 
 
-    public void Delete(String url, final String id){
+    public void Delete(final String type, final String id){
        // final boolean[] deleted = {false};
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.DELETE,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -59,13 +60,15 @@ public class DeleteHelper {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
+                params.put("type", type);
                 params.put("id", id);
+
                 return params;
             }
         };
 
         //adding the request to volley
-        Volley.newRequestQueue(activity).add(volleyMultipartRequest);
+        Volley.newRequestQueue(activity).add(multipartRequest);
 
     //    return deleted[0];
     }

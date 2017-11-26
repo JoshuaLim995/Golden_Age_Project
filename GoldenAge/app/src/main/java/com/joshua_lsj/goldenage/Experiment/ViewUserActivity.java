@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.MultiAutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,12 +19,9 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.Volley.DeleteHelper;
-import com.joshua_lsj.goldenage.Volley.ListViewUserFragmentVolley;
 import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
 import org.json.JSONArray;
@@ -43,7 +40,8 @@ public class ViewUserActivity extends AppCompatActivity {
     private User user;
     private DeleteHelper deleteHelper;
 
-    private TextView tvName, tvId, tvRegisType, tvContact, tvIc, tvGender, tvAge, tvBirthdate, tvRegisDate, tvPatientID, tvPatientName;
+    private TextView tvName, tvId, tvRegisType, tvContact, tvIc, tvGender, tvAge, tvAddress, tvRegisDate;
+    private LinearLayout layPatientID, layPatientName;
 
     public final static String USER = "UPDATE_USER";
 
@@ -69,12 +67,12 @@ public class ViewUserActivity extends AppCompatActivity {
 
     private void getData(){
 
-    //    id = getIntent().getStringExtra(ListViewUserFragmentVolley.USER);
+    //    id = getIntent().getStringExtra(ListViewUserFragment.USER);
         id = SharedPrefManager.getInstance(this).getKeySelectedId();
     //    Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.GET_USER,
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -118,7 +116,7 @@ public class ViewUserActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                //Put Patient data to parameters
+                params.put("type", "User");
                 params.put("id", id);
                 return params;
             }
@@ -130,7 +128,7 @@ public class ViewUserActivity extends AppCompatActivity {
     }
 
     public void intialize(){
-
+        TextView tvDetail = findViewById(R.id.item_detail);
 
         tvName = (TextView) findViewById(R.id.item_name);
         tvId = (TextView) findViewById(R.id.item_id);
@@ -139,23 +137,44 @@ public class ViewUserActivity extends AppCompatActivity {
         tvIc = (TextView) findViewById(R.id.item_ic);
         tvGender = (TextView) findViewById(R.id.item_gender);
         tvAge = (TextView) findViewById(R.id.item_age);
-        tvBirthdate = (TextView) findViewById(R.id.item_birthdate);
         tvRegisDate = (TextView) findViewById(R.id.item_register_date);
-        tvPatientID = (TextView) findViewById(R.id.item_patient_id);
-        tvPatientName = (TextView) findViewById(R.id.item_patient_name);
+        layPatientID = findViewById(R.id.layout_patient_id);
+        layPatientName =  findViewById(R.id.layout_patient_name);
+        tvAddress = findViewById(R.id.item_address);
 
+        tvDetail.setText("User Details");
         if(user != null){
-            tvPatientID.setVisibility(View.GONE);
-            tvPatientName.setVisibility(View.GONE);
+            layPatientID.setVisibility(View.GONE);
+            layPatientName.setVisibility(View.GONE);
             tvName.setText(user.getName());
             tvId.setText(user.getID());
-            tvRegisType.setText(user.getRegisType());
+            tvRegisType.setText(getRegisterType(user.getRegisType()));
             tvContact.setText(user.getContact());
             tvIc.setText(user.getIc());
             tvGender.setText(user.getGender());
             tvAge.setText(user.getAge());
             tvRegisDate.setText(user.getRegisDate());
+            tvAddress.setText(user.getAddress());
         }
+    }
+
+    public String getRegisterType(String type){
+        String getType;
+        switch (type){
+            case "A":
+                getType = "Admin";
+                break;
+            case "N":
+                getType = "Nurse";
+                break;
+            case "D":
+                getType = "Driver";
+                break;
+            default:
+                getType = "INVALID";
+                break;
+        }
+        return getType;
     }
 
 
@@ -175,7 +194,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_update) {
-            Intent intent = new Intent(this, UpdateUserActivity.class);
+            Intent intent = new Intent(this, AddUserActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(USER, user);
             intent.putExtras(bundle);
@@ -184,26 +203,30 @@ public class ViewUserActivity extends AppCompatActivity {
         }
         else if(id == R.id.action_delete){
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            deleteHelper.Delete(URLs.DELETE_USER_URL, user.getID());
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            dialog.dismiss();
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Delete User?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-            return true;
+            Delete();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Delete(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        deleteHelper.Delete("User", user.getID());
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete User?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
     }
 }

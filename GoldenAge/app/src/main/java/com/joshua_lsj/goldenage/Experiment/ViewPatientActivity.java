@@ -3,7 +3,6 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.joshua_lsj.goldenage.Calender;
-import com.joshua_lsj.goldenage.Objects.Client;
-import com.joshua_lsj.goldenage.PatientMedicalActivity;
+import com.joshua_lsj.goldenage.AddPatientMedicalActivity;
 import com.joshua_lsj.goldenage.R;
-import com.joshua_lsj.goldenage.Volley.AddPatientActivityVolley;
 import com.joshua_lsj.goldenage.Volley.DeleteHelper;
 import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
@@ -68,7 +64,7 @@ public class ViewPatientActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), PatientMedicalActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddPatientMedicalActivity.class);
                 intent.putExtra(PATIENT, patient);
                 startActivity(intent);
             }
@@ -90,7 +86,7 @@ public class ViewPatientActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.GET_PATIENT,
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -124,6 +120,8 @@ public class ViewPatientActivity extends AppCompatActivity {
                                 Initialize();
                             }
                         } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
                             e.printStackTrace();
                         }
                     }
@@ -140,6 +138,7 @@ public class ViewPatientActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 //Put Patient data to parameters
+                params.put("type", "Patient");
                 params.put("id", id);
                 return params;
             }
@@ -154,21 +153,18 @@ public class ViewPatientActivity extends AppCompatActivity {
     public void Initialize() {
 
 
-        TextView tvId = (TextView) findViewById(R.id.view_patient_id);
-        TextView tvName = (TextView) findViewById(R.id.view_patient_name);
-        TextView tvContact = (TextView) findViewById(R.id.view_patient_contact);
-        TextView tvEmergencyContact = (TextView) findViewById(R.id.view_patient_emergency_contact);
-        TextView tvIC = (TextView) findViewById(R.id.view_patient_ic);
-        TextView tvGender = (TextView) findViewById(R.id.view_patient_sex);
-        TextView tvAge = (TextView) findViewById(R.id.view_patient_age);
-        TextView tvBirthday = (TextView) findViewById(R.id.view_patient_birthday);
-        TextView tvBlood = (TextView) findViewById(R.id.view_patient_blood_type);
-        TextView tvSick = (TextView) findViewById(R.id.view_patient_sickness);
-        TextView tvMeal = (TextView) findViewById(R.id.view_patient_meals);
-        TextView tvAllergic = (TextView) findViewById(R.id.view_patient_allergic);
-        TextView tvRegDate = (TextView) findViewById(R.id.view_patient_reg_date);
-        TextView tvRegType = (TextView) findViewById(R.id.view_patient_reg_type);
-        TextView tvMargin = (TextView) findViewById(R.id.view_patient_margin);
+        TextView tvId = (TextView) findViewById(R.id.item_id);
+        TextView tvName = (TextView) findViewById(R.id.item_name);
+        TextView tvContact = (TextView) findViewById(R.id.item_contact);
+        TextView tvIC = (TextView) findViewById(R.id.item_ic);
+        TextView tvGender = (TextView) findViewById(R.id.item_gender);
+        TextView tvAge = (TextView) findViewById(R.id.item_age);
+        TextView tvBlood = (TextView) findViewById(R.id.item_blood_type);
+        TextView tvSick = (TextView) findViewById(R.id.item_sickness);
+        TextView tvMeal = (TextView) findViewById(R.id.item_meals);
+        TextView tvAllergic = (TextView) findViewById(R.id.item_allergic);
+        TextView tvRegDate = (TextView) findViewById(R.id.item_register_date);
+        TextView tvMargin = (TextView) findViewById(R.id.item_margin);
 
         ImageView imageView = (ImageView) findViewById(R.id.item_image);
 
@@ -185,7 +181,6 @@ public class ViewPatientActivity extends AppCompatActivity {
             tvMeal.setText(patient.getMeals());
             tvAllergic.setText(patient.getAllergic());
             tvRegDate.setText(patient.getRegisDate());
-            tvRegType.setText(patient.getRegisType());
             tvMargin.setText(patient.getMargin().toString());
 
             if(!patient.getImageName().equals("null"))
@@ -199,7 +194,7 @@ public class ViewPatientActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_patient_edit, menu);
         return true;
     }
 
@@ -212,7 +207,7 @@ public class ViewPatientActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_update) {
-            Intent intent = new Intent(getApplicationContext(), AddPatientActivityVolley.class);
+            Intent intent = new Intent(getApplicationContext(), AddPatientActivity.class);
             intent.putExtra(PATIENT, patient);
             startActivity(intent);
             return true;
@@ -222,8 +217,8 @@ public class ViewPatientActivity extends AppCompatActivity {
              return true;
         }
         else if(id == R.id.action_view_medical){
-            Intent intent = new Intent(getApplicationContext(), ViewMedicalActivity.class);
-            intent.putExtra(PATIENT, patient);
+            SharedPrefManager.getInstance(this).setPatientName(patient.getName());
+            Intent intent = new Intent(getApplicationContext(), ViewPatientMedicalActivity.class);
             startActivity(intent);
             return true;
         }
@@ -237,7 +232,7 @@ public class ViewPatientActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
-                            deleteHelper.Delete(URLs.DELETE_PATIENT_URL, patient.getID());
+                            deleteHelper.Delete("Patient", patient.getID());
 
                             break;
 
@@ -249,7 +244,7 @@ public class ViewPatientActivity extends AppCompatActivity {
             };
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Delete User?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+            builder.setMessage("Delete Patient?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
        }
 
 }

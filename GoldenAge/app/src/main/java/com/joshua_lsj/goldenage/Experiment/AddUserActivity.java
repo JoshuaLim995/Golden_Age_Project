@@ -45,6 +45,8 @@ public class AddUserActivity extends AppCompatActivity {
     private String gender;
     private String user_type;
 
+    private User user = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,98 +54,26 @@ public class AddUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        user = (User) getIntent().getSerializableExtra(ViewUserActivity.USER);
+
         initialize();
 
+        if(user != null)
+            fillEditText();
+
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-/*
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etName.getText().length() == 0 ) {
-                    til_name.setError("Name cannot be empty");
-                    fab.setEnabled(false);
-                } else {
-                    til_name.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
 
-        etIC.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etIC.getText().length() == 0) {
-                    til_ic.setError("IC number cannot be empty");
-                    fab.setEnabled(false);
-                } else if (etIC.getText().length() > 12) {
-                    til_ic.setError("Length of IC number exceeded");
-                    fab.setEnabled(false);
-                } else {
-                    til_ic.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-
-        etAddress.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etAddress.getText().length() == 0) {
-                    til_address.setError("Address cannot be empty");
-                    fab.setEnabled(false);
-                } else {
-                    til_address.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-
-        etContact.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(etContact.getText().length() == 0 ) {
-                    til_contact.setError("Phone number cannot be empty");
-                    fab.setEnabled(false);
-                } else if(etContact.getText().length() > 10){
-                    til_contact.setError("Length of phone number exceeded");
-                    fab.setEnabled(false);
-                } else {
-                    til_contact.setError(null);
-                    fab.setEnabled(true);
-                }
-            }
-        });
-*/
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(checkEditText())
-                    registerUser();
+                if(checkEditText()){
+                    if(user != null)
+                        registerUser(URLs.UPDATE);
+                    else
+                        registerUser(URLs.CREATE);
+                }
+
             }
         });
 
@@ -175,6 +105,15 @@ public class AddUserActivity extends AppCompatActivity {
         RadioButton radGender = findViewById(R.id.gender_male);
         radGender.setChecked(true);
         gender = "M";
+    }
+
+    private void fillEditText(){
+        etName.setText(user.getName());
+        etIC.setText(user.getIc());
+        etAge.setText(user.getAge());
+        etRegisterDate.setText(user.getRegisDate());
+        etAddress.setText(user.getAddress());
+        etContact.setText(user.getContact());
     }
 
     private boolean checkEditText(){
@@ -231,7 +170,7 @@ public class AddUserActivity extends AppCompatActivity {
         return validate;
     }
 
-    private void registerUser(){
+    private void registerUser(String url){
        final String name = etName.getText().toString().trim();
         final   String ic = etIC.getText().toString().trim();
         final   int age = Integer.parseInt(etAge.getText().toString());
@@ -241,7 +180,7 @@ public class AddUserActivity extends AppCompatActivity {
 
 
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.CREATE,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -287,6 +226,8 @@ public class AddUserActivity extends AppCompatActivity {
                 params.put("regisDate",register_date );
                 params.put("regisType", user_type);
 
+                if(user != null)
+                    params.put("id", user.getID());
                 return params;
             }
 

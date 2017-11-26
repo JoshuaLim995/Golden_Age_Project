@@ -70,7 +70,7 @@ public class AddUpdateClientActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkEditText()){
                     if(client != null)
-                        registerClient(URLs.UPDATE_CLIENT_URL);
+                        registerClient(URLs.UPDATE);
                     else
                         registerClient(URLs.CREATE);
                 }
@@ -229,6 +229,7 @@ public class AddUpdateClientActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         },

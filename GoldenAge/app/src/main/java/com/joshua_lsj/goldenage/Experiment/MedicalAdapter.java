@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
+import com.joshua_lsj.goldenage.Objects.Medical;
+import com.joshua_lsj.goldenage.R;
+
 import java.util.ArrayList;
 
 /**
@@ -42,7 +45,7 @@ public class MedicalAdapter extends ArrayAdapter<Medical> {
         if(convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_items, parent, false);
+            convertView = inflater.inflate(R.layout.list_medical, parent, false);
 
             viewHolder.txtDate = (TextView) convertView.findViewById(R.id.item_date);
             viewHolder.txtBP = (TextView) convertView.findViewById(R.id.item_blood_pressure);
@@ -56,11 +59,14 @@ public class MedicalAdapter extends ArrayAdapter<Medical> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        viewHolder.txtDate.setText(medical.getDate());
-        viewHolder.txtBP.setText(medical.getBloodPressure());
-        viewHolder.txtSugar.setText(medical.getSugar());
-        viewHolder.txtHeartRate.setText(medical.getHeartRate());
-        viewHolder.txtTemperature.setText(medical.getTempeture());
+
+            viewHolder.txtDate.setText(medical.getDate());
+            viewHolder.txtBP.setText(medical.getBlood_pressure().toString());
+            viewHolder.txtSugar.setText(medical.getSugar_level().toString());
+            viewHolder.txtHeartRate.setText(medical.getHeart_rate().toString());
+            viewHolder.txtTemperature.setText(medical.getTemperature().toString());
+
+
 
         return convertView;
     }
