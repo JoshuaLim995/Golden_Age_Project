@@ -4,6 +4,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,13 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
-//import com.joshua_lsj.goldenage.ListViewFragment.ListViewClientFragment;
-//import com.joshua_lsj.goldenage.ListViewFragment.ListViewDriverFragment;
-//import com.joshua_lsj.goldenage.ListViewFragment.ListViewNurseFragment;
-//import com.joshua_lsj.goldenage.ListViewFragment.ListViewPatientFragment;
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
 
@@ -33,15 +33,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
 
+    private final String NAV_USER = "nav_user";
+    private final String NAV_CLIENT = "nav_client";
+    private final String NAV_PATIENT = "nav_patient";
 
-    private static final String FRAGMENT_ADD_PATIENT = "com.addPatientFragment";
+    private final String NAV_PATIENT_MEDICAL = "nav_patient_medical";
+    private final String NAV_PATIENT_INFO = "nav_patient_info";
 
-    private void Initialize(){
+
+
+    private User user;
+
+
+private Client client;
+/*
+    public static Activity getActivity(){
+        return getActivity();
+    }
+*/
+
+    private void AdminLogin(){
+        //Set Content
+        setContentView(R.layout.activity_admin_main);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fam = (FloatingActionMenu) findViewById(R.id.fam);
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -52,8 +70,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.nav_patient_listView);
+    }
 
+    private void NurseLogin(){
+        setContentView(R.layout.activity_nurse_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fam = (FloatingActionMenu) findViewById(R.id.fam);
+        fam.setVisibility(View.GONE);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+    
+    private void ClientLogin(){
+
+        setContentView(R.layout.activity_client_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fam = (FloatingActionMenu) findViewById(R.id.fam);
+        fam.setVisibility(View.GONE);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -61,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_main);
 
         //CHECK IF USER IS LOGGED IN OR NOT, IF NOT, LOGINACTIVITY WILL OPEN INSTEAD
         if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
@@ -69,43 +123,116 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        Initialize();
+        user = SharedPrefManager.getInstance(this).getUserSharedPref();
 
-/*
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new ListViewPatientFragment())
-                .commit();
-        getSupportActionBar().setTitle("Patients");
-*/
-        getSupportActionBar().setTitle("Experiment");
+        if(user.getRegisType().equals("A"))
+            AdminLogin();
+        else if(user.getRegisType().equals("N"))
+            NurseLogin();
+        else if(user.getRegisType().equals("C"))
+            ClientLogin();
+
+
+
+
+    }
+
+    public String getRegisterType(String type){
+        String getType;
+        switch (type){
+            case "A":
+                getType = "Admin";
+                break;
+            case "N":
+                getType = "Nurse";
+                break;
+            case "D":
+                getType = "Driver";
+                break;
+            case "C":
+                getType = "Client";
+                break;
+            default:
+                getType = "INVALID";
+                break;
+        }
+        return getType;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        switch (SharedPrefManager.getInstance(getApplicationContext()).getSelectedNav()){
+            case NAV_USER:
+                navigationView.setCheckedItem(R.id.nav_users_listView);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewUserFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Users");
+                break;
+
+
+            case NAV_CLIENT:
+                navigationView.setCheckedItem(R.id.nav_client_listView);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewClientFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Clients");
+                break;
+
+
+            case NAV_PATIENT:
+                navigationView.setCheckedItem(R.id.nav_patients_listView);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewPatientsFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Patients");
+                break;
+                
+            case NAV_PATIENT_MEDICAL:
+                navigationView.setCheckedItem(R.id.nav_patient_medical_listView);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Patient Medical");
+                break;
+
+            case NAV_PATIENT_INFO:
+                navigationView.setCheckedItem(R.id.nav_view_patient);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ViewPatientFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Patient Info");
+                break;
+        }
 
     }
 
 
-
     public void onFloatingActionButtonClicked(View view){
         Intent intent;
-        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
+     //   FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.fam);
         switch (view.getId()){
             case R.id.menu_add_patient:
-//                intent = new Intent(getApplicationContext(), AddPatientActivity.class);
+ //               intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
                 intent = new Intent(getApplicationContext(),  AddPatientActivity.class);
-
                 startActivity(intent);
                 break;
-            case R.id.menu_add_nurse:
+            case R.id.menu_add_user:
                 intent = new Intent(getApplicationContext(), AddUserActivity.class);
          //       intent = new Intent(getApplicationContext(), AddNurseActivity.class);
                 startActivity(intent);
                 break;
+
             case R.id.menu_add_client:
-     //           intent = new Intent(getApplicationContext(), AddClientActivity.class);
-    //            startActivity(intent);
+        //        intent = new Intent(getApplicationContext(), AddClientActivity.class);
+
+                //Testing for using only 1 class instead of 2
+                intent = new Intent(getApplicationContext(), AddUpdateClientActivity.class);
+                startActivity(intent);
                 break;
-            case R.id.menu_add_driver:
-     //           intent = new Intent(getApplicationContext(), AddDriverActivity.class);
-    //            startActivity(intent);
-                break;
+
             default:
                 fam.close(true);
         }
@@ -150,34 +277,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
-        if (id == R.id.nav_patient_listView) {
+        if (id == R.id.nav_users_listView) {
+            //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_USER);
 
-            Toast.makeText(getApplicationContext(), "Experiment Main", Toast.LENGTH_SHORT).show();
-            /*
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewPatientFragment())
+                    .replace(R.id.content_frame, new ListViewUserFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Users");
+
+        }
+
+        else if (id == R.id.nav_patients_listView) {
+            //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new ListViewPatientsFragment())
                     .commit();
             getSupportActionBar().setTitle("Patients");
+
+
         }
-        else if (id == R.id.nav_nurse_listView) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewNurseFragment())
-                    .commit();
-            getSupportActionBar().setTitle("Nurses");
-        }
-        else if (id == R.id.nav_driver_listView) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ListViewDriverFragment())
-                    .commit();
-            getSupportActionBar().setTitle("Drivers");
-        }
+
         else if (id == R.id.nav_client_listView) {
+            //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_CLIENT);
+
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ListViewClientFragment())
                     .commit();
             getSupportActionBar().setTitle("Clients");
-            */
+      }
+        
+        else if (id == R.id.nav_patient_medical_listView){
+            //STORE THE SELECTED NAV DATA IN SHARED PREFERENCE
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT_MEDICAL);
+
+            getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new ListViewPatientMedicalFragment())
+                        .commit();
+            getSupportActionBar().setTitle("Patient Medical");
         }
+
+        else if(id == R.id.nav_view_patient){
+
+            SharedPrefManager.getInstance(this).setSelectedNav(NAV_PATIENT_INFO);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new ViewPatientFragment())
+                    .commit();
+            getSupportActionBar().setTitle("Patient Info");
+
+
+        }
+        
         else if (id == R.id.nav_logout) {
             finish();
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
@@ -186,7 +340,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
+
 
 }

@@ -3,22 +3,33 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.joshua_lsj.goldenage.BirthDatePickerFragment;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.Calender;
 import com.joshua_lsj.goldenage.RegisterDatePickerFragment;
 import com.joshua_lsj.goldenage.R;
+import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by limsh on 10/29/2017.
@@ -28,16 +39,13 @@ import java.util.HashMap;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    private EditText etName;
-    private EditText etIC;
-    private EditText etBirthday;
-    private EditText etRegisterDate;
-    private EditText etAddress;
-    private EditText etContact;
+    private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact;
+    private TextInputEditText etName, etIC, etAge, etRegisterDate, etAddress, etContact;
 
-    private String sex;
+    private String gender;
+    private String user_type;
 
-   // private Nurse nurse;
+    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +54,25 @@ public class AddUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        etName = (EditText) findViewById(R.id.item_name);
-        etIC = (EditText) findViewById(R.id.item_ic);
-        etBirthday = (EditText) findViewById(R.id.item_birthday);
-        etRegisterDate = (EditText) findViewById(R.id.item_register_date);
-        etAddress = (EditText) findViewById(R.id.item_address);
-        etContact = (EditText) findViewById(R.id.item_contact);
+        user = (User) getIntent().getSerializableExtra(ViewUserActivity.USER);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        initialize();
+
+        if(user != null)
+            fillEditText();
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-//USED TO ADD ADMIN, NURSE, DRIVER
-                registerUser();
+                if(checkEditText()){
+                    if(user != null)
+                        registerUser(URLs.UPDATE);
+                    else
+                        registerUser(URLs.CREATE);
+                }
 
             }
         });
@@ -67,68 +80,161 @@ public class AddUserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void registerUser(){
+    private void initialize(){
+        etName = (TextInputEditText) findViewById(R.id.item_name);
+        etIC = (TextInputEditText) findViewById(R.id.item_ic);
+        etAge = (TextInputEditText) findViewById(R.id.item_age);
+        etRegisterDate = (TextInputEditText) findViewById(R.id.item_register_date);
+        etAddress = (TextInputEditText) findViewById(R.id.item_address);
+        etContact = (TextInputEditText) findViewById(R.id.item_contact);
+
+        til_name = (TextInputLayout) findViewById(R.id.TIL_Name);
+        til_ic = (TextInputLayout) findViewById(R.id.TIL_IC);
+        til_age = (TextInputLayout) findViewById(R.id.TIL_Age);
+        til_contact = (TextInputLayout) findViewById(R.id.TIL_Contact);
+        til_address = (TextInputLayout) findViewById(R.id.TIL_Address);
+        til_registerDate = (TextInputLayout) findViewById(R.id.TIL_RegisterDate);
+
+        Calender calender = new Calender();
+        etRegisterDate.setText(calender.getToday());
+
+        RadioButton radUserType = findViewById(R.id.item_user_admin);
+        radUserType.setChecked(true);
+        user_type = "A";
+
+        RadioButton radGender = findViewById(R.id.gender_male);
+        radGender.setChecked(true);
+        gender = "M";
+    }
+
+    private void fillEditText(){
+        etName.setText(user.getName());
+        etIC.setText(user.getIc());
+        etAge.setText(user.getAge());
+        etRegisterDate.setText(user.getRegisDate());
+        etAddress.setText(user.getAddress());
+        etContact.setText(user.getContact());
+    }
+
+    private boolean checkEditText(){
+        boolean validate = false;
+
+        if(!etName.getText().toString().isEmpty()){
+            til_name.setError(null);
+            validate = true;
+        }else {
+            til_name.setError("Please fill in name");
+            validate = false;
+        }
+
+        if(!etIC.getText().toString().isEmpty()){
+            til_ic.setError(null);
+            validate = true;
+        }else {
+            til_ic.setError("Please fill in ic");
+            validate = false;
+        }
+
+        if(!etAge.getText().toString().isEmpty()) {
+            til_age.setError(null);
+            validate = true;
+        }else {
+            til_age.setError("Please fill in age");
+            validate = false;
+        }
+
+        if(!etRegisterDate.getText().toString().isEmpty()) {
+            til_registerDate.setError(null);
+            validate = true;
+        }else {
+            til_registerDate.setError("Please fill in register date");
+            validate = false;
+        }
+
+        if(!etAddress.getText().toString().isEmpty()){
+            til_address.setError(null);
+            validate = true;
+        }else {
+            til_address.setError("Please fill in address");
+            validate = false;
+        }
+
+        if(!etContact.getText().toString().isEmpty()){
+            til_contact.setError(null);
+            validate = true;
+        }else {
+            til_contact.setError("Please fill in contact");
+            validate = false;
+        }
+
+        return validate;
+    }
+
+    private void registerUser(String url){
        final String name = etName.getText().toString().trim();
         final   String ic = etIC.getText().toString().trim();
-        final   String birthdate = etBirthday.getText().toString();
-  //      final String birthdate = "1995-10-20".trim();
+        final   int age = Integer.parseInt(etAge.getText().toString());
         final    String address = etAddress.getText().toString().trim();
         final     String contact = etContact.getText().toString().trim();
         final     String register_date = etRegisterDate.getText().toString();
- //       final String register_date = "2017-12-23".trim();
 
 
 
-        final String register_type = "T".trim();
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            if(!obj.getBoolean("error"))
+                                finish();
+
+                        } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
 
 
-        class RegisterUser extends AsyncTask<Void, Void, String> {
             @Override
-            protected String doInBackground(Void... voids) {
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-                RequestHandler requestHandler = new RequestHandler();
-                HashMap<String, String> params = new HashMap<>();
+                Calender calender = new Calender();
+
+                Map<String, String> params = new HashMap<>();
+
+
+                Integer birthYear = calender.getCurrentYear() - age;
+
+                params.put("type", "User");
 
                 params.put("Name", name);
                 params.put("IC", ic);
-                params.put("Gender", sex);
-                params.put("Birthdate", birthdate);
+                params.put("Gender", gender);
+                params.put("Birthyear", birthYear.toString());
                 params.put("Contact", contact);
-                params.put("Addr", address);
+                params.put("Address", address);
                 params.put("regisDate",register_date );
-                params.put("regisType", register_type);
+                params.put("regisType", user_type);
 
-     //           Toast.makeText(getApplicationContext(), requestHandler.sendPostRequest(URLs.URL_PATIENT_REGISTER, params), Toast.LENGTH_SHORT).show();
-
-
-                return requestHandler.sendPostRequest(URLs.URL_USER_REGISTER, params);
-
+                if(user != null)
+                    params.put("id", user.getID());
+                return params;
             }
 
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+        };
 
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-        RegisterUser registerUser = new RegisterUser();
-        registerUser.execute();
-
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
     }
 
     public void onRadioButtonClicked(View view) {
@@ -136,13 +242,27 @@ public class AddUserActivity extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
         switch (view.getId()) {
-            case R.id.sex_male:
+            case R.id.gender_male:
                 if (checked)
-                    sex = "M";
+                    gender = "M";
                 break;
-            case R.id.sex_female:
+            case R.id.gender_female:
                 if (checked)
-                    sex = "F";
+                    gender = "F";
+        }
+
+        switch (view.getId()) {
+            case R.id.item_user_admin:
+                if (checked)
+                    user_type = "A";
+                break;
+            case R.id.item_user_nurse:
+                if (checked)
+                    user_type = "N";
+                break;
+            case R.id.item_user_driver:
+                if (checked)
+                    user_type = "D";
         }
     }
 
@@ -151,8 +271,4 @@ public class AddUserActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void showBirthDatePickerDialog(View view){
-        DialogFragment fragment = new BirthDatePickerFragment();
-        fragment.show(getSupportFragmentManager(), "datePicker");
-    }
 }

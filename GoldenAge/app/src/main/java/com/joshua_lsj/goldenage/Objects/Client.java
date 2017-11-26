@@ -1,48 +1,68 @@
 package com.joshua_lsj.goldenage.Objects;
 
+import com.joshua_lsj.goldenage.Calender;
+
+import java.io.Serializable;
+
 /**
  * Created by limsh on 10/22/2017.
  */
 
-public class Client {
+public class Client implements Serializable {
 
-    private long id;
+    private int id;
     private String name;
     private String ic;
-    private String birthday;
-    private String sex;
+    private String gender;
     private String contact;
     private String address;
-    private String register_date;
-    private String register_type;
-    private String relationship;
+    private String regisDate;   //CONSIDERING USING STRING OR DATE
+    private String regisType;
+    private int age;
     private String password;
+    
+    private int patient_id; //patient id
+    private String patient_ic; //use in register client in patient ic input
+    private String patient_name;
 
-    public Client(){this.register_type = "C";}
-
-    public Client(String name, String ic, String birthday, String sex,
-                  String address, String contact, String register_date,
-                  String relationship){
-        this.id = 0;
+    public Client(int id, String name, String ic, String contact, int birthyear, String gender,
+                  String address, String regisDate, int patient_id, String patient_name){
+        this.id = id;
         this.name = name;
         this.ic = ic;
-        this.birthday = birthday;
-        this.sex = sex;
-        this.address = address;
+        this.gender = gender;
         this.contact = contact;
-        this.register_date = register_date;
-        this.register_type = "C";
-        this.relationship = relationship;
-        this.password = ic;
+        setAge(birthyear);
+        this.address = address;
+        this.regisDate = regisDate;
+        this.regisType = "C";
+        this.patient_id = patient_id;
+        this.patient_name = patient_name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    public Client(int id, String name){
         this.id = id;
+        this.name = name;
+        this.regisType = "C";
     }
+
+    
+
+    public String getPatientName(){
+        return patient_name;
+    }
+
+    public int getPatientID(){
+        return patient_id;
+    }
+
+
+
+
+    public String getID() {
+        return Integer.toString(id);
+    }
+
 
     public String getName() {
         return name;
@@ -60,20 +80,12 @@ public class Client {
         this.ic = ic;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getGender() {
+        return gender;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getContact() {
@@ -92,31 +104,28 @@ public class Client {
         this.address = address;
     }
 
-    public String getRegister_date() {
-        return register_date;
-    }
-
-    public void setRegister_date(String register_date) {
-        this.register_date = register_date;
-    }
-
-    public String getRegister_type() {
-        return register_type;
-    }
-
-    public void setRegister_type(String register_type) {
-        this.register_type = register_type;
-    }
-
-    public String getRelationship() {
-        return relationship;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAge() {
+        return Integer.toString(age);
+    }
+
+    public void setAge(int birthyear) {
+        Calender calender = new Calender();
+        this.age = calender.getCurrentYear() - birthyear;
+    }
+
+    public String getRegisDate() {
+        return regisDate;
+    }
+
+    public String getRegisType() {
+        return regisType;
     }
 }

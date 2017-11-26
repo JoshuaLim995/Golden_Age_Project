@@ -2,18 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_patient_listView"
+            android:id="@+id/nav_users_listView"
+
+            android:title="Users" />
+        <item
+            android:id="@+id/nav_patients_listView"
 
             android:title="Patients" />
-        <item
-            android:id="@+id/nav_nurse_listView"
 
-            android:title="Nurses" />
-        <item
-            android:id="@+id/nav_driver_listView"
-
-            android:title="Drivers" />
         <item
             android:id="@+id/nav_client_listView"
 

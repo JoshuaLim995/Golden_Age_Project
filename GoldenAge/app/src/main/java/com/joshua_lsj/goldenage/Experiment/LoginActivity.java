@@ -9,22 +9,44 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.Calender;
+import com.joshua_lsj.goldenage.Experiment.MainActivity;
+import com.joshua_lsj.goldenage.Experiment.SharedPrefManager;
+import com.joshua_lsj.goldenage.Experiment.URLs;
+import com.joshua_lsj.goldenage.Experiment.User;
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.R;
+import com.joshua_lsj.goldenage.Volley.VolleyMultipartRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by limsh on 10/29/2017.
  */
 
-public class LoginActivity  extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText editTextUsername, editTextPassword;
 
     private String username, password;
+    private final String NAV_USER = "nav_user";
+    private final String NAV_PATIENT = "nav_patient";
+    private final String NAV_PATIENT_INFO = "nav_patient_info";
+
+    public final String CLIENT = "CLIENT";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +67,12 @@ public class LoginActivity  extends AppCompatActivity {
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userLogin();
+
+                    userLogin();
             }
         });
     }
+
 
     private void userLogin(){
 
@@ -68,77 +92,145 @@ public class LoginActivity  extends AppCompatActivity {
             return;
         }
 
-        UserLogin ul = new UserLogin();
-        ul.execute();
-    }
+
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.LOGIN_URL,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            if(!obj.getBoolean("error")){
+                                JSONObject userJason = obj.getJSONObject("user");
+
+                                //Creating a new user object
+                                User user = new User(
+                                        userJason.getInt("id"),
+                                        userJason.getString("Name"),
+                                        userJason.getString("regisType")
+                                );
 
 
 
-    class UserLogin extends AsyncTask<Void, Void, String> {
+                                //STORE THE USER DATA IN SHARED PREFERENCE
+                                SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
 
+                                if(user.getRegisType().equals("A")){
+                                    SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_USER);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Logged in as Admin", Toast.LENGTH_LONG).show();
+                                }
+                                else if(user.getRegisType().equals("N")){
+                                    SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_PATIENT);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Logged in as Nurse", Toast.LENGTH_LONG).show();
+                                }
+                                else if(user.getRegisType().equals("C")){
+                                    SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_PATIENT_INFO);
+                                    getData(user.getID());
+                                    Toast.makeText(getApplicationContext(), "Logged in as Client", Toast.LENGTH_LONG).show();
+                                }
+                                else
+                                    Toast.makeText(getApplicationContext(), "Currently other users cannot use", Toast.LENGTH_LONG).show();
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-
-            try{
-                JSONObject obj = new JSONObject(s);
-
-                if(!obj.getBoolean("error")){
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
-
-                    JSONObject userJason = obj.getJSONObject("user");
-
-
-
-                    //Creating a new user object
-                    User user = new User(
-                            userJason.getInt("id"),
-                            userJason.getString("Name"),
-                            userJason.getString("regisType")
-                    );
-
-
-
-                    //STORE THE USER DATA IN SHARED PREFERENCE
-                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
-
-
-                    if(user.getRegisType().equals("A")){
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        Toast.makeText(getApplicationContext(), "Logged in as Admin", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    else //WILL UPDATE MORE HERE
-                        Toast.makeText(getApplicationContext(), "Currently other users cannot use", Toast.LENGTH_LONG).show();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
 
-                }else{
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-                }
-            }catch (JSONException ex){
-                ex.printStackTrace();
+
+                Map<String, String> params = new HashMap<>();
+                //Put Patient data to parameters
+                params.put("Name", username);
+                params.put("Password", password);
+                return params;
             }
 
-        }
+        };
 
-        @Override
-        protected String doInBackground(Void... voids) {
-            //creating request handler object
-            RequestHandler requestHandler = new RequestHandler();
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(multipartRequest);
+    }
 
-            //creating request parameters
-            HashMap<String, String> params = new HashMap<>();
-            params.put("Name", username);
-            params.put("userPass", password);
-
-            //returing the response
-            return requestHandler.sendPostRequest(URLs.LOGIN_URL, params);
-        }
+    private void getData(final String id){
 
 
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
+                            if(!obj.getBoolean("error")){
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                JSONArray array = obj.getJSONArray("result");
+                                JSONObject clientJson = array.getJSONObject(0);
+
+                                //Creating a new user object
+                                Client client = new Client(
+                                        clientJson.getInt("ID"),
+                                        clientJson.getString("Name"),
+                                        clientJson.getString("IC"),
+                                        clientJson.getString("Contact"),
+                                        clientJson.getInt("BirthYear"),
+                                        clientJson.getString("Address"),
+                                        clientJson.getString("Gender"),
+                                        clientJson.getString("RegisDate"),
+                                        clientJson.getInt("Patient_ID"),
+                                        clientJson.getString("P_Name")
+                                );
+
+                                SharedPrefManager.getInstance(getApplicationContext()).setIdSharedPref(Integer.toString(client.getPatientID()));
+                                SharedPrefManager.getInstance(getApplicationContext()).setPatientName(client.getPatientName());
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra(CLIENT, client);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                //Put Patient data to parameters
+                params.put("type", "Client");
+                params.put("id", id);
+                return params;
+            }
+
+        };
+
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(multipartRequest);
     }
 }

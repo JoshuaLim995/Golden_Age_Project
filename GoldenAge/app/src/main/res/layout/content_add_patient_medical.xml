@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_add_patient_medical"
+    android:padding="20dp">
+
+    <!-- Medical Check Date -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "/>
+
+        <TextView
+            android:id="@+id/item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today's date here" />
+
+    </LinearLayout>
+
+    <!-- Patient Name -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient: " />
+
+        <TextView
+            android:id="@+id/item_patient_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient name here" />
+
+    </LinearLayout>
+
+
+    <!-- Nurse Name -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nurse: "/>
+
+        <TextView
+            android:id="@+id/item_nurse_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nurse Name Here" />
+    </LinearLayout>
+
+    <!-- Blood Pressure -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TIL_bloodPressure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/ErrorText"
+        app:hintTextAppearance="@style/HintText"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/item_bloodPressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Blood Pressure"
+            android:inputType="numberDecimal"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <!-- Sugar Level -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TIL_sugarLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/ErrorText"
+        app:hintTextAppearance="@style/HintText"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/item_sugarLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sugar Level"
+            android:inputType="numberDecimal"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <!-- Heart Rate -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TIL_heartRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/ErrorText"
+        app:hintTextAppearance="@style/HintText"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/item_heartRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Heart Rate"
+            android:inputType="numberDecimal"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Temperature -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TIL_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/ErrorText"
+        app:hintTextAppearance="@style/HintText"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/item_temperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Temperature"
+            android:inputType="numberDecimal"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+</LinearLayout>

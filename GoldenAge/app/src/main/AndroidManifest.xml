@@ -4,6 +4,10 @@
 
     <!-- adding internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- adding access image permission -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- adding access camera permission -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -32,48 +36,59 @@
                 android:value=".Experiment.LoginActivity" />
         </activity>
 
-        <!-- ORIGINAL MAIN ACTIVITY
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
-
-
-        <!-- ORIGINAL APP PATIENT ACTIVITY
-        <activity android:name=".AddPatientActivity"
-            android:label="Add Patient"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        -->
-        <activity android:name=".Experiment.AddPatientActivity"
-            android:label="Add Patient"
+        <!-- View User Activity -->
+        <activity android:name=".Experiment.ViewUserActivity"
+            android:label="View User"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Experiment.MainActivity" />
         </activity>
 
-
-
-
-
-
-
-        <activity android:name=".ViewPatientActivity"
+        <!-- View Patient Activity -->
+        <activity android:name=".Experiment.ViewPatientActivity"
             android:label="View Patient"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OLD.MainActivity" />
+                android:value=".Experiment.MainActivity" />
+        </activity>
+
+        <!-- View Patient Medical Activity -->
+        <activity android:name=".Experiment.ViewPatientMedicalActivity"
+            android:label="View Patient Medical"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.ViewPatientActivity" />
+        </activity>
+
+        <!-- View Client Activity -->
+        <activity android:name=".Experiment.ViewClientActivity"
+            android:label="View Client"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
+        </activity>
+
+        <!-- Add & Update User Activity -->
+
+
+        <!-- Update Client Activity -->
+        <activity android:name=".Experiment.AddUpdateClientActivity"
+            android:label="Update Client"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+
+        //Add Patient Using Volley
+        <activity android:name=".Experiment.AddPatientActivity"
+            android:label="Add Patient"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
         </activity>
 
         <!-- ADD USER ACTIVITY -->
@@ -86,31 +101,23 @@
         </activity>
 
 
-
-        <!-- ORIGINAL ADD NURSE
-        <activity android:name=".AddNurseActivity"
-            android:label="Add Nurse"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        -->
-
-
-        <activity android:name=".OLD.AddClientActivity"
+        <!-- Add Client Activity
+        <activity android:name=".OLDD.AddClientActivity"
             android:label="Add Client"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OLD.MainActivity" />
+                android:value=".Experiment.MainActivity" />
         </activity>
-        <activity android:name=".PatientMedicalActivity"
+-->
+
+        <!-- Add Patient Medical -->
+        <activity android:name=".AddPatientMedicalActivity"
             android:label="Patient Medical Checkup"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewPatientActivity" />
+                android:value=".Experiment.ViewPatientActivity" />
         </activity>
     </application>
 

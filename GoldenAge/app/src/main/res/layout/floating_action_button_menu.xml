@@ -60,18 +60,10 @@
         android:onClick="onFloatingActionButtonClicked"/>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_add_nurse"
+        android:id="@+id/menu_add_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_label="Add Nurse"
-        fab:fab_size="mini"
-        android:onClick="onFloatingActionButtonClicked"/>
-
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/menu_add_driver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fab:fab_label="Add Driver"
+        fab:fab_label="Add User"
         fab:fab_size="mini"
         android:onClick="onFloatingActionButtonClicked"/>
 
