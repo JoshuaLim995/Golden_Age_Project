@@ -2,6 +2,7 @@ package com.joshua_lsj.goldenage.Experiment;
 
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final String NAV_PATIENT_MEDICAL = "nav_patient_medical";
     private final String NAV_PATIENT_INFO = "nav_patient_info";
 
-
+    //protected ProgressDialog progressDialog;
 
     private User user;
 

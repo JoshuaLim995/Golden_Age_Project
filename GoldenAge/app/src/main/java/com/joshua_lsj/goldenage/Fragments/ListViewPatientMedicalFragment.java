@@ -1,6 +1,7 @@
 package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
     ListView listView;
     ArrayList<Medical> medicalArrayList;
     private String id = "0";
+    ProgressDialog progressDialog;
 
 
     @Nullable
@@ -51,7 +53,10 @@ public class ListViewPatientMedicalFragment extends Fragment {
         initialize();
 
     //    listView = myView.findViewById(R.id.list_view);
-
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please Wait, Retrieving From server");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         getData();
 
@@ -80,6 +85,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response));
                         //    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -117,7 +123,8 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
                     }
                 }){
 

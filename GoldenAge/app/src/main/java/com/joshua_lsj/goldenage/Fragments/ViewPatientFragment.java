@@ -1,6 +1,7 @@
 package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,12 +41,17 @@ public class ViewPatientFragment extends Fragment {
     View myView;
     String id = "0";
     Patient patient = null;
+    ProgressDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.content_view_patient, container, false);
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please Wait, Retrieving From server");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         getData();
 
@@ -62,6 +68,7 @@ public class ViewPatientFragment extends Fragment {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -101,7 +108,8 @@ public class ViewPatientFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
                     }
                 }) {
 

@@ -1,6 +1,7 @@
 package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class ListViewUserFragment extends Fragment {
     View myView;
     ListView listView;
     ArrayList<User> userList;
+    ProgressDialog progressDialog;
 
     public static final String USER = "USER";
 
@@ -57,6 +59,10 @@ public class ListViewUserFragment extends Fragment {
 
         userList = new ArrayList<User>();
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please Wait, Retrieving From server");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         //Get Users from database
         GetUsers();
 
@@ -92,6 +98,7 @@ public class ListViewUserFragment extends Fragment {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
 
@@ -129,7 +136,8 @@ public class ListViewUserFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
                     }
                 }){
 

@@ -1,5 +1,6 @@
 package com.joshua_lsj.goldenage.Experiment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private final String NAV_PATIENT_INFO = "nav_patient_info";
 
     public final String CLIENT = "CLIENT";
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -60,10 +62,14 @@ public class LoginActivity extends AppCompatActivity {
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
+        progressDialog = new ProgressDialog(this);
+
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
+                progressDialog.show();
                     userLogin();
             }
         });
@@ -93,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -172,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+
+
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
