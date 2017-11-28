@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Fragments;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,6 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Adapter.UserAdapter;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Experiment.ViewUserActivity;
@@ -59,13 +63,22 @@ public class ListViewUserFragment extends Fragment {
 
         userList = new ArrayList<User>();
 
+/*
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please Wait, Retrieving From server");
         progressDialog.setCancelable(false);
         progressDialog.show();
+*/
         //Get Users from database
-        GetUsers();
+        //   GetUsers();
+        //SaveUsersToLocal();
 
+        //Display User data from Local Database
+       // DisplayUserList();
+
+
+        //Checking if data are stored in local when create user
+        TestingDisplayUserList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,7 +96,7 @@ public class ListViewUserFragment extends Fragment {
 */
                 //STORE THE USER DATA IN SHARED PREFERENCE
                 SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(user.getID());
-           //     intent.putExtra(USER, user.getID());
+                //     intent.putExtra(USER, user.getID());
                 startActivity(intent);
 
             }
@@ -92,7 +105,8 @@ public class ListViewUserFragment extends Fragment {
         return myView;
     }
 
-    private void GetUsers() {
+
+    private void SaveUsersToLocal() {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_ALL,
                 new Response.Listener<NetworkResponse>() {
@@ -112,20 +126,36 @@ public class ListViewUserFragment extends Fragment {
                                 for (int i = 0; i < array.length(); i++) {
 
                                     //getting user object from json array
-                                    JSONObject user = array.getJSONObject(i);
+                                    JSONObject userJason = array.getJSONObject(i);
 
                                     //adding the product to product list
 //User(int id, String name, String ic, string contact, int birthyear, String address, String gender, String regisDate, String regisType)
-                                    userList.add(new User(
-                                            user.getInt("ID"),
-                                            user.getString("Name"),
-                                            user.getString("RegisType")
-                                    ));
+                                    User user = new User(
+                                            userJason.getInt("ID"),
+                                            userJason.getString("Name"),
+                                            userJason.getString("IC"),
+                                            userJason.getString("Contact"),
+                                            userJason.getInt("BirthYear"),
+                                            userJason.getString("Address"),
+                                            userJason.getString("Gender"),
+                                            userJason.getString("RegisDate"),
+                                            userJason.getString("RegisType")
+                                    );
+
+
+                                    //Add user into database
+                                    Queries queries = new Queries(new DatabaseHelper(getContext()));
+
+                                    if (queries.insert(user) != 0)
+                                        Toast.makeText(getContext(), "User created", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 //creating adapter object and setting it to recyclerview
-                                UserAdapter adapter = new UserAdapter(userList, getActivity());
-                                listView.setAdapter(adapter);
+                          //      UserAdapter adapter = new UserAdapter(userList, getActivity());
+                          //      listView.setAdapter(adapter);
+
+                            //    DisplayUserList();
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -155,6 +185,55 @@ public class ListViewUserFragment extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(multipartRequest);
+    }
+
+    private void DisplayUserList(){
+        Queries dbq = new Queries(new DatabaseHelper(getActivity()));
+
+        String[] columns = {
+                DatabaseContract.UserContract._ID,
+                DatabaseContract.UserContract.NAME,
+                DatabaseContract.UserContract.REG_TYPE
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.UserContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.UserContract._ID + " ASC");
+
+        if(cursor.moveToFirst()){
+            do{
+                userList.add(new User(
+                        cursor.getInt(cursor.getColumnIndex(DatabaseContract.UserContract._ID)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.NAME)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.REG_TYPE))
+                ));
+            }while (cursor.moveToNext());
+        }
+        UserAdapter userAdapter = new UserAdapter(userList, getActivity());
+        listView.setAdapter(userAdapter);
+    }
+
+
+    private void TestingDisplayUserList(){
+        Queries dbq = new Queries(new DatabaseHelper(getActivity()));
+
+        String[] columns = {
+                DatabaseContract.TempUserContract._ID,
+                DatabaseContract.TempUserContract.NAME,
+                DatabaseContract.TempUserContract.REG_TYPE
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.TempUserContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.TempUserContract._ID + " ASC");
+
+        if(cursor.moveToFirst()){
+            do{
+                userList.add(new User(
+                        cursor.getInt(cursor.getColumnIndex(DatabaseContract.TempUserContract._ID)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.TempUserContract.NAME)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.TempUserContract.REG_TYPE))
+                ));
+            }while (cursor.moveToNext());
+        }
+        UserAdapter userAdapter = new UserAdapter(userList, getActivity());
+        listView.setAdapter(userAdapter);
     }
 
 }

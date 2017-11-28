@@ -9,9 +9,9 @@ public class URLs {
 
     private static final String IP_ADDRESS = "192.168.0.109"; //192.168.0.110
     //Register Patient Url
- //  private static final String ROOT_URL = "http://" + IP_ADDRESS + "/Android/";
+   private static final String ROOT_URL = "http://" + IP_ADDRESS + "/Android/";
 
-    private static final String ROOT_URL =  "https://josh95jl.000webhostapp.com/";
+ //   private static final String ROOT_URL =  "https://josh95jl.000webhostapp.com/";
 
 //    private static final String GET_DATA = ROOT_URL + "getalldata?apicall=";
 //    private static final String DELETE_DATA = ROOT_URL + "Delete?Delete=";

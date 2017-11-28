@@ -177,6 +177,11 @@ public class AddUserActivity extends AppCompatActivity {
         final     String contact = etContact.getText().toString().trim();
         final     String register_date = etRegisterDate.getText().toString();
 
+        Calender calender = new Calender();
+        final Integer birthYear = calender.getCurrentYear() - age;
+
+
+        User newUser = new User(name, ic, contact, birthYear, address, gender, register_date, user_type);
 
 
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
@@ -208,12 +213,11 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                Calender calender = new Calender();
+
 
                 Map<String, String> params = new HashMap<>();
 
 
-                Integer birthYear = calender.getCurrentYear() - age;
 
                 params.put("type", "User");
 
@@ -236,6 +240,13 @@ public class AddUserActivity extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
     }
+
+
+    private void saveToLocal(User user){
+
+    }
+
+
 
     public void onRadioButtonClicked(View view) {
 

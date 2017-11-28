@@ -4,6 +4,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.User;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
@@ -50,6 +55,8 @@ public class ViewUserActivity extends AppCompatActivity {
 
     private String id = "0";
 
+    private Queries dbq;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_user);
@@ -59,15 +66,21 @@ public class ViewUserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         deleteHelper = new DeleteHelper(this);
+
+        id = SharedPrefManager.getInstance(this).getKeySelectedId();
+
+        dbq = new Queries(new DatabaseHelper(getApplicationContext()));
+        getFromLocal();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        getData();
+    //    getData();
+        getFromLocal();
     }
-
+/*
     private void getData(){
 
     //    id = getIntent().getStringExtra(ListViewUserFragment.USER);
@@ -129,6 +142,54 @@ public class ViewUserActivity extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(this).add(multipartRequest);
     }
+*/
+
+
+private void getFromLocal(){
+
+
+    String selection = DatabaseContract.UserContract._ID + " = ?";
+    String[] selectionArgs = {id};
+
+    String[] columns = {
+            DatabaseContract.UserContract._ID,
+            DatabaseContract.UserContract.NAME,
+            DatabaseContract.UserContract.IC,
+            DatabaseContract.UserContract.CONTACT,
+            DatabaseContract.UserContract.AGE,
+            DatabaseContract.UserContract.ADDRESS,
+            DatabaseContract.UserContract.GENDER,
+            DatabaseContract.UserContract.REG_DATE,
+            DatabaseContract.UserContract.REG_TYPE
+    };
+
+    Cursor cursor = dbq.query(DatabaseContract.UserContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+    if(cursor.moveToNext()){
+
+        Calender calender = new Calender();
+        int birthyear = calender.getCurrentYear() - cursor.getInt(cursor.getColumnIndex(DatabaseContract.UserContract.AGE));
+
+        user = new User(
+                cursor.getInt(cursor.getColumnIndex(DatabaseContract.UserContract._ID)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.NAME)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.IC)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.CONTACT)),
+                birthyear,
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.ADDRESS)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.GENDER)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.REG_DATE)),
+                cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.REG_TYPE))
+        );
+        intialize();
+    }else
+        Toast.makeText(getApplicationContext(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
+}
+
+
+
+
+
 
     public void intialize(){
         TextView tvDetail = findViewById(R.id.item_detail);
@@ -218,6 +279,7 @@ public class ViewUserActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        dbq.delete(DatabaseContract.UserContract.TABLE_NAME, user.getID());
                         deleteHelper.Delete("User", user.getID());
 
                         break;

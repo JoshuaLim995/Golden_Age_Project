@@ -37,6 +37,19 @@ public class User implements Serializable {
         this.regisType = regisType;
     }
 
+    public User(String name, String ic, String contact, int birthyear, String address, String gender, String regisDate, String regisType){
+        Calender calender = new Calender();
+        this.id = 0;
+        this.name = name;
+        this.ic = ic;
+        this.gender = gender;
+        this.contact = contact;
+        this.age = calender.getCurrentYear() - birthyear;
+        this.address = address;
+        this.regisDate = regisDate;
+        this.regisType = regisType;
+    }
+
 
     public String getID() {
         return  Integer.toString(id);
