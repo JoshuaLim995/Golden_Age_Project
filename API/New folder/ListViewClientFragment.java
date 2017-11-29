@@ -3,7 +3,6 @@ package com.joshua_lsj.goldenage.Fragments;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Adapter.ClientAdapter;
-import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
-import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
-import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Experiment.ViewClientActivity;
@@ -71,7 +67,7 @@ public class ListViewClientFragment extends Fragment {
         //Get Clients from database
         GetClients();
 
-    //    DisplayClientList();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -97,12 +93,6 @@ public class ListViewClientFragment extends Fragment {
         return myView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    //    DisplayClientList();
-    }
-
     private void GetClients() {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_ALL,
@@ -122,30 +112,30 @@ public class ListViewClientFragment extends Fragment {
 
                                     //getting user object from json array
                                     JSONObject clientJson = array.getJSONObject(i);
-                                    //Creating a new user object
-                                    Client client = new Client(
-                                            clientJson.getInt("ID"),
-                                            clientJson.getString("Name"),
-                                            clientJson.getString("IC"),
-                                            clientJson.getString("Contact"),
-                                            clientJson.getInt("BirthYear"),
-                                            clientJson.getString("Address"),
-                                            clientJson.getString("Gender"),
-                                            clientJson.getString("RegisDate"),
-                                            clientJson.getInt("Patient_ID")
-                                    );
-
+				//Creating a new user object
+                                Client client = new Client(
+                                        clientJson.getInt("ID"),
+                                        clientJson.getString("Name"),
+                                        clientJson.getString("IC"),
+                                        clientJson.getString("Contact"),
+                                        clientJson.getInt("BirthYear"),
+                                        clientJson.getString("Address"),
+                                        clientJson.getString("Gender"),
+                                        clientJson.getString("RegisDate"),
+                                        clientJson.getInt("Patient_ID")
+                                	);
+                                    
                                     //Save client into local
                                     Queries queries = new Queries(new DatabaseHelper(getContext()));
 
                                     if (queries.insert(client) != 0)
-                                        Toast.makeText(getContext(), "Client Saved", Toast.LENGTH_SHORT).show();
-
+                                    	Toast.makeText(getContext(), "Client Saved", Toast.LENGTH_SHORT).show();
+                                    
                                 }
-                                DisplayClientList();
+                                
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
                         }
                     }
                 },
@@ -154,7 +144,6 @@ public class ListViewClientFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
-                        DisplayClientList();
                     }
                 }){
             @Override
@@ -172,7 +161,7 @@ public class ListViewClientFragment extends Fragment {
     }
 
 
-
+	
     private void DisplayClientList(){
         Queries dbq = new Queries(new DatabaseHelper(getActivity()));
 
@@ -194,4 +183,6 @@ public class ListViewClientFragment extends Fragment {
         ClientAdapter adapter = new ClientAdapter(clientList, getActivity());
         listView.setAdapter(adapter);
     }
+
+
 }

@@ -3,7 +3,6 @@ package com.joshua_lsj.goldenage.Fragments;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,14 +19,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.joshua_lsj.goldenage.Adapter.ClientAdapter;
-import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
-import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
-import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Adapter.PatientAdapter;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
-import com.joshua_lsj.goldenage.Experiment.ViewClientActivity;
-import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Experiment.ViewPatientActivity;
+import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
 
@@ -40,16 +36,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created at 9/11/2017
+ * Created by limsh on 11/4/2017.
  */
 
-public class ListViewClientFragment extends Fragment {
+public class ListViewPatientsFragment extends Fragment {
 
     View myView;
     ListView listView;
-    ArrayList<Client> clientList;
-
-    public static final String CLIENT = "CLIENT";
+    ArrayList<Patient> patientArrayList;
+    public static final String PATIENT = "PATIENT";
     ProgressDialog progressDialog;
 
     @Nullable
@@ -60,36 +55,26 @@ public class ListViewClientFragment extends Fragment {
         listView = myView.findViewById(R.id.list_view);
         TextView emptyText = myView.findViewById(R.id.empty);
         listView.setEmptyView(emptyText);
-
-        clientList = new ArrayList<>();
+        patientArrayList = new ArrayList<>();
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please Wait, Retrieving From server");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        //Get Clients from database
-        GetClients();
+        GetPatients();
 
-    //    DisplayClientList();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Client client = (Client) adapterView.getAdapter().getItem(position);
-
-      //          Client client = new Client();
-
-
-                Intent intent = new Intent(getActivity(), ViewClientActivity.class);
-        //        Bundle bundle = new Bundle();
-        //        bundle.putSerializable(CLIENT, client);
-        //        intent.putExtras(bundle);
+                Patient patient = (Patient) adapterView.getAdapter().getItem(position);
 
                 //STORE THE USER DATA IN SHARED PREFERENCE
-                SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(client.getID());
-                startActivity(intent);
+                SharedPrefManager.getInstance(myView.getContext()).setIdSharedPref(patient.getID());
 
+                Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -97,13 +82,7 @@ public class ListViewClientFragment extends Fragment {
         return myView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    //    DisplayClientList();
-    }
-
-    private void GetClients() {
+    private void GetPatients() {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_ALL,
                 new Response.Listener<NetworkResponse>() {
@@ -121,31 +100,41 @@ public class ListViewClientFragment extends Fragment {
                                 for (int i = 0; i < array.length(); i++) {
 
                                     //getting user object from json array
-                                    JSONObject clientJson = array.getJSONObject(i);
-                                    //Creating a new user object
-                                    Client client = new Client(
-                                            clientJson.getInt("ID"),
-                                            clientJson.getString("Name"),
-                                            clientJson.getString("IC"),
-                                            clientJson.getString("Contact"),
-                                            clientJson.getInt("BirthYear"),
-                                            clientJson.getString("Address"),
-                                            clientJson.getString("Gender"),
-                                            clientJson.getString("RegisDate"),
-                                            clientJson.getInt("Patient_ID")
-                                    );
+                                    JSONObject patientJson = array.getJSONObject(i);
 
-                                    //Save client into local
+                                    Patient patient = new Patient(
+                                        PatientJson.getInt("ID"),
+                                        PatientJson.getString("Name"),
+                                        PatientJson.getString("IC"),
+                                        PatientJson.getString("Contact"),
+                                        PatientJson.getInt("BirthYear"),
+                                        PatientJson.getString("Address"),
+                                        PatientJson.getString("Gender"),
+                                        PatientJson.getString("RegisDate"),
+                                        PatientJson.getString("BloodType"),
+                                        PatientJson.getString("Meals"),
+                                        PatientJson.getString("Allergic"),
+                                        PatientJson.getString("Sickness"),
+                                        PatientJson.getDouble("Margin"),
+                                        PatientJson.getString("Image")
+                                );
+
+				//Save Patient into local
                                     Queries queries = new Queries(new DatabaseHelper(getContext()));
 
-                                    if (queries.insert(client) != 0)
-                                        Toast.makeText(getContext(), "Client Saved", Toast.LENGTH_SHORT).show();
+                                    if (queries.insert(patient) != 0)
+                                    	Toast.makeText(getContext(), "Patient Saved", 
+
 
                                 }
-                                DisplayClientList();
+
+                                //creating adapter object and setting it to recyclerview
+                                PatientAdapter adapter = new PatientAdapter(patientArrayList, getActivity());
+                                listView.setAdapter(adapter);
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
                         }
                     }
                 },
@@ -154,17 +143,18 @@ public class ListViewClientFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
-                        DisplayClientList();
                     }
                 }){
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("type", "Client");
+                params.put("type", "Patient");
                 return params;
             }
+
         };
 
         //adding our stringrequest to queue
@@ -173,25 +163,28 @@ public class ListViewClientFragment extends Fragment {
 
 
 
-    private void DisplayClientList(){
+    private void DisplayPatientList(){
         Queries dbq = new Queries(new DatabaseHelper(getActivity()));
 
         String[] columns = {
-                DatabaseContract.ClientContract._ID,
-                DatabaseContract.ClientContract.NAME
+                DatabaseContract.PatientContract._ID,
+                DatabaseContract.PatientContract.NAME
         };
 
-        Cursor cursor = dbq.query(DatabaseContract.ClientContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.ClientContract._ID + " ASC");
+        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.PatientContract._ID + " ASC");
 
         if(cursor.moveToFirst()){
             do{
-                clientList.add(new Client(
-                        cursor.getInt(cursor.getColumnIndex(DatabaseContract.ClientContract._ID)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.NAME))
+                patientList.add(new Patient(
+                        cursor.getInt(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.NAME))
                 ));
             }while (cursor.moveToNext());
         }
-        ClientAdapter adapter = new ClientAdapter(clientList, getActivity());
+        PatientAdapter adapter = new PatientAdapter(patientList, getActivity());
         listView.setAdapter(adapter);
     }
+
+
+
 }

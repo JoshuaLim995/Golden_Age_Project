@@ -2,6 +2,7 @@ package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Objects.Patient;
@@ -41,22 +46,27 @@ public class ViewPatientFragment extends Fragment {
     View myView;
     String id = "0";
     Patient patient = null;
-    ProgressDialog progressDialog;
+    private Queries dbq;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.content_view_patient, container, false);
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please Wait, Retrieving From server");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        getData();
+        dbq = new Queries(new DatabaseHelper(getActivity()));
+        id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
 
         return myView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+        //getFromLocal();
+    }
+
+
 
     private void getData(){
 
@@ -68,7 +78,6 @@ public class ViewPatientFragment extends Fragment {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -96,7 +105,10 @@ public class ViewPatientFragment extends Fragment {
                                         PatientJson.getString("Image")
                                 );
 
-                                Initialize();
+                                Queries queries = new Queries(new DatabaseHelper(getContext()));
+
+                                if (queries.insert(patient) != 0)
+                                    getFromLocal();
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -108,8 +120,7 @@ public class ViewPatientFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
@@ -127,6 +138,57 @@ public class ViewPatientFragment extends Fragment {
 
         //adding the request to volley
         Volley.newRequestQueue(getActivity()).add(multipartRequest);
+    }
+
+    private void getFromLocal(){
+
+        String selection = DatabaseContract.PatientContract._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        String[] columns = {
+                DatabaseContract.PatientContract._ID,
+                DatabaseContract.PatientContract.NAME,
+                DatabaseContract.PatientContract.IC,
+                DatabaseContract.PatientContract.CONTACT,
+                DatabaseContract.PatientContract.AGE,
+                DatabaseContract.PatientContract.ADDRESS,
+                DatabaseContract.PatientContract.GENDER,
+                DatabaseContract.PatientContract.REG_DATE,
+                DatabaseContract.PatientContract.BLOOD_TYPE,
+                DatabaseContract.PatientContract.MEALS,
+                DatabaseContract.PatientContract.ALLERGIC,
+                DatabaseContract.PatientContract.SICKNESS,
+                DatabaseContract.PatientContract.MARGIN,
+                DatabaseContract.PatientContract.IMAGE
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if(cursor.moveToNext()){
+
+            Calender calender = new Calender();
+            int birthyear = calender.getCurrentYear() - cursor.getInt(cursor.getColumnIndex(DatabaseContract.PatientContract.AGE));
+
+
+            patient = new Patient(
+                    cursor.getInt(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.NAME)),		cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IC)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.CONTACT)),
+                    birthyear,
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ADDRESS)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.GENDER)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.REG_DATE)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.BLOOD_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.MEALS)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ALLERGIC)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.SICKNESS)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.MARGIN)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IMAGE))
+            );
+
+            Initialize();
+        }else
+            Toast.makeText(getActivity(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
     }
 
 

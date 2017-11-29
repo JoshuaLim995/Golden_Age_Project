@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Fragments.ListViewClientFragment;
 import com.joshua_lsj.goldenage.Fragments.ListViewPatientMedicalFragment;
 import com.joshua_lsj.goldenage.Fragments.ListViewPatientsFragment;
@@ -338,6 +340,7 @@ private Client client;
         }
         
         else if (id == R.id.nav_logout) {
+
             finish();
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
             SharedPrefManager.getInstance(getApplicationContext()).logout();

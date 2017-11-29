@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class Medical implements Serializable {
-    private Long id;
+    private int id;
     private String patient_id;
     private String patient_name;
     private String date;
@@ -71,7 +71,8 @@ public class Medical implements Serializable {
         return nurse_name;
     }
 
-    public void setId(Long id){
-        this.id = id;
+
+    public String getID() {
+        return Integer.toString(id);
     }
 }

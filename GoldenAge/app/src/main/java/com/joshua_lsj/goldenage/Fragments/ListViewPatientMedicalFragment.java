@@ -2,6 +2,7 @@ package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.joshua_lsj.goldenage.Adapter.MedicalAdapter;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Objects.Medical;
@@ -42,7 +46,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
     ArrayList<Medical> medicalArrayList;
     private String id = "0";
     ProgressDialog progressDialog;
-
+    Queries dbq;
 
     @Nullable
     @Override
@@ -57,6 +61,8 @@ public class ListViewPatientMedicalFragment extends Fragment {
         progressDialog.setMessage("Please Wait, Retrieving From server");
         progressDialog.setCancelable(false);
         progressDialog.show();
+
+        dbq = new Queries(new DatabaseHelper(getActivity()));
 
         getData();
 
@@ -98,7 +104,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
                                 JSONObject medicalJson = array.getJSONObject(i);
                                 
                                 //Creating a new user object
-                                    medicalArrayList.add(new Medical(
+                                    Medical medical = new Medical(
                                         medicalJson.getString("Date"),
                                         medicalJson.getString("Patient_ID"),
                                         medicalJson.getString("Nurse_ID"),
@@ -106,12 +112,13 @@ public class ListViewPatientMedicalFragment extends Fragment {
                                         medicalJson.getDouble("Sugar_Level"),
                                         medicalJson.getDouble("Heart_Rate"),
                                         medicalJson.getDouble("Temperature")
-                                ));
+                                );
+                                    dbq  = new Queries(new DatabaseHelper(getContext()));
+
+                                    if (dbq.insert(medical) != 0)
+                                        Toast.makeText(getContext(), "Patient Medical Saved", Toast.LENGTH_SHORT).show();
                                 }
-                                 //creating adapter object and setting it to recyclerview
-                            MedicalAdapter adapter = new MedicalAdapter(medicalArrayList, getActivity());
-                            listView.setAdapter(adapter);
-                               
+                                DisplayPatientList();
                             }
 
                         } catch (JSONException e) {
@@ -142,5 +149,42 @@ public class ListViewPatientMedicalFragment extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
+    }
+
+    private void DisplayPatientList(){
+
+
+        String selection = DatabaseContract.MedicalContract.PATIENT_ID + " = ?";
+        String[] selectionArgs = {id};
+
+
+        String[] columns = {
+                DatabaseContract.MedicalContract._ID,
+                DatabaseContract.MedicalContract.DATE,
+                DatabaseContract.MedicalContract.PATIENT_ID,
+                DatabaseContract.MedicalContract.NURSE_ID,
+                DatabaseContract.MedicalContract.BLOOD_PRESSURE,
+                DatabaseContract.MedicalContract.SUGAR_LEVEL,
+                DatabaseContract.MedicalContract.HEART_RATE,
+                DatabaseContract.MedicalContract.TEMPERATURE
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.MedicalContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.MedicalContract._ID + " ASC");
+
+        if(cursor.moveToFirst()){
+            do{
+                medicalArrayList.add(new Medical(
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.DATE)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.PATIENT_ID)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.NURSE_ID)),
+                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.BLOOD_PRESSURE)),
+                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.SUGAR_LEVEL)),
+                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.HEART_RATE)),
+                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.TEMPERATURE))
+                ));
+            }while (cursor.moveToNext());
+        }
+        MedicalAdapter adapter = new MedicalAdapter(medicalArrayList, getActivity());
+        listView.setAdapter(adapter);
     }
 }

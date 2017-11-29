@@ -63,22 +63,22 @@ public class ListViewUserFragment extends Fragment {
 
         userList = new ArrayList<User>();
 
-/*
+
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please Wait, Retrieving From server");
         progressDialog.setCancelable(false);
         progressDialog.show();
-*/
+
         //Get Users from database
         //   GetUsers();
-        //SaveUsersToLocal();
+        SaveUsersToLocal();
 
         //Display User data from Local Database
-       // DisplayUserList();
+   //     DisplayUserList();
 
 
         //Checking if data are stored in local when create user
-        TestingDisplayUserList();
+        //TestingDisplayUserList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,6 +105,11 @@ public class ListViewUserFragment extends Fragment {
         return myView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    //    DisplayUserList();
+    }
 
     private void SaveUsersToLocal() {
 
@@ -155,7 +160,7 @@ public class ListViewUserFragment extends Fragment {
                           //      UserAdapter adapter = new UserAdapter(userList, getActivity());
                           //      listView.setAdapter(adapter);
 
-                            //    DisplayUserList();
+                                DisplayUserList();
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -168,6 +173,7 @@ public class ListViewUserFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
+                        DisplayUserList();
                     }
                 }){
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_add_client">
+    tools:showIn="@layout/activity_assign_driver">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,9 +18,9 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Name-->
+            <!-- Driver Name -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Name"
+                android:id="@+id/til_driver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -28,17 +28,20 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_name"
+                    android:id="@+id/item_driver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Name"
-                    android:inputType="textPersonName"
+                    android:hint="Driver Name"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:editable="false"
+                    android:onClick="showDriverPickerDialog"
                     />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- IC-->
+            <!-- Patient Name -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_IC"
+                android:id="@+id/til_patient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -46,42 +49,21 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_ic"
+                    android:id="@+id/item_patient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/IC"
-                    android:inputType="number"
+                    android:hint="Patient Name"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:editable="false"
+                    android:onClick="showPatientPickerDialog"
                     />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Gender -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gender" />
 
-            <RadioGroup
-                android:id="@+id/item_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/gender_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Male"
-                    android:onClick="onRadioButtonClicked"/>
-                <RadioButton
-                    android:id="@+id/gender_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Female"
-                    android:onClick="onRadioButtonClicked"/>
-            </RadioGroup>
-
-            <!-- Age -->
+            <!-- Nurse Name -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Age"
+                android:id="@+id/til_nurse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -89,18 +71,40 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_age"
+                    android:id="@+id/item_nurse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Age"
-                    android:inputType="number"
+                    android:hint="Patient Name"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:editable="false"
+                    android:onClick="showNursePickerDialog"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <!-- Location -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/ErrorText"
+                app:hintTextAppearance="@style/HintText"
+                >
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/item_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"
+                    android:inputType="text"
 
                     />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Contact-->
+            <!-- Description -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Contact"
+                android:id="@+id/til_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -108,17 +112,17 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_contact"
+                    android:id="@+id/item_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/contact"
-                    android:inputType="phone"
+                    android:hint="Description"
+                    android:inputType="text"
                     />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Address-->
+            <!-- Schedule date -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Address"
+                android:id="@+id/til_schedule_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -126,28 +130,10 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_address"
+                    android:id="@+id/item_schedule_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Address"
-                    android:inputType="textPostalAddress"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- Register date -->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_RegisterDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorTextAppearance="@style/ErrorText"
-                app:hintTextAppearance="@style/HintText"
-                >
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_register_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/RegisterDate"
+                    android:hint="Date"
                     android:clickable="false"
                     android:focusableInTouchMode="false"
                     android:editable="false"
@@ -156,9 +142,10 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Patient Name -->
+
+            <!-- Schedule time -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Patient_Name"
+                android:id="@+id/til_schedule_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -166,30 +153,16 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_patient_name"
+                    android:id="@+id/item_schedule_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Name"
-                    android:inputType="textPersonName"
+                    android:hint="Time"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:editable="false"
+                    android:onClick="showTimePickerDialog"
                     />
-            </android.support.design.widget.TextInputLayout>
 
-            <!-- IC-->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Patient_IC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorTextAppearance="@style/ErrorText"
-                app:hintTextAppearance="@style/HintText"
-                >
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_patient_ic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/IC"
-                    android:inputType="number"
-                    />
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>

@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.joshua_lsj.goldenage.AddPatientMedicalActivity;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
@@ -48,8 +53,9 @@ public class ViewPatientActivity extends AppCompatActivity {
 
     private Patient patient;
     private DeleteHelper deleteHelper;
+    private Queries dbq;
 
-    private String id;
+    private String id = "0";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +67,9 @@ public class ViewPatientActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.user_icon).apply(RequestOptions.circleCropTransform()).into(imageView);
 
         deleteHelper = new DeleteHelper(this);
+        dbq = new Queries(new DatabaseHelper(getApplicationContext()));
+        id = SharedPrefManager.getInstance(this).getKeySelectedId();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +89,63 @@ public class ViewPatientActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        getData();
+    //    getData();
+        getFromLocal();
+
     }
 
+    private void getFromLocal(){
+
+        String selection = DatabaseContract.PatientContract._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        String[] columns = {
+                DatabaseContract.PatientContract._ID,
+                DatabaseContract.PatientContract.NAME,
+                DatabaseContract.PatientContract.IC,
+                DatabaseContract.PatientContract.CONTACT,
+                DatabaseContract.PatientContract.AGE,
+                DatabaseContract.PatientContract.ADDRESS,
+                DatabaseContract.PatientContract.GENDER,
+                DatabaseContract.PatientContract.REG_DATE,
+                DatabaseContract.PatientContract.BLOOD_TYPE,
+                DatabaseContract.PatientContract.MEALS,
+                DatabaseContract.PatientContract.ALLERGIC,
+                DatabaseContract.PatientContract.SICKNESS,
+                DatabaseContract.PatientContract.MARGIN,
+                DatabaseContract.PatientContract.IMAGE
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if(cursor.moveToNext()){
+
+            Calender calender = new Calender();
+            int birthyear = calender.getCurrentYear() - cursor.getInt(cursor.getColumnIndex(DatabaseContract.PatientContract.AGE));
+
+
+            patient = new Patient(
+                    cursor.getInt(cursor.getColumnIndex(DatabaseContract.PatientContract._ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.NAME)),		cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IC)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.CONTACT)),
+                    birthyear,
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ADDRESS)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.GENDER)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.REG_DATE)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.BLOOD_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.MEALS)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ALLERGIC)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.SICKNESS)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.MARGIN)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IMAGE))
+            );
+
+            Initialize();
+        }else
+            Toast.makeText(getApplicationContext(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
+    }
+
+/*
     private void getData(){
 
         id = SharedPrefManager.getInstance(this).getKeySelectedId();
@@ -151,7 +214,7 @@ public class ViewPatientActivity extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(this).add(multipartRequest);
     }
-
+*/
 
     public void Initialize() {
 
@@ -186,10 +249,15 @@ public class ViewPatientActivity extends AppCompatActivity {
             tvRegDate.setText(patient.getRegisDate());
             tvMargin.setText(patient.getMargin().toString());
 
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.user_icon);
+            options.circleCropTransform();
+            options.diskCacheStrategy(DiskCacheStrategy.NONE);
+            options.skipMemoryCache(true);
+
+
             if(!patient.getImageName().equals("null"))
-                Glide.with(this).load(URLs.URL_IMAGE_FILE + patient.getImageName()).apply(RequestOptions.circleCropTransform().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(imageView);
-            else
-                Glide.with(this).load(R.drawable.user_icon).apply(RequestOptions.circleCropTransform()).into(imageView);
+                Glide.with(this).load(URLs.URL_IMAGE_FILE + patient.getImageName()).apply(options).into(imageView);
         }
 
     }

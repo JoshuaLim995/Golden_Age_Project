@@ -24,6 +24,20 @@ public class Client implements Serializable {
     private String patient_name;
 
     public Client(int id, String name, String ic, String contact, int birthyear, String gender,
+                  String address, String regisDate, int patient_id){
+        this.id = id;
+        this.name = name;
+        this.ic = ic;
+        this.gender = gender;
+        this.contact = contact;
+        setAge(birthyear);
+        this.address = address;
+        this.regisDate = regisDate;
+        this.regisType = "C";
+        this.patient_id = patient_id;
+    }
+
+    public Client(int id, String name, String ic, String contact, int birthyear, String gender,
                   String address, String regisDate, int patient_id, String patient_name){
         this.id = id;
         this.name = name;

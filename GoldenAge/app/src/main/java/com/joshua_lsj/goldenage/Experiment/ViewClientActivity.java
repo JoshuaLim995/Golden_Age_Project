@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
+import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
+import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
@@ -44,11 +49,16 @@ public class ViewClientActivity extends AppCompatActivity {
 
     private String id = "0";
 
+    private Queries dbq;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_user); //Share view User and Client
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        id = SharedPrefManager.getInstance(this).getKeySelectedId();
+        dbq = new Queries(new DatabaseHelper(getApplicationContext()));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -59,8 +69,41 @@ public class ViewClientActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        getData();
+      //  getData();
+        getFromLocal();
     }
+
+    //Get data from local
+    private void getFromLocal(){
+
+        Cursor cursor = dbq.getJoinClientPatient(id);
+
+        if(cursor.moveToNext()){
+
+            Calender calender = new Calender();
+            int birthyear = calender.getCurrentYear() - cursor.getInt(cursor.getColumnIndex(DatabaseContract.ClientContract.AGE));
+
+            client = new Client(
+                    cursor.getInt(cursor.getColumnIndex(DatabaseContract.ClientContract._ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.NAME)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.IC)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.CONTACT)),
+                    birthyear,
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.ADDRESS)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.GENDER)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.REG_DATE)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseContract.ClientContract.PATIENT_ID)),
+                    cursor.getString(cursor.getColumnIndex("patient_name"))
+
+            );
+            intialize();
+        }else
+            Toast.makeText(getApplicationContext(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 
     protected void intialize(){
 
@@ -92,7 +135,7 @@ public class ViewClientActivity extends AppCompatActivity {
 
         }
     }
-
+/*
     private void getData(){
 
         //    id = getIntent().getStringExtra(ListViewUserFragment.USER);
@@ -157,7 +200,7 @@ public class ViewClientActivity extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(this).add(multipartRequest);
     }
-
+*/
 
 
     @Override

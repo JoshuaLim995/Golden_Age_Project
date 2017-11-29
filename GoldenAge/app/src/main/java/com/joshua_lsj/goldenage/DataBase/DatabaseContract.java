@@ -29,5 +29,27 @@ public class DatabaseContract implements BaseColumns {
 
     public class ClientContract extends DatabaseContract {
         public static final String TABLE_NAME = "clients";
+        public static final String PATIENT_ID = "patient_id";
+    }
+
+    public class PatientContract extends DatabaseContract {
+        public static final String TABLE_NAME = "patients";
+        public static final String BLOOD_TYPE = "blood_type";
+        public static final String MEALS = "meals";
+        public static final String ALLERGIC = "allergic";
+        public static final String SICKNESS = "sickness";
+        public static final String MARGIN = "margin";
+        public static final String IMAGE = "image";
+    }
+
+    public class MedicalContract extends DatabaseContract {
+        public static final String TABLE_NAME = "medical";
+        public static final String DATE = "date";
+        public static final String PATIENT_ID = "patient_id";
+        public static final String NURSE_ID = "nurse_id";
+        public static final String BLOOD_PRESSURE = "blood_pressure";
+        public static final String SUGAR_LEVEL = "sugar_level";
+        public static final String HEART_RATE = "heart_rate";
+        public static final String TEMPERATURE = "temperature";
     }
 }

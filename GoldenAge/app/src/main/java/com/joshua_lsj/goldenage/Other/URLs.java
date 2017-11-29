@@ -11,7 +11,7 @@ public class URLs {
     //Register Patient Url
    private static final String ROOT_URL = "http://" + IP_ADDRESS + "/Android/";
 
- //   private static final String ROOT_URL =  "https://josh95jl.000webhostapp.com/";
+//    private static final String ROOT_URL =  "https://josh95jl.000webhostapp.com/";
 
 //    private static final String GET_DATA = ROOT_URL + "getalldata?apicall=";
 //    private static final String DELETE_DATA = ROOT_URL + "Delete?Delete=";

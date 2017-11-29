@@ -4,13 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.joshua_lsj.goldenage.Objects.Client;
-import com.joshua_lsj.goldenage.Objects.Medical;
-import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.Objects.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by limsh on 11/28/2017.
@@ -37,7 +31,7 @@ public class Queries {
         );
     }
 
-    //ID IS THE CLIENT'S
+//ID IS THE CLIENT'S
     public Cursor getJoinClientPatient(String id){
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -80,7 +74,7 @@ public class Queries {
         values.put(DatabaseContract.ClientContract.ADDRESS, client.getAddress());
         values.put(DatabaseContract.ClientContract.REG_DATE, client.getRegisDate());
         values.put(DatabaseContract.ClientContract.REG_TYPE, client.getRegisType());
-        values.put(DatabaseContract.ClientContract.PATIENT_ID, client.getPatientID());
+        values.put(DatabaseContract.ClientContract.PATIENT_ID, client.getPatientID);
         return database.insertWithOnConflict(DatabaseContract.ClientContract.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
@@ -101,7 +95,7 @@ public class Queries {
         values.put(DatabaseContract.PatientContract.ADDRESS, patient.getAddress());
         values.put(DatabaseContract.PatientContract.REG_DATE, patient.getRegisDate());
         values.put(DatabaseContract.PatientContract.REG_TYPE, patient.getRegisType());
-        values.put(DatabaseContract.PatientContract.BLOOD_TYPE, patient.getBlood_type());
+        values.put(DatabaseContract.PatientContract.BLOOD_TYPE, patient.getBloodType());
         values.put(DatabaseContract.PatientContract.MEALS, patient.getMeals());
         values.put(DatabaseContract.PatientContract.ALLERGIC, patient.getAllergic());
         values.put(DatabaseContract.PatientContract.SICKNESS, patient.getSickness());
@@ -111,15 +105,15 @@ public class Queries {
     }
 
 
-    //Insert medical into medical table
+//Insert medical into medical table
     public Long insert(Medical medical){
         SQLiteDatabase database = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(DatabaseContract.MedicalContract._ID, medical.getID());
-        values.put(DatabaseContract.MedicalContract.DATE, medical.getDate());
+	values.put(DatabaseContract.MedicalContract.DATE, medical.getDate());
         values.put(DatabaseContract.MedicalContract.PATIENT_ID, medical.getPatient_id());
-        values.put(DatabaseContract.MedicalContract.NURSE_ID, medical.getNurse_id());
+        values.put(DatabaseContract.MedicalContract.NURSE_ID, medical.getuser_id());
         values.put(DatabaseContract.MedicalContract.BLOOD_PRESSURE, medical.getBlood_pressure());
         values.put(DatabaseContract.MedicalContract.SUGAR_LEVEL, medical.getSugar_level());
         values.put(DatabaseContract.MedicalContract.HEART_RATE, medical.getHeart_rate());
@@ -127,6 +121,8 @@ public class Queries {
 
         return database.insertWithOnConflict(DatabaseContract.MedicalContract.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
+
+
 
 
 
@@ -144,23 +140,23 @@ public class Queries {
         return database.delete(table, DatabaseContract._ID + "=" + id, null) > 0;
     }
 
-    //DROP All tables in Database
-    public void dropTables(){
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        List<String> tables = new ArrayList<>();
 
-        // iterate over the result set, adding every table name to a list
-        while (c.moveToNext()) {
-            tables.add(c.getString(0));
-        }
+	//DROP All tables in Database
+	public void dropTables(){
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+		List<String> tables = new ArrayList<>();
+	
+		// iterate over the result set, adding every table name to a list
+		while (c.moveToNext()) {
+    			tables.add(c.getString(0));
+		}
 
-        // call DROP TABLE on every table name
-        for (String table : tables) {
-            String dropQuery = "DROP TABLE IF EXISTS " + table;
-            db.execSQL(dropQuery);
-        }
-
-    }
-
+		// call DROP TABLE on every table name
+		for (String table : tables) {
+    			String dropQuery = "DROP TABLE IF EXISTS " + table;
+    			db.execSQL(dropQuery);
+		}
+	
+	}
 }

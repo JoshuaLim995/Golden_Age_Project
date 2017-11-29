@@ -98,6 +98,7 @@ public class SharedPrefManager {
         return sharedPreferences.getString(SELECTED_NAV, null);
     }
 
+
     public void setPatientName(String patientName){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -109,4 +110,5 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PATIENT_NAME, null);
     }
+
 }
