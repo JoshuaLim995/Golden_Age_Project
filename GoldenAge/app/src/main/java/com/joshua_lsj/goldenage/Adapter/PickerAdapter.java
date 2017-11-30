@@ -23,7 +23,7 @@ public class PickerAdapter extends ArrayAdapter<Picker> {
     }
 
     public PickerAdapter(ArrayList<Picker> data, Context context) {
-        super(context, R.layout.picker_dialog, data);
+        super(context, R.layout.list_picker, data);
         this.data = data;
         this.context = context;
     } // closing PickerAdapter
@@ -32,23 +32,17 @@ public class PickerAdapter extends ArrayAdapter<Picker> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Picker picker = getItem(position);
         ViewHolder viewHolder;
-        final View result;
 
 
-        if(convertView == null) {
-            viewHolder = new PickerAdapter.ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.picker_dialog, parent, false);
+         //   viewHolder = new PickerAdapter.ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(R.layout.list_picker, parent, false);
 
-            viewHolder.tvName = convertView.findViewById(R.id.item_picker);
+            TextView tvName = (TextView) convertView.findViewById(R.id.item_picker);
 
-            convertView.setTag(viewHolder);
-        }
-        else{
-            viewHolder = (PickerAdapter.ViewHolder)convertView.getTag();
-        }
 
-        viewHolder.tvName.setText(picker.getName());
+
+        tvName.setText(picker.getName());
 
 
         return convertView;

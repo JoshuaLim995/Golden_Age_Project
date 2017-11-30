@@ -3,6 +3,7 @@
     package="com.joshua_lsj.goldenage">
 
     <!-- adding internet permission -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- adding access image permission -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -118,6 +119,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Experiment.ViewPatientActivity" />
+        </activity>
+
+        <!-- Assign Driver -->
+        <activity android:name=".Experiment.AssignDriverActivity"
+            android:label="Assign Driver"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Experiment.MainActivity" />
         </activity>
     </application>
 

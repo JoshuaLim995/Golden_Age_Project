@@ -1,8 +1,12 @@
 package com.joshua_lsj.goldenage.DataBase;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by limsh on 11/27/2017.
@@ -14,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String DB_NAME = "GoldenAgeDB";
     //Constant for Database
 
+    private SQLiteDatabase db;
 
     //Create Database to store user data from server
     private static final String CREATE_USERS_TABLE =
@@ -27,22 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     DatabaseContract.UserContract.ADDRESS + " TEXT, " +
                     DatabaseContract.UserContract.REG_DATE + " TEXT, " +
                     DatabaseContract.UserContract.REG_TYPE + " TEXT)";
-
-
-    //Create Database to store temporary data in local for sending out to server
-    private static final String CREATE_TEMP_USERS_TABLE =
-            "CREATE TABLE " + DatabaseContract.TempUserContract.TABLE_NAME + " (" +
-                    DatabaseContract.TempUserContract._ID + " INTEGER PRIMARY KEY, " +
-                    DatabaseContract.TempUserContract.NAME + " TEXT, " +
-                    DatabaseContract.TempUserContract.IC + " TEXT, " +
-                    DatabaseContract.TempUserContract.GENDER + " TEXT, " +
-                    DatabaseContract.TempUserContract.AGE + " TEXT, " +
-                    DatabaseContract.TempUserContract.CONTACT + " TEXT, " +
-                    DatabaseContract.TempUserContract.ADDRESS + " TEXT, " +
-                    DatabaseContract.TempUserContract.REG_DATE + " TEXT, " +
-                    DatabaseContract.TempUserContract.REG_TYPE + " TEXT, " +
-                    DatabaseContract.TempUserContract.UPGRADE + " INT)";
-
 
     //Create Database to store client data from server
     private static final String CREATE_CLIENTS_TABLE =
@@ -82,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //Create Database to store medical data from server
     private static final String CREATE_MEDICAL_TABLE =
             "CREATE TABLE " + DatabaseContract.MedicalContract.TABLE_NAME + " (" +
-                    DatabaseContract.MedicalContract._ID + " INTEGER," +
+                    DatabaseContract.MedicalContract._ID + " INTEGER PRIMARY KEY," +
                     DatabaseContract.MedicalContract.DATE + " TEXT," +
                     DatabaseContract.MedicalContract.PATIENT_ID + " TEXT," +
                     DatabaseContract.MedicalContract.NURSE_ID + " TEXT, " +
@@ -97,8 +86,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(CREATE_USERS_TABLE);
-        db.execSQL(CREATE_TEMP_USERS_TABLE);
         db.execSQL(CREATE_CLIENTS_TABLE);
         db.execSQL(CREATE_MEDICAL_TABLE);
         db.execSQL(CREATE_PATIENTS_TABLE);

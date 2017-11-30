@@ -63,18 +63,18 @@ public class ListViewUserFragment extends Fragment {
 
         userList = new ArrayList<User>();
 
-
+/*
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please Wait, Retrieving From server");
         progressDialog.setCancelable(false);
         progressDialog.show();
-
+*/
         //Get Users from database
         //   GetUsers();
-        SaveUsersToLocal();
+    //    SaveUsersToLocal();
 
         //Display User data from Local Database
-   //     DisplayUserList();
+        DisplayUserList();
 
 
         //Checking if data are stored in local when create user
@@ -111,87 +111,6 @@ public class ListViewUserFragment extends Fragment {
     //    DisplayUserList();
     }
 
-    private void SaveUsersToLocal() {
-
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_ALL,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-
-                            if(!obj.getBoolean("error")) {
-
-                                //converting the string to json array object
-                                Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                                JSONArray array = obj.getJSONArray("result");
-
-                                //traversing through all the object
-                                for (int i = 0; i < array.length(); i++) {
-
-                                    //getting user object from json array
-                                    JSONObject userJason = array.getJSONObject(i);
-
-                                    //adding the product to product list
-//User(int id, String name, String ic, string contact, int birthyear, String address, String gender, String regisDate, String regisType)
-                                    User user = new User(
-                                            userJason.getInt("ID"),
-                                            userJason.getString("Name"),
-                                            userJason.getString("IC"),
-                                            userJason.getString("Contact"),
-                                            userJason.getInt("BirthYear"),
-                                            userJason.getString("Address"),
-                                            userJason.getString("Gender"),
-                                            userJason.getString("RegisDate"),
-                                            userJason.getString("RegisType")
-                                    );
-
-
-                                    //Add user into database
-                                    Queries queries = new Queries(new DatabaseHelper(getContext()));
-
-                                    if (queries.insert(user) != 0)
-                                        Toast.makeText(getContext(), "User created", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                                //creating adapter object and setting it to recyclerview
-                          //      UserAdapter adapter = new UserAdapter(userList, getActivity());
-                          //      listView.setAdapter(adapter);
-
-                                DisplayUserList();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
-                        DisplayUserList();
-                    }
-                }){
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-
-                params.put("type", "User");
-                return params;
-            }
-
-        };
-
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(getActivity()).add(multipartRequest);
-    }
 
     private void DisplayUserList(){
         Queries dbq = new Queries(new DatabaseHelper(getActivity()));
@@ -217,7 +136,7 @@ public class ListViewUserFragment extends Fragment {
         listView.setAdapter(userAdapter);
     }
 
-
+/*
     private void TestingDisplayUserList(){
         Queries dbq = new Queries(new DatabaseHelper(getActivity()));
 
@@ -241,5 +160,5 @@ public class ListViewUserFragment extends Fragment {
         UserAdapter userAdapter = new UserAdapter(userList, getActivity());
         listView.setAdapter(userAdapter);
     }
-
+*/
 }

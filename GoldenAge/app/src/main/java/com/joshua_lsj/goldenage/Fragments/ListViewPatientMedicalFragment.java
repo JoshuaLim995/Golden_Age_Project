@@ -55,17 +55,11 @@ public class ListViewPatientMedicalFragment extends Fragment {
         medicalArrayList = new ArrayList<>();
 
         initialize();
-
-    //    listView = myView.findViewById(R.id.list_view);
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please Wait, Retrieving From server");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
+        id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
         dbq = new Queries(new DatabaseHelper(getActivity()));
 
-        getData();
-
+        DisplayPatientList();
+        //getData();
 
         return myView;
     }
@@ -83,6 +77,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
 
     }
 
+    /*
     private void getData() {
 	//get patient id from shared preference
 	id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
@@ -91,7 +86,6 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response));
                         //    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -102,10 +96,10 @@ public class ListViewPatientMedicalFragment extends Fragment {
                                 
                                 for (int i = 0; i < array.length(); i++) {
                                 JSONObject medicalJson = array.getJSONObject(i);
-                                
                                 //Creating a new user object
                                     Medical medical = new Medical(
-                                        medicalJson.getString("Date"),
+                                            medicalJson.getInt("ID"),
+                                            medicalJson.getString("Date"),
                                         medicalJson.getString("Patient_ID"),
                                         medicalJson.getString("Nurse_ID"),
                                         medicalJson.getDouble("Blood_Pressure"),
@@ -117,6 +111,8 @@ public class ListViewPatientMedicalFragment extends Fragment {
 
                                     if (dbq.insert(medical) != 0)
                                         Toast.makeText(getContext(), "Patient Medical Saved", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getContext(), "Patient Not Medical Saved", Toast.LENGTH_SHORT).show();
                                 }
                                 DisplayPatientList();
                             }
@@ -130,7 +126,6 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
                     }
                 }){
@@ -150,12 +145,14 @@ public class ListViewPatientMedicalFragment extends Fragment {
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
-
+*/
     private void DisplayPatientList(){
 
 
         String selection = DatabaseContract.MedicalContract.PATIENT_ID + " = ?";
         String[] selectionArgs = {id};
+
+        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
 
 
         String[] columns = {
@@ -169,7 +166,7 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 DatabaseContract.MedicalContract.TEMPERATURE
         };
 
-        Cursor cursor = dbq.query(DatabaseContract.MedicalContract.TABLE_NAME, columns, null, null, null, null, DatabaseContract.MedicalContract._ID + " ASC");
+        Cursor cursor = dbq.query(DatabaseContract.MedicalContract.TABLE_NAME, columns, selection, selectionArgs, null, null, DatabaseContract.MedicalContract._ID + " ASC");
 
         if(cursor.moveToFirst()){
             do{

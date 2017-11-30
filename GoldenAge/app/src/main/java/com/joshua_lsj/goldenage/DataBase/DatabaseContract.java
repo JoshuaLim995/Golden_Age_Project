@@ -22,10 +22,6 @@ public class DatabaseContract implements BaseColumns {
         public static final String TABLE_NAME = "users";
     }
 
-    public class TempUserContract extends DatabaseContract{
-        public static final String TABLE_NAME = "temp_users";
-        public static final String UPGRADE = "upgrade";
-    }
 
     public class ClientContract extends DatabaseContract {
         public static final String TABLE_NAME = "clients";
@@ -52,4 +48,6 @@ public class DatabaseContract implements BaseColumns {
         public static final String HEART_RATE = "heart_rate";
         public static final String TEMPERATURE = "temperature";
     }
+
+
 }

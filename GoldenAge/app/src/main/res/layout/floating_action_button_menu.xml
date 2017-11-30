@@ -75,4 +75,12 @@
         fab:fab_size="mini"
         android:onClick="onFloatingActionButtonClicked"/>
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/menu_assign_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_label="Add Client"
+        fab:fab_size="mini"
+        android:onClick="onAssignDriverClicked"/>
+
 </com.github.clans.fab.FloatingActionMenu>

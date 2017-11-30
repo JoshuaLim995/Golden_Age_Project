@@ -50,7 +50,6 @@ public class ListViewClientFragment extends Fragment {
     ArrayList<Client> clientList;
 
     public static final String CLIENT = "CLIENT";
-    ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -63,13 +62,7 @@ public class ListViewClientFragment extends Fragment {
 
         clientList = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please Wait, Retrieving From server");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
-        //Get Clients from database
-        GetClients();
 
     //    DisplayClientList();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,76 +93,10 @@ public class ListViewClientFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-    //    DisplayClientList();
+        DisplayClientList();
     }
 
-    private void GetClients() {
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_ALL,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-
-                            if(!obj.getBoolean("error")) {
-                                //converting the string to json array object
-                                JSONArray array = obj.getJSONArray("result");
-
-                                //traversing through all the object
-                                for (int i = 0; i < array.length(); i++) {
-
-                                    //getting user object from json array
-                                    JSONObject clientJson = array.getJSONObject(i);
-                                    //Creating a new user object
-                                    Client client = new Client(
-                                            clientJson.getInt("ID"),
-                                            clientJson.getString("Name"),
-                                            clientJson.getString("IC"),
-                                            clientJson.getString("Contact"),
-                                            clientJson.getInt("BirthYear"),
-                                            clientJson.getString("Address"),
-                                            clientJson.getString("Gender"),
-                                            clientJson.getString("RegisDate"),
-                                            clientJson.getInt("Patient_ID")
-                                    );
-
-                                    //Save client into local
-                                    Queries queries = new Queries(new DatabaseHelper(getContext()));
-
-                                    if (queries.insert(client) != 0)
-                                        Toast.makeText(getContext(), "Client Saved", Toast.LENGTH_SHORT).show();
-
-                                }
-                                DisplayClientList();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Unable to retrieve data from server", Toast.LENGTH_SHORT).show();
-                        DisplayClientList();
-                    }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-
-                params.put("type", "Client");
-                return params;
-            }
-        };
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(getActivity()).add(multipartRequest);
-    }
 
 
 

@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -69,6 +70,18 @@ public class AssignDriverActivity extends AppCompatActivity {
 
         initialize();
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     } // closing onCreate
 
     private void initialize() {
@@ -99,26 +112,7 @@ public class AssignDriverActivity extends AppCompatActivity {
 
     public void showDriverPickerDialog(View view) {
 
-        String selection = DatabaseContract.UserContract.REG_TYPE + " = ?";
-        String[] selectionArgs = {"D"};
-
-        String[] columns = {
-                DatabaseContract.UserContract._ID,
-                DatabaseContract.UserContract.NAME
-        }; // closing columns
-
-        Cursor cursor = dbq.query(DatabaseContract.UserContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-
-        ArrayList<Picker> pickerList = new ArrayList<>();
-
-        if (cursor.moveToFirst()) {
-            do {
-                pickerList.add(new Picker(
-                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract._ID)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.NAME))
-                ));
-            } while (cursor.moveToNext());
-        }
+        ArrayList<Picker> pickerList = getNames(DatabaseContract.UserContract.TABLE_NAME, "D");
         showPicker("Select Driver", pickerList);
 
 //OnClickListener for listView
@@ -130,20 +124,87 @@ public class AssignDriverActivity extends AppCompatActivity {
 
                 etDriver.setText(picker.getName());
                 driver_id = picker.getId();
+
+                dialog.dismiss();
             }
         });
 
     } // closing showDriverPickerDialog
 
+    public void showPatientPickerDialog(View view) {
+
+        ArrayList<Picker> pickerList = getNames(DatabaseContract.PatientContract.TABLE_NAME, "P");
+        showPicker("Select Patient", pickerList);
+
+//OnClickListener for listView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Picker picker = (Picker) adapterView.getAdapter().getItem(position);
+
+                etPatient.setText(picker.getName());
+                patient_id = picker.getId();
+                dialog.dismiss();
+
+                Toast.makeText(getApplicationContext(), patient_id, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    } // closing showPatientPickerDialog
+
+
+    public void showNursePickerDialog(View view) {
+
+        ArrayList<Picker> pickerList = getNames(DatabaseContract.UserContract.TABLE_NAME, "N");
+        showPicker("Select Nurse", pickerList);
+
+//OnClickListener for listView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Picker picker = (Picker) adapterView.getAdapter().getItem(position);
+
+                etNurse.setText(picker.getName());
+                nurse_id = picker.getId();
+                dialog.dismiss();
+            }
+        });
+
+    } // closing showNursePickerDialog
+
+
+    private ArrayList<Picker> getNames(String table, String type){
+        String selection = DatabaseContract.REG_TYPE + " = ?";
+        String[] selectionArgs = {type};
+
+        String[] columns = {
+                DatabaseContract._ID,
+                DatabaseContract.NAME
+        }; // closing columns
+
+        Cursor cursor = dbq.query(table, columns, selection, selectionArgs, null, null, null);
+
+        ArrayList<Picker> pickerList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                pickerList.add(new Picker(
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract._ID)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.UserContract.NAME))
+                ));
+            } while (cursor.moveToNext());
+        }
+        return pickerList;
+    }
 
     private void showPicker(String title, ArrayList<Picker> pickerList) {
 
-//final Dialog dialog = new Dialog(this);
-//dialog.setContentView(R.layout.picker_dialog);
-//dialog.setTitle(title);
-//ListView listView = (ListView) dialog.findViewById(R.id.list_picker);
+        TextView tvTitle = dialog.findViewById(R.id.item_title);
         PickerAdapter pickerAdapter = new PickerAdapter(pickerList, getApplicationContext());
         listView.setAdapter(pickerAdapter);
+        tvTitle.setText(title);
         dialog.show();
 
     } // closing showPicker

@@ -20,7 +20,17 @@ public class Medical implements Serializable {
 
     //TODO: Edit here to allow Admin/Nurse to record patient daily medical checkup data;;;;
 
-
+    public Medical(int id, String date, String patient_id, String nurse_id, Double blood_pressure, Double sugar_level,
+                   Double heart_rate, Double temperature){
+        this.id = id;
+        this.patient_id = patient_id;
+        this.date = date;
+        this.blood_pressure = blood_pressure;
+        this.sugar_level = sugar_level;
+        this.heart_rate = heart_rate;
+        this.temperature = temperature;
+        this.nurse_id = nurse_id;
+    }
 
     public Medical(String date, String patient_id, String nurse_id, Double blood_pressure, Double sugar_level,
                    Double heart_rate, Double temperature){

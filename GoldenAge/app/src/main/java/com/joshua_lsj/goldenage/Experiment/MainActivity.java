@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Experiment;
 
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 import com.joshua_lsj.goldenage.DataBase.Queries;
@@ -27,6 +29,7 @@ import com.joshua_lsj.goldenage.Fragments.ListViewUserFragment;
 import com.joshua_lsj.goldenage.Fragments.ViewPatientFragment;
 import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.Objects.User;
+import com.joshua_lsj.goldenage.Other.DownloadData;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.R;
 //import android.support.design.widget.FloatingActionButton;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ListView listView;
     private FloatingActionMenu fam;
+    private FloatingActionButton fab;
     private Toolbar toolbar;
     private  DrawerLayout drawer;
     private NavigationView navigationView;
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private User user;
 
+    public static final String DATA_SAVED_BROADCAST = "net.simplifiedcoding.datasaved";
+
+    private BroadcastReceiver broadcastReceiver;
+
+private DownloadData downloadData;
 
 private Client client;
 /*
@@ -67,6 +76,8 @@ private Client client;
         setSupportActionBar(toolbar);
 
         fam = (FloatingActionMenu) findViewById(R.id.fam);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -77,6 +88,7 @@ private Client client;
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        downloadData.downloadForAdmin();
     }
 
     private void NurseLogin(){
@@ -96,6 +108,8 @@ private Client client;
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        downloadData.downloadForNurse();
     }
     
     private void ClientLogin(){
@@ -117,6 +131,7 @@ private Client client;
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    //    helper.createForClient();
     }
 
 
@@ -132,15 +147,14 @@ private Client client;
 
         user = SharedPrefManager.getInstance(this).getUserSharedPref();
 
+        downloadData = new DownloadData(getApplicationContext());
+
         if(user.getRegisType().equals("A"))
             AdminLogin();
         else if(user.getRegisType().equals("N"))
             NurseLogin();
         else if(user.getRegisType().equals("C"))
             ClientLogin();
-
-
-
 
     }
 
@@ -244,6 +258,11 @@ private Client client;
                 fam.close(true);
         }
         fam.close(true);
+    }
+
+    public void onAssignDriverClicked(View view){
+        Intent intent = new Intent(getApplicationContext(), AssignDriverActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -351,6 +370,7 @@ private Client client;
 
         return true;
     }
+
 
 
 }
