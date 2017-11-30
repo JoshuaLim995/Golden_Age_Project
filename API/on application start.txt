@@ -1,0 +1,32 @@
+create user, client, patient, medical, driver schedule table when ADMIN log in
+create patient, medical table when nurse or client log in
+
+create temp tables for ADMIN
+create temp medical, driver schedule for NURSE
+
+
+In MainActivity
+DatabaseHelper helper = new DatabaseHelper(this);
+
+on ADMIN login
+helper.createForAdmin();
+
+on NURSE login
+helper.createForNurse();
+
+on CLIENT login
+helper.createForClient();
+
+on DRIVER login
+helper.createForDriver();
+
+
+on logout 
+helper.dropTables();
+
+
+
+
+start service for download data to database, set 
+
+http://stacktips.com/tutorials/android/repeat-alarm-example-in-android
