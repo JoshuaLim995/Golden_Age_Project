@@ -19,12 +19,12 @@ public class Client implements Serializable {
     private int age;
     private String password;
     
-    private int patient_id; //patient id
+    private String patient_id; //patient id
     private String patient_ic; //use in register client in patient ic input
     private String patient_name;
 
     public Client(int id, String name, String ic, String contact, int birthyear, String gender,
-                  String address, String regisDate, int patient_id){
+                  String address, String regisDate, String patient_id){
         this.id = id;
         this.name = name;
         this.ic = ic;
@@ -38,7 +38,7 @@ public class Client implements Serializable {
     }
 
     public Client(int id, String name, String ic, String contact, int birthyear, String gender,
-                  String address, String regisDate, int patient_id, String patient_name){
+                  String address, String regisDate, String patient_id, String patient_name){
         this.id = id;
         this.name = name;
         this.ic = ic;
@@ -58,13 +58,20 @@ public class Client implements Serializable {
         this.regisType = "C";
     }
 
+    public Client(int id, String name, String patient_id){
+        this.id = id;
+        this.name = name;
+        this.regisType = "C";
+        this.patient_id = patient_id;
+    }
+
     
 
     public String getPatientName(){
         return patient_name;
     }
 
-    public int getPatientID(){
+    public String getPatientID(){
         return patient_id;
     }
 

@@ -18,7 +18,7 @@ public class Patient implements Serializable{
     private String meals;
     private String allergic;
     private String sickness;
-    private Double margin;
+    private Double deposit;
 
     private String imageName;
 
@@ -30,7 +30,7 @@ public class Patient implements Serializable{
 
     public Patient(int id, String name, String ic, String contact,
                    int birthyear, String address, String gender,
-                   String regisDate, String blood_type, String meals, String allergic, String sickness, double margin, String imageName){
+                   String regisDate, String blood_type, String meals, String allergic, String sickness, double deposit, String imageName){
         Calender calender = new Calender();
         this.id = id;
         this.name = name;
@@ -46,7 +46,7 @@ public class Patient implements Serializable{
         this.meals = meals;
         this.allergic = allergic;
         this.sickness = sickness;
-        this.margin = margin;
+        this.deposit = deposit;
         this.imageName = imageName;
     }
 
@@ -87,13 +87,10 @@ public class Patient implements Serializable{
         this.blood_type = blood_type;
     }
 
-    public Double getMargin() {
-        return margin;
+    public Double getDeposit() {
+        return deposit;
     }
 
-    public void setMargin(Double margin) {
-        this.margin = margin;
-    }
 
     public String getAge() {
         return Integer.toString(age);

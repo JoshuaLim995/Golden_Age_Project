@@ -92,7 +92,7 @@ public class ViewClientActivity extends AppCompatActivity {
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.ADDRESS)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.GENDER)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.REG_DATE)),
-                    cursor.getInt(cursor.getColumnIndex(DatabaseContract.ClientContract.PATIENT_ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseContract.ClientContract.PATIENT_ID)),
                     cursor.getString(cursor.getColumnIndex("patient_name"))
 
             );
@@ -130,7 +130,7 @@ public class ViewClientActivity extends AppCompatActivity {
             tvAge.setText(client.getAge()); //GET USER AGE FROM THE BIRTHDATE
             tvRegisDate.setText(client.getRegisDate());
 
-            tvPatientID.setText(Integer.toString(client.getPatientID())); //GET PATIENT ID FROM USER
+            tvPatientID.setText(client.getPatientID()); //GET PATIENT ID FROM USER
             tvPatientName.setText(client.getPatientName()); //GET PATIENT NAME FROM USER
 
         }

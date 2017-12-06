@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class AssignDriverActivity extends AppCompatActivity {
 
@@ -58,7 +59,7 @@ public class AssignDriverActivity extends AppCompatActivity {
 
     Queries dbq;
 
-    private String driver_id, nurse_id, patient_id;
+    private String driver_id, nurse_id, patient_id, date, time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,8 @@ public class AssignDriverActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
+                if(checkTextBox() == 0)
+                    createDriverSchedule();
             }
         });
 
@@ -108,6 +109,54 @@ public class AssignDriverActivity extends AppCompatActivity {
         listView = (ListView) dialog.findViewById(R.id.list_picker);
 
     } // closing initialize
+
+    private int checkTextBox(){
+        int i = 0;
+
+        if(etDriver.getText().toString().isEmpty()){
+            til_driver.setError("Please select driver");
+            i += 1;
+        }else
+            til_driver.setError(null);
+
+        if(etNurse.getText().toString().isEmpty()){
+            til_nurse.setError("Please select nurse");
+            i += 1;
+        }else
+            til_nurse.setError(null);
+
+        if(etPatient.getText().toString().isEmpty()){
+            til_patient.setError("Please select nurse");
+            i += 1;
+        }else
+            til_patient.setError(null);
+
+        if(etLocation.getText().toString().isEmpty()){
+            til_location.setError("Please enter Location");
+            i += 1;
+        }else
+            til_location.setError(null);
+
+        if(etDescription.getText().toString().isEmpty()){
+            til_description.setError("Please enter Description");
+            i += 1;
+        }else
+            til_description.setError(null);
+
+        if(etDate.getText().toString().isEmpty()){
+            til_date.setError("Please select Date");
+            i += 1;
+        }else
+            til_date.setError(null);
+
+        if(etTime.getText().toString().isEmpty()){
+            til_time.setError("Please select Time");
+            i += 1;
+        }else
+            til_time.setError(null);
+
+        return i;
+    }
 
 
     public void showDriverPickerDialog(View view) {
@@ -153,7 +202,6 @@ public class AssignDriverActivity extends AppCompatActivity {
 
     } // closing showPatientPickerDialog
 
-
     public void showNursePickerDialog(View view) {
 
         ArrayList<Picker> pickerList = getNames(DatabaseContract.UserContract.TABLE_NAME, "N");
@@ -173,7 +221,6 @@ public class AssignDriverActivity extends AppCompatActivity {
         });
 
     } // closing showNursePickerDialog
-
 
     private ArrayList<Picker> getNames(String table, String type){
         String selection = DatabaseContract.REG_TYPE + " = ?";
@@ -207,52 +254,105 @@ public class AssignDriverActivity extends AppCompatActivity {
         tvTitle.setText(title);
         dialog.show();
 
-    } // closing showPicker
-
+    }
 
     public void showDatePickerDialog(View view) {
 
 // Get Current Date
-        final Calendar c = Calendar.getInstance();
-        final int mYear = c.get(Calendar.YEAR);
-        final int mMonth = c.get(Calendar.MONTH);
-        final int mDay = c.get(Calendar.DAY_OF_MONTH);
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
+        Calendar calendar = Calendar.getInstance(timeZone);
+        final int mYear = calendar.get(Calendar.YEAR);
+        final int mMonth = calendar.get(Calendar.MONTH);
+        final int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                        etDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        etDate.setText(date);
 
                     }
                 }, mYear, mMonth, mDay);
 
         datePickerDialog.show();
 
-    } //closing showDatePicker
+    }
 
     public void showTimePickerDialog(View view) {
 
 // Get Current Time
-        final Calendar c = Calendar.getInstance();
-        final int mHour = c.get(Calendar.HOUR_OF_DAY);
-        final int mMinute = c.get(Calendar.MINUTE);
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
+        Calendar calendar = Calendar.getInstance(timeZone);
+        final int mHour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int mMinute = calendar.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-
-                        etTime.setText(hourOfDay + ":" + minute);
+                        time = hourOfDay + ":" + minute;
+                        etTime.setText(time);
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
 
-    } //closing showTimePicker
+    }
 
-} // closing class
+    private void createDriverSchedule(){
+        final String location = etLocation.getText().toString();
+        final String description = etDescription.getText().toString();
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.CREATE_DRIVER_SCHEDULE,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            if(!obj.getBoolean("error"))
+                                finish();
+
+                        } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("type", "Driver_Schedule");
+                params.put("Driver_ID", driver_id);
+                params.put("Patient_ID", patient_id);
+                params.put("Nurse_ID", nurse_id);
+                params.put("Location", location);
+                params.put("Description", description);
+                params.put("Date", date);
+                params.put("Time", time);
+
+                return params;
+            }
+
+        };
+
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+
+    }
+}

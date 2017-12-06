@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.joshua_lsj.goldenage.Experiment.LoginActivity;
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.Objects.User;
 
 
@@ -18,11 +19,15 @@ public class SharedPrefManager {
     private static final String KEY_ID = "KeyID";   //CONSIDERING USE THE ID(INT) OR THE USER_ID(REGISTER_TYPE + ID VALUE)
     private static final String KEY_USERNAME = "KeyLoginName";
     private static final String KEY_IC = "KeyIC";
+    private static final String KEY_PATIENT_ID = "KeyPatientID";
+
     private static final String KEY_REGISTER_TYPE = "KeyRegisType";
     private static final String KEY_SELECTED_ID = "selectedID";
     private static final String SELECTED_NAV = "Selected_nav";
     private static final String PATIENT_NAME = "Patient_name";
-
+    private static final String DOWNLOADED = "downloaded";
+    private static final String LOGIN_TYPE = "loginType";
+    private static final String LOGIN = "login";
     
 
     private static SharedPrefManager mInstance;
@@ -39,6 +44,20 @@ public class SharedPrefManager {
         return mInstance;
     }
 
+
+    public void setLoginType(String type){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(LOGIN_TYPE, type);
+        editor.apply();
+    }
+
+    public String getLoginType(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(LOGIN_TYPE, null);
+    }
+
+
     //THIS WILL STORE USER DATA IN SHARED PREFERENCE
     public void userLogin(User user){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -47,21 +66,53 @@ public class SharedPrefManager {
         editor.putString(KEY_USERNAME, user.getName());
         editor.putString(KEY_REGISTER_TYPE, user.getRegisType());
         editor.apply();
+        setLogin(true);
+    }
+
+
+    //THIS WILL STORE CLIENT DATA IN SHARED PREFERENCE
+    public void clientLogin(Client client){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_ID, Integer.parseInt(client.getID().toString()));
+        editor.putString(KEY_USERNAME, client.getName());
+        editor.putString(KEY_REGISTER_TYPE, client.getRegisType());
+        editor.putString(KEY_PATIENT_ID, client.getPatientID());
+        editor.apply();
+        setLogin(true);
+    }
+
+    public void setLogin(Boolean login){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(LOGIN, login);
+        editor.apply();
     }
 
     //THIS WILL CHECK WHETHER USER IS ALREADY LOGGED IN OR NOT
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_USERNAME, null) != null;
+        return sharedPreferences.getBoolean(LOGIN, false);
     }
+
+
 
     //THIS WILL GET THE LOGGED IN USER'S DATA FROM SHARED PREFERENCE
     public User getUserSharedPref(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new User(
-                sharedPreferences.getInt(KEY_ID, -1),
+            return new User(
+                sharedPreferences.getInt(KEY_ID, 0),
                 sharedPreferences.getString(KEY_USERNAME, null),
                 sharedPreferences.getString(KEY_REGISTER_TYPE, null)
+            );
+    }
+
+    public Client getClientSharedPref(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return new Client(
+                sharedPreferences.getInt(KEY_ID, 0),
+                sharedPreferences.getString(KEY_USERNAME, null),
+                sharedPreferences.getString(KEY_PATIENT_ID, null)
         );
     }
 
@@ -98,7 +149,7 @@ public class SharedPrefManager {
         return sharedPreferences.getString(SELECTED_NAV, null);
     }
 
-
+/*
     public void setPatientName(String patientName){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -109,6 +160,19 @@ public class SharedPrefManager {
     public String getPatientName(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PATIENT_NAME, null);
+    }
+*/
+
+    public void setDownloaded(boolean isDownloaded){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(DOWNLOADED, isDownloaded);
+        editor.apply();
+    }
+
+    public boolean checkIfDownloaded(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(DOWNLOADED, false);
     }
 
 }

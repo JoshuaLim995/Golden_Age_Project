@@ -1,4 +1,4 @@
-package com.joshua_lsj.goldenage;
+package com.joshua_lsj.goldenage.Experiment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +24,7 @@ import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.User;
 import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
+import com.joshua_lsj.goldenage.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,12 +43,13 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
     private Calender calender;
     private User user;
 
-    private TextInputLayout til_bloodPressure, til_sugarLevel, til_heartRate, til_temperature;
+    private TextInputLayout til_bloodPressure, til_sugarLevel, til_heartRate, til_temperature, til_description;
     
     private EditText etBlood_Pressure;
     private EditText etSugar_Level;
     private EditText etHeartRate;
     private EditText etTemperature;
+    private EditText etDescription;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,9 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
                 if(!etBlood_Pressure.getText().toString().isEmpty() &&
                         !etSugar_Level.getText().toString().isEmpty() &&
                         !etHeartRate.getText().toString().isEmpty() &&
-                        !etTemperature.getText().toString().isEmpty())
+                        !etTemperature.getText().toString().isEmpty() &&
+                        !etDescription.getText().toString().isEmpty()
+                        )
                     createMedicakRecord();
             }
         });
@@ -95,6 +99,10 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
             til_temperature.setError(null);
         else
             til_temperature.setError("Please fill in here");
+        if(!etDescription.getText().toString().isEmpty())
+            til_description.setError(null);
+        else
+            til_description.setError("Please fill in Description");
     }
     
     private void intialize(){
@@ -114,11 +122,13 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
         etSugar_Level = (EditText) findViewById(R.id.item_sugarLevel);
         etHeartRate = (EditText) findViewById(R.id.item_heartRate);
         etTemperature = (EditText) findViewById(R.id.item_temperature);
+        etDescription = (EditText) findViewById(R.id.item_description);
 
         til_bloodPressure = findViewById(R.id.TIL_bloodPressure);
         til_heartRate = findViewById(R.id.TIL_heartRate);
         til_sugarLevel = findViewById(R.id.TIL_sugarLevel);
         til_temperature = findViewById(R.id.TIL_temperature);
+        til_description = findViewById(R.id.til_description);
     }
     
     private void createMedicakRecord(){
@@ -126,6 +136,7 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
         final String sugarLevel = etSugar_Level.getText().toString();
         final String heartRate = etHeartRate.getText().toString();
         final String temperature = etTemperature.getText().toString();
+        final String description = etDescription.getText().toString();
 
 
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.URL_UPLOAD_MEDICAL_RECORD,
@@ -136,10 +147,11 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
                             JSONObject obj = new JSONObject(new String(response.data));
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                            if(obj.getBoolean("error")==false)
+                            if(!obj.getBoolean("error"))
                                 finish();
 
                         } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -147,6 +159,7 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -166,7 +179,8 @@ public class AddPatientMedicalActivity extends AppCompatActivity{
                 params.put("Blood_Pressure", bloodPressure);
                 params.put("Sugar_Level", sugarLevel);
                 params.put("Heart_Rate", heartRate);
-                params.put("Temperature", temperature );
+                params.put("Temperature", temperature);
+                params.put("Description", description);
                 return params;
             }
 

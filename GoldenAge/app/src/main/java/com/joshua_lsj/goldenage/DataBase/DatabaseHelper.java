@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     DatabaseContract.PatientContract.MEALS + " TEXT, " +
                     DatabaseContract.PatientContract.ALLERGIC + " TEXT, " +
                     DatabaseContract.PatientContract.SICKNESS + " TEXT, " +
-                    DatabaseContract.PatientContract.MARGIN + " REAL, " +
+                    DatabaseContract.PatientContract.DEPOSIT + " REAL, " +
                     DatabaseContract.PatientContract.IMAGE + " TEXT)";
 
 
@@ -78,7 +78,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     DatabaseContract.MedicalContract.BLOOD_PRESSURE + " TEXT, " +
                     DatabaseContract.MedicalContract.SUGAR_LEVEL +" TEXT, " +
                     DatabaseContract.MedicalContract.HEART_RATE + " TEXT, " +
-                    DatabaseContract.MedicalContract.TEMPERATURE + " TEXT)";
+                    DatabaseContract.MedicalContract.TEMPERATURE + " TEXT, " +
+                    DatabaseContract.MedicalContract.DESCRIPTION + " TEXT)";
+
+    private static final String CREATE_DRIVER_SCHEDULE_TABLE =
+            "CREATE TABLE " + DatabaseContract.DriverScheduleContract.TABLE_NAME + " (" +
+                    DatabaseContract.DriverScheduleContract._ID + " INTEGER PRIMARY KEY, " +
+                    DatabaseContract.DriverScheduleContract.DRIVER_NAME + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.PATIENT_NAME + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.NURSE_NAME + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.LOCATION + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.DESCRIPTION + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.DATE + " TEXT, " +
+                    DatabaseContract.DriverScheduleContract.TIME + " TEXT)";
 
 
     public DatabaseHelper(Context context){
@@ -91,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_CLIENTS_TABLE);
         db.execSQL(CREATE_MEDICAL_TABLE);
         db.execSQL(CREATE_PATIENTS_TABLE);
+        db.execSQL(CREATE_DRIVER_SCHEDULE_TABLE);
     }
 
     @Override

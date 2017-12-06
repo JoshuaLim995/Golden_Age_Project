@@ -257,7 +257,7 @@
 
             <!-- Margin/Deposit -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/TIL_Margin"
+                android:id="@+id/TIL_Deposit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorTextAppearance="@style/ErrorText"
@@ -265,10 +265,10 @@
                 >
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/item_margin"
+                    android:id="@+id/item_deposit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Margin"
+                    android:hint="Deposit"
                     android:inputType="numberDecimal"
 
                     />

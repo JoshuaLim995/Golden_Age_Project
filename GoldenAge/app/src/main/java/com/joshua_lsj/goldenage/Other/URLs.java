@@ -27,38 +27,8 @@ public class URLs {
     public static final String READ_DATA = ROOT_URL + "API.php?apicall=ReadData";
     public static final String URL_UPLOAD_MEDICAL_RECORD = ROOT_URL + "API.php?apicall=Create_Medical";
     public static final String UPDATE = ROOT_URL + "API.php?apicall=Update";
-
-/*
-    public static final String URL_USER_REGISTER = ROOT_URL + "RegisterUser.php?apicall=REGISTER";
-    public static final String URL_PATIENT_REGISTER = ROOT_URL + "PatientRegister.php?apicall=signup";
-//    public static final String URL_CLIENT_REGISTER = ROOT_URL +  "RegisterClient.php?apicall=REGISTER";
-
-    public static final String GET_USER_URL = GET_DATA + "users";
-    public static final String GET_PATIENT_URL = GET_DATA + "patients";
-    public static final String GET_CLIENT_URL = GET_DATA + "clients";
-
-    public static final String DELETE_USER_URL = DELETE_DATA + "User";
-    public static final String DELETE_PATIENT_URL = DELETE_DATA + "Patient";
-    public static final String DELETE_CLIENT_URL = DELETE_DATA + "Client";
-*/
-    public static final String UPDATE_USER_URL = UPDATE_DATA + "User";
-
-
-    public static final String UPDATE_CLIENT_URL = ROOT_URL + "UpdateClient?apicall=Client";
-    public static final String UPDATE_PATIENT_URL = ROOT_URL + "UpdatePatient?apicall=Patient";
-
+    public static final String CREATE_DRIVER_SCHEDULE = ROOT_URL + "API.php?apicall=Create_Driver_Schedule";
 
     public static final String URL_IMAGE_FILE = ROOT_URL + "patient_image/";
 
-
-
-/*
-    public static final String GET_USER = ROOT_URL + "getdata?apicall=User";
-    public static final String GET_CLIENT = ROOT_URL + "getdata?apicall=Client";
-    public static final String GET_PATIENT = ROOT_URL + "getdata?apicall=Patient";
-
-    public static final String GET_PATIENT_MEDICAL = ROOT_URL + "getPatientMedical";
-*/
-
-    //http://192.168.1.12/Android/getdata?apicall=users
 }

@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- adding access camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- permission required to automatically restart a repeating alarm if the user reboots the device -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Register the Alarm Receiver -->
+        <receiver android:name=".Notification.AlarmReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <!-- FOR EXPERIMENT ON LOGIN ACTIVITY -->
         <activity
@@ -113,7 +123,7 @@
 -->
 
         <!-- Add Patient Medical -->
-        <activity android:name=".AddPatientMedicalActivity"
+        <activity android:name=".Experiment.AddPatientMedicalActivity"
             android:label="Patient Medical Checkup"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

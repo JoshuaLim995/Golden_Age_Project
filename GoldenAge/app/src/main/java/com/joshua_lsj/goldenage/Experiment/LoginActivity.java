@@ -41,6 +41,10 @@ public class LoginActivity extends AppCompatActivity {
     private final String NAV_USER = "nav_user";
     private final String NAV_PATIENT = "nav_patient";
     private final String NAV_PATIENT_INFO = "nav_patient_info";
+    private final String NAV_NOW = "nav_now";
+
+    public static final String LOGIN_USER = "user_login";
+    public static final String LOGIN_CLIENT = "client_login";
 
     public final String CLIENT = "CLIENT";
     private ProgressDialog progressDialog;
@@ -105,42 +109,65 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                             if(!obj.getBoolean("error")){
-                                JSONObject userJason = obj.getJSONObject("user");
 
-                                //Creating a new user object
-                                User user = new User(
-                                        userJason.getInt("id"),
-                                        userJason.getString("Name"),
-                                        userJason.getString("regisType")
-                                );
+                                JSONArray array = obj.getJSONArray("result");
+                                JSONObject resultJson = array.getJSONObject(0);
 
+                                int id = resultJson.getInt("Patient_ID");
 
+                                if(id == 0) {
 
-                                //STORE THE USER DATA IN SHARED PREFERENCE
-                                SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                                    //Creating a new user object
+                                    User user = new User(
+                                            resultJson.getInt("id"),
+                                            resultJson.getString("Name"),
+                                            resultJson.getString("regisType")
+                                    );
 
+                                    //STORE THE USER DATA IN SHARED PREFERENCE
+                                    SharedPrefManager.getInstance(getApplicationContext()).setLoginType(LOGIN_USER);
+                                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
-                                if(user.getRegisType().equals("A")){
-                                    SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_USER);
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                    Toast.makeText(getApplicationContext(), "Logged in as Admin", Toast.LENGTH_LONG).show();
+                                    if (user.getRegisType().equals("A")) {
+                                        SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_USER);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                        Toast.makeText(getApplicationContext(), "Logged in as Admin", Toast.LENGTH_LONG).show();
+                                    } else if (user.getRegisType().equals("N")) {
+                                        SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_PATIENT);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                        Toast.makeText(getApplicationContext(), "Logged in as Nurse", Toast.LENGTH_LONG).show();
+                                    } else if(user.getRegisType().equals("D")){
+                                        SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_NOW);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                        Toast.makeText(getApplicationContext(), "Logged in as Driver", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Currently other users cannot use", Toast.LENGTH_LONG).show();
                                 }
-                                else if(user.getRegisType().equals("N")){
-                                    SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_PATIENT);
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                    Toast.makeText(getApplicationContext(), "Logged in as Nurse", Toast.LENGTH_LONG).show();
-                                }
-                                else if(user.getRegisType().equals("C")){
+                                else if(id > 0){
+                                    Client client = new Client(
+                                            resultJson.getInt("id"),
+                                            resultJson.getString("Name"),
+                                            resultJson.getString("Patient_ID")
+                                    );
+
+                                    //STORE THE CLIENT DATA IN SHARED PREFERENCE
+
                                     SharedPrefManager.getInstance(getApplicationContext()).setSelectedNav(NAV_PATIENT_INFO);
-                                    getData(user.getID());
+                                    SharedPrefManager.getInstance(getApplicationContext()).setLoginType(LOGIN_CLIENT);
+                                    SharedPrefManager.getInstance(getApplicationContext()).clientLogin(client);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                     Toast.makeText(getApplicationContext(), "Logged in as Client", Toast.LENGTH_LONG).show();
                                 }
-                                else
-                                    Toast.makeText(getApplicationContext(), "Currently other users cannot use", Toast.LENGTH_LONG).show();
 
                             }
                         } catch (JSONException e) {
@@ -163,73 +190,6 @@ public class LoginActivity extends AppCompatActivity {
                 //Put Patient data to parameters
                 params.put("Name", username);
                 params.put("Password", password);
-                return params;
-            }
-
-        };
-
-        //adding the request to volley
-        Volley.newRequestQueue(this).add(multipartRequest);
-    }
-
-    private void getData(final String id){
-
-
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-
-
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                            if(!obj.getBoolean("error")){
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                                JSONArray array = obj.getJSONArray("result");
-                                JSONObject clientJson = array.getJSONObject(0);
-
-                                //Creating a new user object
-                                Client client = new Client(
-                                        clientJson.getInt("ID"),
-                                        clientJson.getString("Name"),
-                                        clientJson.getString("IC"),
-                                        clientJson.getString("Contact"),
-                                        clientJson.getInt("BirthYear"),
-                                        clientJson.getString("Address"),
-                                        clientJson.getString("Gender"),
-                                        clientJson.getString("RegisDate"),
-                                        clientJson.getInt("Patient_ID"),
-                                        clientJson.getString("P_Name")
-                                );
-
-                                SharedPrefManager.getInstance(getApplicationContext()).setIdSharedPref(Integer.toString(client.getPatientID()));
-                                SharedPrefManager.getInstance(getApplicationContext()).setPatientName(client.getPatientName());
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.putExtra(CLIENT, client);
-                                startActivity(intent);
-                                finish();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-                //Put Patient data to parameters
-                params.put("type", "Client");
-                params.put("id", id);
                 return params;
             }
 

@@ -17,11 +17,12 @@ public class Medical implements Serializable {
     private Double temperature;
     private String nurse_id;
     private String nurse_name;
+    private String description;
 
     //TODO: Edit here to allow Admin/Nurse to record patient daily medical checkup data;;;;
 
     public Medical(int id, String date, String patient_id, String nurse_id, Double blood_pressure, Double sugar_level,
-                   Double heart_rate, Double temperature){
+                   Double heart_rate, Double temperature, String description){
         this.id = id;
         this.patient_id = patient_id;
         this.date = date;
@@ -30,8 +31,10 @@ public class Medical implements Serializable {
         this.heart_rate = heart_rate;
         this.temperature = temperature;
         this.nurse_id = nurse_id;
+        this.description = description;
     }
 
+    /*
     public Medical(String date, String patient_id, String nurse_id, Double blood_pressure, Double sugar_level,
                    Double heart_rate, Double temperature){
 
@@ -43,7 +46,7 @@ public class Medical implements Serializable {
         this.temperature = temperature;
         this.nurse_id = nurse_id;
     }
-
+*/
 
     public String getPatient_id() {
         return patient_id;
@@ -77,8 +80,8 @@ public class Medical implements Serializable {
         return nurse_id;
     }
 
-    public String getNurse_name() {
-        return nurse_name;
+    public String getDescription(){
+        return description;
     }
 
 

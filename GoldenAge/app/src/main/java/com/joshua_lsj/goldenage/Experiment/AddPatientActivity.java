@@ -3,6 +3,7 @@ package com.joshua_lsj.goldenage.Experiment;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ import java.util.Map;
 
 public class AddPatientActivity extends AppCompatActivity {
 
-    private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact, til_allergic, til_sickness, til_margin;
+    private TextInputLayout til_name, til_ic, til_age, til_registerDate, til_address, til_contact, til_allergic, til_sickness, til_deposit;
 
     private EditText etName;
     private EditText etIC;
@@ -71,7 +72,7 @@ public class AddPatientActivity extends AppCompatActivity {
     private EditText etContact;
     private EditText etAllergic;
     private EditText etSickness;
-    private EditText etMargin;
+    private EditText etDeposit;
 
 
     private CheckBox cbPork;
@@ -105,7 +106,6 @@ public class AddPatientActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         patient = (Patient) getIntent().getSerializableExtra(ViewPatientActivity.PATIENT);
-
 
 
 
@@ -167,7 +167,7 @@ public class AddPatientActivity extends AppCompatActivity {
         til_registerDate = (TextInputLayout) findViewById(R.id.TIL_RegisterDate);
         til_allergic = (TextInputLayout) findViewById(R.id.TIL_Allergic);
         til_sickness = (TextInputLayout) findViewById(R.id.TIL_Sickness);
-        til_margin = (TextInputLayout) findViewById(R.id.TIL_Margin);
+        til_deposit = (TextInputLayout) findViewById(R.id.TIL_Deposit);
 
         etName = (EditText) findViewById(R.id.item_name);
         etIC = (EditText) findViewById(R.id.item_ic);
@@ -177,7 +177,7 @@ public class AddPatientActivity extends AppCompatActivity {
         etAllergic = (EditText) findViewById(R.id.item_allergic);
         etSickness = (EditText) findViewById(R.id.item_sickness);
         etRegisterDate = (EditText) findViewById(R.id.item_register_date);
-        etMargin = (EditText) findViewById(R.id.item_margin);
+        etDeposit = (EditText) findViewById(R.id.item_deposit);
 
         cbVege = (CheckBox) findViewById(R.id.cbVegetarian);
         cbFish = (CheckBox) findViewById(R.id.cbFish);
@@ -206,7 +206,7 @@ public class AddPatientActivity extends AppCompatActivity {
         etContact.setText(patient.getContact());
         etAllergic.setText(patient.getAllergic());
         etSickness.setText(patient.getSickness());
-        etMargin.setText(patient.getMargin().toString());
+        etDeposit.setText(patient.getDeposit().toString());
 
         if(!patient.getImageName().equals("null"))
             Glide.with(this).load(URLs.URL_IMAGE_FILE + patient.getImageName()).apply(RequestOptions.circleCropTransform().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(imageView);
@@ -279,11 +279,11 @@ public class AddPatientActivity extends AppCompatActivity {
             validate = false;
         }
 
-        if(!etMargin.getText().toString().isEmpty()){
-            til_margin.setError(null);
+        if(!etDeposit.getText().toString().isEmpty()){
+            til_deposit.setError(null);
             validate = true;
         }else {
-            til_margin.setError("Please fill in Margin");
+            til_deposit.setError("Please fill in Deposit");
             validate = false;
         }
 
@@ -427,7 +427,7 @@ public class AddPatientActivity extends AppCompatActivity {
         final String contact = etContact.getText().toString().trim();
         final String allergic = etAllergic.getText().toString().trim();
         final String sickness = etSickness.getText().toString().trim();
-        final String margin = etMargin.getText().toString().trim();
+        final String deposit = etDeposit.getText().toString().trim();
         final String register_date = etRegisterDate.getText().toString().trim();
         final String blood_type = String.valueOf(spinner.getSelectedItem()).trim();
         meals.trim();
@@ -486,7 +486,7 @@ public class AddPatientActivity extends AppCompatActivity {
                 params.put("Sickness", sickness);
                 params.put("regisType", "P");
                 params.put("regisDate",register_date );
-                params.put("Margin", margin);
+                params.put("Deposit", deposit);
 
                 if(patient != null)
                     params.put("id", patient.getID());

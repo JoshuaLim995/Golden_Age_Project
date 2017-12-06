@@ -34,7 +34,7 @@ public class DatabaseContract implements BaseColumns {
         public static final String MEALS = "meals";
         public static final String ALLERGIC = "allergic";
         public static final String SICKNESS = "sickness";
-        public static final String MARGIN = "margin";
+        public static final String DEPOSIT = "deposit";
         public static final String IMAGE = "image";
     }
 
@@ -47,7 +47,17 @@ public class DatabaseContract implements BaseColumns {
         public static final String SUGAR_LEVEL = "sugar_level";
         public static final String HEART_RATE = "heart_rate";
         public static final String TEMPERATURE = "temperature";
+        public static final String DESCRIPTION = "description";
     }
 
-
+    public class DriverScheduleContract extends DatabaseContract {
+        public static final String TABLE_NAME = "driver_schedule";
+        public static final String DRIVER_NAME = "driver_name";
+        public static final String PATIENT_NAME = "patient_name";
+        public static final String NURSE_NAME = "nurse_name";
+        public static final String LOCATION = "location";
+        public static final String DESCRIPTION = "description";
+        public static final String DATE = "date";
+        public static final String TIME = "time";
+    }
 }

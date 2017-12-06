@@ -24,6 +24,7 @@ import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
 import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Objects.Calender;
+import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Objects.Patient;
@@ -54,7 +55,8 @@ public class ViewPatientFragment extends Fragment {
         myView = inflater.inflate(R.layout.content_view_patient, container, false);
 
         dbq = new Queries(new DatabaseHelper(getActivity()));
-        id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
+        Client client = SharedPrefManager.getInstance(getActivity()).getClientSharedPref();
+        id = client.getPatientID();
 
         return myView;
     }
@@ -62,83 +64,11 @@ public class ViewPatientFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getData();
-        //getFromLocal();
+  //      getData();
+        getFromLocal();
     }
 
 
-
-    private void getData(){
-
-        id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
-        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
-
-
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                            if(!obj.getBoolean("error")){
-                                Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                                JSONArray array = obj.getJSONArray("result");
-                                JSONObject PatientJson = array.getJSONObject(0);
-
-                                //Creating a new user object
-                                patient = new Patient(
-                                        PatientJson.getInt("ID"),
-                                        PatientJson.getString("Name"),
-                                        PatientJson.getString("IC"),
-                                        PatientJson.getString("Contact"),
-                                        PatientJson.getInt("BirthYear"),
-                                        PatientJson.getString("Address"),
-                                        PatientJson.getString("Gender"),
-                                        PatientJson.getString("RegisDate"),
-                                        PatientJson.getString("BloodType"),
-                                        PatientJson.getString("Meals"),
-                                        PatientJson.getString("Allergic"),
-                                        PatientJson.getString("Sickness"),
-                                        PatientJson.getDouble("Margin"),
-                                        PatientJson.getString("Image")
-                                );
-
-                                Queries queries = new Queries(new DatabaseHelper(getContext()));
-
-                                if (queries.insert(patient) != 0)
-                                    getFromLocal();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-                //Put Patient data to parameters
-                params.put("type", "Patient");
-                params.put("id", id);
-                return params;
-            }
-
-        };
-
-        //adding the request to volley
-        Volley.newRequestQueue(getActivity()).add(multipartRequest);
-    }
 
     private void getFromLocal(){
 
@@ -158,7 +88,7 @@ public class ViewPatientFragment extends Fragment {
                 DatabaseContract.PatientContract.MEALS,
                 DatabaseContract.PatientContract.ALLERGIC,
                 DatabaseContract.PatientContract.SICKNESS,
-                DatabaseContract.PatientContract.MARGIN,
+                DatabaseContract.PatientContract.DEPOSIT,
                 DatabaseContract.PatientContract.IMAGE
         };
 
@@ -182,7 +112,7 @@ public class ViewPatientFragment extends Fragment {
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.MEALS)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ALLERGIC)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.SICKNESS)),
-                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.MARGIN)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.DEPOSIT)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IMAGE))
             );
 
@@ -206,7 +136,8 @@ public class ViewPatientFragment extends Fragment {
         TextView tvMeal = (TextView) myView.findViewById(R.id.item_meals);
         TextView tvAllergic = (TextView) myView.findViewById(R.id.item_allergic);
         TextView tvRegDate = (TextView) myView.findViewById(R.id.item_register_date);
-        TextView tvMargin = (TextView) myView.findViewById(R.id.item_margin);
+        TextView tvDeposit = (TextView) myView.findViewById(R.id.item_deposit);
+        TextView tvAddress = (TextView) myView.findViewById(R.id.item_address);
 
         ImageView imageView = (ImageView) myView.findViewById(R.id.item_image);
 
@@ -223,7 +154,8 @@ public class ViewPatientFragment extends Fragment {
             tvMeal.setText(patient.getMeals());
             tvAllergic.setText(patient.getAllergic());
             tvRegDate.setText(patient.getRegisDate());
-            tvMargin.setText(patient.getMargin().toString());
+            tvDeposit.setText(patient.getDeposit().toString());
+            tvAddress.setText(patient.getAddress());
 
             if(!patient.getImageName().equals("null"))
                 Glide.with(this).load(URLs.URL_IMAGE_FILE + patient.getImageName()).apply(RequestOptions.circleCropTransform()).into(imageView);

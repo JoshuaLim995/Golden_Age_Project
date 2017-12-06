@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_add_patient_medical"
-    android:padding="20dp">
+    tools:showIn="@layout/activity_add_patient_medical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <!-- Medical Check Date -->
         <LinearLayout
@@ -199,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 />
         </android.support.design.widget.TextInputLayout>
 

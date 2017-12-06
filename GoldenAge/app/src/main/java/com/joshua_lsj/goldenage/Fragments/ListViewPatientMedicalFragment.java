@@ -2,6 +2,7 @@ package com.joshua_lsj.goldenage.Fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,10 @@ import com.joshua_lsj.goldenage.Adapter.MedicalAdapter;
 import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
 import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 import com.joshua_lsj.goldenage.DataBase.Queries;
+import com.joshua_lsj.goldenage.Experiment.LoginActivity;
+import com.joshua_lsj.goldenage.Objects.Calender;
+import com.joshua_lsj.goldenage.Objects.Client;
+import com.joshua_lsj.goldenage.Objects.Patient;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.Objects.Medical;
@@ -54,27 +59,40 @@ public class ListViewPatientMedicalFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_view_patient_medical, container, false);
         medicalArrayList = new ArrayList<>();
 
-        initialize();
-        id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
-        dbq = new Queries(new DatabaseHelper(getActivity()));
+        String login_type = SharedPrefManager.getInstance(getActivity()).getLoginType();
+        boolean OK = false;
 
-        DisplayPatientList();
-        //getData();
+        switch (login_type) {
+            case LoginActivity.LOGIN_USER:
+                id = SharedPrefManager.getInstance(getActivity()).getKeySelectedId();
+                OK = true;
+                break;
+            case LoginActivity.LOGIN_CLIENT:
+                Client client = SharedPrefManager.getInstance(getActivity()).getClientSharedPref();
+                id = client.getPatientID();
+                OK = true;
+                break;
+            default:
 
+                break;
+        }
+        if(OK){
+            dbq = new Queries(new DatabaseHelper(getActivity()));
+            initialize();
+            DisplayPatientList();
+        }
         return myView;
     }
 
     private void initialize(){
-        String patient_name = SharedPrefManager.getInstance(getActivity()).getPatientName();
-
         TextView tvPatientName = myView.findViewById(R.id.item_name);
         TextView tvPatientID = myView.findViewById(R.id.item_id);
         TextView emptyText = myView.findViewById(R.id.empty);
 
-        tvPatientName.setText(patient_name);
+        tvPatientName.setText(getPatientName());
+        tvPatientID.setText(id);
         listView = myView.findViewById(R.id.list_view);
         listView.setEmptyView(emptyText);
-
     }
 
     /*
@@ -146,6 +164,24 @@ public class ListViewPatientMedicalFragment extends Fragment {
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
 */
+    private String getPatientName(){
+
+        String selection = DatabaseContract.PatientContract._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        String[] columns = {
+                DatabaseContract.PatientContract.NAME
+        };
+
+        Cursor cursor = dbq.query(DatabaseContract.PatientContract.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if(cursor.moveToNext()){
+            return cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.NAME));
+        }else
+            Toast.makeText(getActivity(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
+        return "No Name";
+    }
+
     private void DisplayPatientList(){
 
 
@@ -153,7 +189,6 @@ public class ListViewPatientMedicalFragment extends Fragment {
         String[] selectionArgs = {id};
 
         Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
-
 
         String[] columns = {
                 DatabaseContract.MedicalContract._ID,
@@ -163,7 +198,8 @@ public class ListViewPatientMedicalFragment extends Fragment {
                 DatabaseContract.MedicalContract.BLOOD_PRESSURE,
                 DatabaseContract.MedicalContract.SUGAR_LEVEL,
                 DatabaseContract.MedicalContract.HEART_RATE,
-                DatabaseContract.MedicalContract.TEMPERATURE
+                DatabaseContract.MedicalContract.TEMPERATURE,
+                DatabaseContract.MedicalContract.DESCRIPTION
         };
 
         Cursor cursor = dbq.query(DatabaseContract.MedicalContract.TABLE_NAME, columns, selection, selectionArgs, null, null, DatabaseContract.MedicalContract._ID + " ASC");
@@ -171,13 +207,15 @@ public class ListViewPatientMedicalFragment extends Fragment {
         if(cursor.moveToFirst()){
             do{
                 medicalArrayList.add(new Medical(
+                        cursor.getInt(cursor.getColumnIndex(DatabaseContract.MedicalContract._ID)),
                         cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.DATE)),
                         cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.PATIENT_ID)),
                         cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.NURSE_ID)),
                         cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.BLOOD_PRESSURE)),
                         cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.SUGAR_LEVEL)),
                         cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.HEART_RATE)),
-                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.TEMPERATURE))
+                        cursor.getDouble(cursor.getColumnIndex(DatabaseContract.MedicalContract.TEMPERATURE)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseContract.MedicalContract.DESCRIPTION))
                 ));
             }while (cursor.moveToNext());
         }

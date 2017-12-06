@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.joshua_lsj.goldenage.Objects.Client;
 import com.joshua_lsj.goldenage.Objects.Medical;
 import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Objects.Schedule;
 import com.joshua_lsj.goldenage.Objects.User;
 
 import java.util.ArrayList;
@@ -91,7 +92,6 @@ public class Queries {
         SQLiteDatabase database = helper.getReadableDatabase();
         ContentValues values = new ContentValues();
 
-        if(patient.getID() != null)
             values.put(DatabaseContract.PatientContract._ID, patient.getID());
         values.put(DatabaseContract.PatientContract.NAME, patient.getName());
         values.put(DatabaseContract.PatientContract.IC, patient.getIc());
@@ -105,7 +105,7 @@ public class Queries {
         values.put(DatabaseContract.PatientContract.MEALS, patient.getMeals());
         values.put(DatabaseContract.PatientContract.ALLERGIC, patient.getAllergic());
         values.put(DatabaseContract.PatientContract.SICKNESS, patient.getSickness());
-        values.put(DatabaseContract.PatientContract.MARGIN, patient.getMargin());
+        values.put(DatabaseContract.PatientContract.DEPOSIT, patient.getDeposit());
         values.put(DatabaseContract.PatientContract.IMAGE, patient.getImageName());
         return database.insertWithOnConflict(DatabaseContract.PatientContract.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -124,18 +124,27 @@ public class Queries {
         values.put(DatabaseContract.MedicalContract.SUGAR_LEVEL, medical.getSugar_level());
         values.put(DatabaseContract.MedicalContract.HEART_RATE, medical.getHeart_rate());
         values.put(DatabaseContract.MedicalContract.TEMPERATURE, medical.getTemperature());
+        values.put(DatabaseContract.MedicalContract.DESCRIPTION, medical.getDescription());
 
         return database.insertWithOnConflict(DatabaseContract.MedicalContract.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
 
+    public Long insert(Schedule schedule){
+        SQLiteDatabase database = helper.getReadableDatabase();
+        ContentValues values = new ContentValues();
 
-//CONSIDERING INSERT INTO THE TEMP USER DATABASE
+        values.put(DatabaseContract.DriverScheduleContract._ID, schedule.getID());
+        values.put(DatabaseContract.DriverScheduleContract.DRIVER_NAME, schedule.getDriverName());
+        values.put(DatabaseContract.DriverScheduleContract.PATIENT_NAME, schedule.getPatientName());
+        values.put(DatabaseContract.DriverScheduleContract.NURSE_NAME, schedule.getNurseName());
+        values.put(DatabaseContract.DriverScheduleContract.LOCATION, schedule.getLocation());
+        values.put(DatabaseContract.DriverScheduleContract.DESCRIPTION, schedule.getDescription());
+        values.put(DatabaseContract.DriverScheduleContract.DATE, schedule.getDate());
+        values.put(DatabaseContract.DriverScheduleContract.TIME, schedule.getTime());
 
-
-
-
-
+        return database.insertWithOnConflict(DatabaseContract.DriverScheduleContract.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
 
 
     //Delete
@@ -144,8 +153,7 @@ public class Queries {
         return database.delete(table, DatabaseContract._ID + "=" + id, null) > 0;
     }
 
-    //DROP All tables in Database
-    public void dropTables(){
+    public void deleteTables(){
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         List<String> tables = new ArrayList<>();
@@ -157,8 +165,7 @@ public class Queries {
 
         // call DROP TABLE on every table name
         for (String table : tables) {
-            String dropQuery = "DROP TABLE IF EXISTS " + table;
-            db.execSQL(dropQuery);
+            db.delete(table, null, null);
         }
 
     }

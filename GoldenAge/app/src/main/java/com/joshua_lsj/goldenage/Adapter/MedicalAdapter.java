@@ -28,6 +28,7 @@ public class MedicalAdapter extends ArrayAdapter<Medical> {
         TextView txtSugar;
         TextView txtHeartRate;
         TextView txtTemperature;
+        TextView txtDescription;
     }
 
     public MedicalAdapter(ArrayList<Medical> data, Context context) {
@@ -52,6 +53,7 @@ public class MedicalAdapter extends ArrayAdapter<Medical> {
             viewHolder.txtSugar = (TextView) convertView.findViewById(R.id.item_sugar_level);
             viewHolder.txtHeartRate = (TextView) convertView.findViewById(R.id.item_heart_rate);
             viewHolder.txtTemperature = (TextView) convertView.findViewById(R.id.item_temperature);
+            viewHolder.txtDescription = (TextView) convertView.findViewById(R.id.item_description);
 
             convertView.setTag(viewHolder);
         }
@@ -65,7 +67,7 @@ public class MedicalAdapter extends ArrayAdapter<Medical> {
             viewHolder.txtSugar.setText(medical.getSugar_level().toString());
             viewHolder.txtHeartRate.setText(medical.getHeart_rate().toString());
             viewHolder.txtTemperature.setText(medical.getTemperature().toString());
-
+            viewHolder.txtDescription.setText(medical.getDescription());
 
 
         return convertView;

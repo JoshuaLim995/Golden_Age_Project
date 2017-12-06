@@ -15,33 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.joshua_lsj.goldenage.AddPatientMedicalActivity;
 import com.joshua_lsj.goldenage.DataBase.DatabaseContract;
 import com.joshua_lsj.goldenage.DataBase.DatabaseHelper;
 import com.joshua_lsj.goldenage.DataBase.Queries;
 import com.joshua_lsj.goldenage.Objects.Calender;
 import com.joshua_lsj.goldenage.Objects.Patient;
+import com.joshua_lsj.goldenage.Other.DownloadData;
 import com.joshua_lsj.goldenage.Other.SharedPrefManager;
 import com.joshua_lsj.goldenage.Other.URLs;
 import com.joshua_lsj.goldenage.R;
 import com.joshua_lsj.goldenage.Other.DeleteHelper;
-import com.joshua_lsj.goldenage.Other.VolleyMultipartRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by limsh on 10/21/2017.
@@ -112,7 +98,7 @@ public class ViewPatientActivity extends AppCompatActivity {
                 DatabaseContract.PatientContract.MEALS,
                 DatabaseContract.PatientContract.ALLERGIC,
                 DatabaseContract.PatientContract.SICKNESS,
-                DatabaseContract.PatientContract.MARGIN,
+                DatabaseContract.PatientContract.DEPOSIT,
                 DatabaseContract.PatientContract.IMAGE
         };
 
@@ -136,7 +122,7 @@ public class ViewPatientActivity extends AppCompatActivity {
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.MEALS)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.ALLERGIC)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.SICKNESS)),
-                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.MARGIN)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseContract.PatientContract.DEPOSIT)),
                     cursor.getString(cursor.getColumnIndex(DatabaseContract.PatientContract.IMAGE))
             );
 
@@ -145,79 +131,7 @@ public class ViewPatientActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Unable to retrieve data from Local", Toast.LENGTH_SHORT).show();
     }
 
-/*
-    private void getData(){
-
-        id = SharedPrefManager.getInstance(this).getKeySelectedId();
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
-
-
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, URLs.READ_DATA,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            //           Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                            if(!obj.getBoolean("error")){
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                                JSONArray array = obj.getJSONArray("result");
-                                JSONObject PatientJson = array.getJSONObject(0);
-
-                                //Creating a new user object
-                                patient = new Patient(
-                                        PatientJson.getInt("ID"),
-                                        PatientJson.getString("Name"),
-                                        PatientJson.getString("IC"),
-                                        PatientJson.getString("Contact"),
-                                        PatientJson.getInt("BirthYear"),
-                                        PatientJson.getString("Address"),
-                                        PatientJson.getString("Gender"),
-                                        PatientJson.getString("RegisDate"),
-                                        PatientJson.getString("BloodType"),
-                                        PatientJson.getString("Meals"),
-                                        PatientJson.getString("Allergic"),
-                                        PatientJson.getString("Sickness"),
-                                        PatientJson.getDouble("Margin"),
-                                        PatientJson.getString("Image")
-                                );
-
-                                Initialize();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-                //Put Patient data to parameters
-                params.put("type", "Patient");
-                params.put("id", id);
-                return params;
-            }
-
-        };
-
-        //adding the request to volley
-        Volley.newRequestQueue(this).add(multipartRequest);
-    }
-*/
-
     public void Initialize() {
-
 
         TextView tvId = (TextView) findViewById(R.id.item_id);
         TextView tvName = (TextView) findViewById(R.id.item_name);
@@ -230,7 +144,8 @@ public class ViewPatientActivity extends AppCompatActivity {
         TextView tvMeal = (TextView) findViewById(R.id.item_meals);
         TextView tvAllergic = (TextView) findViewById(R.id.item_allergic);
         TextView tvRegDate = (TextView) findViewById(R.id.item_register_date);
-        TextView tvMargin = (TextView) findViewById(R.id.item_margin);
+        TextView tvDeposit = (TextView) findViewById(R.id.item_deposit);
+        TextView tvAddress = (TextView) findViewById(R.id.item_address);
 
         ImageView imageView = (ImageView) findViewById(R.id.item_image);
 
@@ -247,7 +162,8 @@ public class ViewPatientActivity extends AppCompatActivity {
             tvMeal.setText(patient.getMeals());
             tvAllergic.setText(patient.getAllergic());
             tvRegDate.setText(patient.getRegisDate());
-            tvMargin.setText(patient.getMargin().toString());
+            tvDeposit.setText(patient.getDeposit().toString());
+            tvAddress.setText(patient.getAddress());
 
             RequestOptions options = new RequestOptions();
             options.placeholder(R.drawable.user_icon);
@@ -288,7 +204,6 @@ public class ViewPatientActivity extends AppCompatActivity {
              return true;
         }
         else if(id == R.id.action_view_medical){
-            SharedPrefManager.getInstance(this).setPatientName(patient.getName());
             Intent intent = new Intent(getApplicationContext(), ViewPatientMedicalActivity.class);
             startActivity(intent);
             return true;

@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_users_listView"
-
-            android:title="Users" />
-        <item
-            android:id="@+id/nav_patients_listView"
-
-            android:title="Patients" />
+            android:id="@+id/nav_driver_now"
+            android:title="Now" />
 
         <item
-            android:id="@+id/nav_client_listView"
-
-            android:title="Clients" />
+            android:id="@+id/nav_driver_upcoming"
+            android:title="Upcoming" />
 
         <item
             android:id="@+id/nav_logout"
-
             android:title="Log out"/>
     </group>
 
@@ -31,8 +23,4 @@
                 android:title="About Us" />
         </menu>
     </item>
-
-
-
-
 </menu>

@@ -79,7 +79,7 @@
         android:id="@+id/menu_assign_driver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_label="Add Client"
+        fab:fab_label="Assign Driver"
         fab:fab_size="mini"
         android:onClick="onAssignDriverClicked"/>
 
